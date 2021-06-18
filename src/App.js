@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import AllCases from './components/cases/AllCases';
+import PendingCases from './components/cases/ClosedCases';
 import ClosedCases from './components/cases/ClosedCases';
 import Navigation from './components/nav/Navigation';
 
@@ -59,10 +60,14 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navigation />
+      <Navigation user={user} logout={logout} />
 
       <Switch>
         <Route path="/" exact>
+          This will show landing page.
+        </Route>
+
+        <Route path="/login">
           This will show login page.
         </Route>
 
@@ -72,10 +77,6 @@ function App() {
 
         <Route path="/registration" >
           This will show registration page.
-        </Route>
-
-        <Route path="/landing" >
-          This will show landing page.
         </Route>
 
         <Route path="/profile" >
@@ -95,7 +96,7 @@ function App() {
         </Route>
         
         <Route path="/cases/closed" >
-        <ClosedCases />
+          <ClosedCases />
         </Route>
 
         <Route path="/cases/closed/:id" >

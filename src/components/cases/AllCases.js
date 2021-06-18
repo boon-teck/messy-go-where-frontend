@@ -1,6 +1,7 @@
 import React from 'react'
 import ClosedCases from './ClosedCases';
 import PendingCases from './PendingCases';
+import { Button } from 'react-bootstrap';
 
 function AllCases() {
     return (
