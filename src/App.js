@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import AllCases from './components/cases/AllCases';
-import PendingCases from './components/cases/ClosedCases';
+import PendingCases from './components/cases/PendingCases';
 import ClosedCases from './components/cases/ClosedCases';
+import SingleCaseView from './components/cases/SingleCaseView';
 import Navigation from './components/nav/Navigation';
 
 
