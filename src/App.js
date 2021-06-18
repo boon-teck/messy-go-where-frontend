@@ -60,46 +60,64 @@ function App() {
   return (
     <BrowserRouter>
       <Navigation />
+
       <Switch>
         <Route path="/" exact>
           This will show login page.
         </Route>
+
         <Route path="/home" >
           This will show home page.
         </Route>
+
         <Route path="/registration" >
           This will show registration page.
         </Route>
+
         <Route path="/landing" >
           This will show landing page.
         </Route>
+
         <Route path="/profile" >
           This will show profile page.
         </Route>
+
         <Route path="/cases" exact>
           <AllCases />
         </Route>
+
         <Route path="/cases/pending" >
           <PendingCases />
         </Route>
+
         <Route path="/cases/pending/:id" >
-          <PendingCaseView />
+          <SingleCaseView />
         </Route>
+        
         <Route path="/cases/closed" >
-          <ClosedCases />
+        <ClosedCases />
         </Route>
+
+        <Route path="/cases/closed/:id" >
+          <SingleCaseView />
+        </Route>
+
         <Route path="/case/progress" >
           This will show the progress of a case to users.
         </Route>
+
         <Route path="/case/update" >
           This will show admin/staff the case they are updating.
         </Route>
+
         <Route path="/case/submit" >
           This will show the submission page for users.
         </Route>
+
         <Route path="/kiv/redeem" >
           Redemption is current KIV.
         </Route>
+
         <Route path="/voucher" >
           Voucher is current KIV.
         </Route>
