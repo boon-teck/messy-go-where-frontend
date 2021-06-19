@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Login() {
+function EditProfile() {
     return (
         <div>
-            Login page here.
+            Edit Profile
         </div>
     )
 }
 
-export default Login
+export default EditProfile

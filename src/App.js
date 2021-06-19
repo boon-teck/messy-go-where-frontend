@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import AllCases from './components/cases/AllCases';
+import PendingCases from './components/cases/PendingCases';
 import ClosedCases from './components/cases/ClosedCases';
+import SingleCaseView from './components/cases/SingleCaseView';
 import Navigation from './components/nav/Navigation';
-
+import Registration from './components/auth/Registration';
+import Login from './components/auth/Login';
+import LandingPage from './components/main_pages/LandingPage';
+import Home from './components/main_pages/Home';
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -59,49 +64,71 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navigation />
+      <Navigation user={user} logout={logout} />
+
       <Switch>
         <Route path="/" exact>
-          This will show login page.
+          <LandingPage />
         </Route>
+
+        <Route path="/login">
+          <Login />
+        </Route>
+
         <Route path="/home" >
-          This will show home page.
+          <Home />
         </Route>
+
         <Route path="/registration" >
-          This will show registration page.
+          <Registration />
         </Route>
-        <Route path="/landing" >
-          This will show landing page.
-        </Route>
+
         <Route path="/profile" >
           This will show profile page.
         </Route>
+
         <Route path="/cases" exact>
           <AllCases />
         </Route>
+
         <Route path="/cases/pending" >
           <PendingCases />
         </Route>
+
         <Route path="/cases/pending/:id" >
-          <PendingCaseView />
+          <SingleCaseView />
         </Route>
+        
         <Route path="/cases/closed" >
           <ClosedCases />
         </Route>
+
+        <Route path="/cases/closed/:id" >
+          <SingleCaseView />
+        </Route>
+
         <Route path="/case/progress" >
           This will show the progress of a case to users.
         </Route>
+
         <Route path="/case/update" >
           This will show admin/staff the case they are updating.
         </Route>
+
         <Route path="/case/submit" >
           This will show the submission page for users.
         </Route>
+
         <Route path="/kiv/redeem" >
           Redemption is current KIV.
         </Route>
+
         <Route path="/voucher" >
           Voucher is current KIV.
+        </Route>
+
+        <Route path="*" >
+          404
         </Route>
         
       </Switch>
