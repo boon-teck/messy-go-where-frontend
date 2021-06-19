@@ -8,7 +8,7 @@ function Registration({setAuth}) {
     let history = useHistory()
     const [formData, setFormData] = useState();
 
-    async function onFormSubmit(){
+    async function submit(){
 
         try{
             let {data: {token}}= await axios.post("/api/auth/register", formData)
@@ -30,41 +30,37 @@ function Registration({setAuth}) {
             <Row>
                 <Col md={6}>
                     <h3>Registration page</h3>
-                    <Form onSubmit={onFormSubmit}>
-                        <Form.Group>
+                    <div>
+                        <Row>
                             <Form.Label>Name</Form.Label>
-                            <Form.Control name="name" type="name" placeholder="Enter name" onChange={change} required/>
-                        </Form.Group>
+                            <Form.Control name="name" type="name" placeholder="Enter name" onChange={change}/>
+                        </Row>
 
-                        <Form.Group>
+                        <Row>
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control name="email" type="email" placeholder="Enter email" onChange={change} required/>
+                            <Form.Control name="email" type="email" placeholder="Enter email" onChange={change}/>
                             <Form.Text className="text-muted">
                                 We'll never share your email with anyone else.
                             </Form.Text>
-                        </Form.Group>
+                        </Row>
 
-                        <Form.Group>
+                        <Row>
                             <Form.Label>Password</Form.Label>
-                            <Form.Control name="password" type="password" placeholder="Enter Password" onChange={change} required/>
-                        </Form.Group>
+                            <Form.Control name="password" type="password" placeholder="Enter Password" onChange={change}/>
+                        </Row>
 
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" onClick={submit}>
                             Submit
                         </Button>
-                    </Form>
+                    </div>
                 </Col>
             </Row>
+
         </Container>
+
     )
 }
 
 export default Registration
 
-{/*<Form.Group controlId="userType">*/}
-{/*    <Form.Label>User Type</Form.Label>*/}
-{/*    <div key={"inline-radio"} className="mb-3">*/}
-{/*        <Form.Check inline label="User" name="userType" type={"radio"} id={"inline-radio"}/>*/}
-{/*        <Form.Check inline label="Staff" name="userType" type={"radio"} id={"inline-radio"}/>*/}
-{/*    </div>*/}
-{/*</Form.Group>*/}
+

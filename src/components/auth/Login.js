@@ -9,6 +9,7 @@ function Login({setAuth}) {
     const [cred, setCred] = useState({})
 
     async function submit(){
+
         try{
             let {data: {token}}= await axios.post("/api/auth/login", cred)
             localStorage.setItem("token",token)
@@ -19,6 +20,7 @@ function Login({setAuth}) {
             console.log(e)
         }
     }
+
     function change(e){
         setCred(prevState => ({...prevState, [e.target.name] : e.target.value }))
     }
@@ -28,21 +30,21 @@ function Login({setAuth}) {
             <Row>
                 <Col md={6}>
                     <h3>Login page</h3>
-                    <Form onSubmit={submit}>
-                        <Form.Group>
+                    <div>
+                        <Row>
                             <Form.Label>Email</Form.Label>
                             <Form.Control name="email" type="email" placeholder="Enter email" onChange={change}/>
-                        </Form.Group>
+                        </Row>
 
-                        <Form.Group>
-                            <Form.Label>Email</Form.Label>
+                        <Row>
+                            <Form.Label>Password</Form.Label>
                             <Form.Control name="password" type="password" placeholder="Enter Password" onChange={change}/>
-                        </Form.Group>
+                        </Row>
 
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" onClick={submit}>
                             Login
                         </Button>
-                    </Form>
+                    </div>
                 </Col>
             </Row>
         </Container>
