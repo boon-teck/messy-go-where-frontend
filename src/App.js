@@ -5,7 +5,9 @@ import PendingCases from './components/cases/PendingCases';
 import ClosedCases from './components/cases/ClosedCases';
 import SingleCaseView from './components/cases/SingleCaseView';
 import Navigation from './components/nav/Navigation';
-
+import Registration from './components/auth/Registration';
+import Login from './components/auth/Login';
+import LandingPage from './components/main_pages/LandingPage';
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -65,11 +67,11 @@ function App() {
 
       <Switch>
         <Route path="/" exact>
-          This will show landing page.
+          <LandingPage />
         </Route>
 
         <Route path="/login">
-          This will show login page.
+          <Login />
         </Route>
 
         <Route path="/home" >
@@ -77,7 +79,7 @@ function App() {
         </Route>
 
         <Route path="/registration" >
-          This will show registration page.
+          <Registration />
         </Route>
 
         <Route path="/profile" >
@@ -122,6 +124,10 @@ function App() {
 
         <Route path="/voucher" >
           Voucher is current KIV.
+        </Route>
+
+        <Route path="*" >
+          404
         </Route>
         
       </Switch>

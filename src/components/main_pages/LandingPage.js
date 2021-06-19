@@ -1,0 +1,28 @@
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+
+function LandingPage() {
+    const logoStyle = {
+        "backgroundColor": "#9DDFD3",
+        "margin" : "auto",
+        "width" : "100px",
+        "height" : "100px",
+        "text-align" : "center",
+    }
+
+
+    return (
+        <div>
+            <div style={logoStyle}>
+                <p>Messy Go Where</p>
+            </div>
+            {/* KIV items commented */}
+            {/* <NavLink>Sign in with Google</NavLink> */}
+            {/* <NavLink>Sign in with Facebook</NavLink> */}
+            <NavLink to="/login">Sign in with Email</NavLink>
+            <NavLink to="/register">Registration</NavLink>
+        </div>
+    )
+}
+
+export default LandingPage
