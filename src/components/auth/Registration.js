@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Container, Row, Col, Form, Button} from "react-bootstrap";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
+// import Alert from 'Alert';
 
 function Registration({setAuth}) {
 
@@ -25,34 +26,64 @@ function Registration({setAuth}) {
         setFormData(prevState => ({...prevState, [e.target.name] : e.target.value }))
     }
 
+    console.log(formData)
+
     return (
         <Container>
             <Row>
                 <Col md={6}>
                     <h3>Registration page</h3>
-                    <div>
-                        <Row>
+                    <Form onSubmit={submit}>
+                        <Form.Group>
                             <Form.Label>Name</Form.Label>
-                            <Form.Control name="name" type="name" placeholder="Enter name" onChange={change}/>
-                        </Row>
+                            <Form.Control name="name"
+                                          type="name"
+                                          placeholder="Enter name"
+                                          onChange={change}
+                                          required/>
+                        </Form.Group>
 
-                        <Row>
+                        <Form.Group>
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control name="email" type="email" placeholder="Enter email" onChange={change}/>
+                            <Form.Control name="email"
+                                          type="email"
+                                          placeholder="Enter email"
+                                          onChange={change}
+                                          required/>
                             <Form.Text className="text-muted">
                                 We'll never share your email with anyone else.
                             </Form.Text>
-                        </Row>
+                        </Form.Group>
 
-                        <Row>
+                        <Form.Group>
                             <Form.Label>Password</Form.Label>
-                            <Form.Control name="password" type="password" placeholder="Enter Password" onChange={change}/>
-                        </Row>
+                            <Form.Control name="password"
+                                          type="password"
+                                          placeholder="Enter Password"
+                                          onChange={change}
+                                          required/>
+                        </Form.Group>
 
-                        <Button variant="primary" onClick={submit}>
+                        <Form.Group>
+                            <Form.Label>User Type</Form.Label>
+                            <div className="mb-3">
+                                <Form.Check inline label="User"
+                                            name="userType"
+                                            type={"radio"}
+                                            value={"User"}
+                                            onChange={change} defaultChecked/>
+                                <Form.Check inline label="Staff"
+                                            name="userType"
+                                            type={"radio"}
+                                            value={"Staff"}
+                                            onChange={change}/>
+                            </div>
+                        </Form.Group>
+
+                        <Button variant="primary" type="submit">
                             Submit
                         </Button>
-                    </div>
+                    </Form>
                 </Col>
             </Row>
 

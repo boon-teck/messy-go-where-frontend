@@ -3,6 +3,7 @@ import {Container, Row, Col, Form, Button} from "react-bootstrap";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 
+
 function Login({setAuth}) {
 
     let history = useHistory()
@@ -30,23 +31,33 @@ function Login({setAuth}) {
             <Row>
                 <Col md={6}>
                     <h3>Login page</h3>
-                    <div>
-                        <Row>
+                    <Form onSubmit={submit}>
+                        <Form.Group>
                             <Form.Label>Email</Form.Label>
-                            <Form.Control name="email" type="email" placeholder="Enter email" onChange={change}/>
-                        </Row>
+                            <Form.Control name="email" 
+                                          type="email" 
+                                          placeholder="Enter email" 
+                                          onChange={change} 
+                                          required />
+                        </Form.Group>
 
-                        <Row>
+                        <Form.Group>
                             <Form.Label>Password</Form.Label>
-                            <Form.Control name="password" type="password" placeholder="Enter Password" onChange={change}/>
-                        </Row>
+                            <Form.Control name="password" 
+                                          type="password" 
+                                          placeholder="Enter Password" 
+                                          onChange={change} 
+                                          required />
+                        </Form.Group>
 
-                        <Button variant="primary" onClick={submit}>
+                        <Button variant="primary" 
+                                type="submit">
                             Login
                         </Button>
-                    </div>
+                    </Form>
                 </Col>
             </Row>
+
         </Container>
     );
 }

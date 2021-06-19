@@ -85,8 +85,8 @@ function App() {
           <Home />
         </Route>
 
-        <Route path="/api/auth/register" setAuth={setAuth} >
-          <Registration />
+        <Route path="/api/auth/register"  >
+          <Registration setAuth={setAuth}/>
         </Route>
 
         <Route path="/profile" >
