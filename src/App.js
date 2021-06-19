@@ -9,6 +9,7 @@ import Registration from './components/auth/Registration';
 import Login from './components/auth/Login';
 import LandingPage from './components/main_pages/LandingPage';
 import Home from './components/main_pages/Home';
+import Cloudinary from './components/tests/Cloudinary';
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -67,6 +68,17 @@ function App() {
       <Navigation user={user} logout={logout} />
 
       <Switch>
+        {/** ------------------ */}
+        {/** We can test codes using this route */}
+        {/** Test starts here */}
+
+        <Route path="/test" exact>
+          <Cloudinary />
+        </Route>
+
+        {/** Testing ends here. */}
+        {/** ------------------ */}
+        
         <Route path="/" exact>
           <LandingPage />
         </Route>
@@ -85,6 +97,10 @@ function App() {
 
         <Route path="/profile" >
           This will show profile page.
+        </Route>
+        
+        <Route path="/edit/profile" >
+          This will show edit profile page.
         </Route>
 
         <Route path="/cases" exact>
