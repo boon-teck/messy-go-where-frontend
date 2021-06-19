@@ -2,14 +2,30 @@ import React, {useState} from 'react';
 import {Container, Row, Col, Form, Button} from "react-bootstrap";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
-// import Alert from 'Alert';
+import Alert from './Alert';
 
 function Registration({setAuth}) {
 
     let history = useHistory()
     const [formData, setFormData] = useState();
+    const [fileInputState, setFileInputState] = useState('');
+    const [previewSource, setPreviewSource] = useState('');
+    const [selectedFile, setSelectedFile] = useState();
+    const [successMsg, setSuccessMsg] = useState('');
+    const [errMsg, setErrMsg] = useState('');
 
     async function submit(){
+
+        if (!selectedFile) return;
+        const reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend = () => {
+            uploadImage(reader.result);
+        };
+        reader.onerror = () => {
+            console.error('AHHHHHHHH!!');
+            setErrMsg('something went wrong!');
+        };
 
         try{
             let {data: {token}}= await axios.post("/api/auth/register", formData)
@@ -28,12 +44,69 @@ function Registration({setAuth}) {
 
     console.log(formData)
 
+    const handleFileInputChange = (e) => {
+        const file = e.target.files[0];
+        previewFile(file);
+        setSelectedFile(file);
+        setFileInputState(e.target.value);
+    };
+
+    const previewFile = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setPreviewSource(reader.result);
+        };
+    };
+
+    // const handleSubmitFile = (e) => {
+    //     e.preventDefault();
+    //
+    // };
+
+    const uploadImage = async (base64EncodedImage) => {
+        try {
+            await fetch('/api/auth/upload', {
+                method: 'POST',
+                body: JSON.stringify({ data: base64EncodedImage }),
+                headers: { 'Content-Type': 'application/json' },
+            });
+            setFileInputState('');
+            setPreviewSource('');
+            setSuccessMsg('Image uploaded successfully');
+        } catch (err) {
+            console.error(err);
+            setErrMsg('Something went wrong!');
+        }
+    };
+
     return (
         <Container>
             <Row>
                 <Col md={6}>
-                    <h3>Registration page</h3>
+                    <h1>Registration page</h1>
+
                     <Form onSubmit={submit}>
+                        <h3 className="title">Upload an Image</h3>
+                        <Alert msg={errMsg} type="danger" />
+                        <Alert msg={successMsg} type="success" />
+
+                        <input
+                            id="fileInput"
+                            type="file"
+                            name="image"
+                            onChange={handleFileInputChange}
+                            value={fileInputState}
+                            className="form-input"
+                        />
+                        {previewSource && (
+                            <img
+                                src={previewSource}
+                                alt="chosen"
+                                style={{ height: '300px' }}
+                            />
+                        )}
+
                         <Form.Group>
                             <Form.Label>Name</Form.Label>
                             <Form.Control name="name"
