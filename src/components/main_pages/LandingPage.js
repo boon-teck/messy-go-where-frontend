@@ -16,7 +16,6 @@ function LandingPage() {
         "width" : "100px",
     }
 
-
     return (
         <div>
             <div style={logoStyle}>
@@ -26,10 +25,10 @@ function LandingPage() {
             {/* <NavLink>Sign in with Google</NavLink> */}
             {/* <NavLink>Sign in with Facebook</NavLink> */}
             <div style={btnStyle}>
-                <NavLink to="/login">Sign in with Email</NavLink>
+                <NavLink to="/api/auth/login">Sign in with Email</NavLink>
             </div>
             <div style={btnStyle}>
-                <NavLink to="/register">Registration</NavLink>
+                <NavLink to="/api/auth/register">Registration</NavLink>
             </div>
         </div>
     )

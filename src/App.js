@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import AllCases from './components/cases/AllCases';
 import PendingCases from './components/cases/PendingCases';
 import ClosedCases from './components/cases/ClosedCases';
@@ -9,6 +9,7 @@ import Registration from './components/auth/Registration';
 import Login from './components/auth/Login';
 import LandingPage from './components/main_pages/LandingPage';
 import Home from './components/main_pages/Home';
+import axios from "axios";
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -19,12 +20,19 @@ function App() {
   useEffect(()=>{
 
     //This function is to check if a user has logged in..
-    async function setUserStats(){
-      try{
-        
-      }catch(e){
-        setAuth(false);
+    async function setUserStats() {
+      try {
+        let {data} = await axios.get("/api/auth/user", {
+          headers: {
+            authorization: `Bearer ${localStorage.token}`
+          }
+        })
+        setAuth(true)
+        setUser(data.user)
+      } catch (e) {
+        setAuth(false)
         setUser(null)
+        localStorage.removeItem("token")
       }
     }
 
@@ -38,7 +46,7 @@ function App() {
       }
     }
 
-
+    // This function is to check if user is an Admin.
     async function setAdminStats(){
       try{
 
@@ -49,37 +57,35 @@ function App() {
     }
 
     setUserStats()
-    setStaffStats()
-    setAdminStats()
+    // setStaffStats()
+    // setAdminStats()
 
   },[auth])
-  
+
   function logout(){
     setAuth(false)
     setUser(null)
-
+    localStorage.removeItem("token")
   }
-
-
 
   return (
     <BrowserRouter>
-      <Navigation user={user} logout={logout} />
+      {/*<Navigation user={user} logout={logout} />*/}
 
       <Switch>
         <Route path="/" exact>
           <LandingPage />
         </Route>
 
-        <Route path="/login">
-          <Login />
+        <Route path="/api/auth/login">
+          <Login auth={auth} setAuth={setAuth} setUser={setUser}/>
         </Route>
 
-        <Route path="/home" >
+        <Route path="/api/user/home" >
           <Home />
         </Route>
 
-        <Route path="/registration" >
+        <Route path="/api/auth/register" setAuth={setAuth} >
           <Registration />
         </Route>
 
@@ -87,35 +93,35 @@ function App() {
           This will show profile page.
         </Route>
 
-        <Route path="/cases" exact>
+        <Route path="/api/cases" exact>
           <AllCases />
         </Route>
 
-        <Route path="/cases/pending" >
+        <Route path="/api/cases/pending" >
           <PendingCases />
         </Route>
 
-        <Route path="/cases/pending/:id" >
+        <Route path="/api/cases/pending/:id" >
           <SingleCaseView />
         </Route>
-        
-        <Route path="/cases/closed" >
+
+        <Route path="/api/cases/closed" >
           <ClosedCases />
         </Route>
 
-        <Route path="/cases/closed/:id" >
+        <Route path="/api/cases/closed/:id" >
           <SingleCaseView />
         </Route>
 
-        <Route path="/case/progress" >
+        <Route path="/api/case/progress" >
           This will show the progress of a case to users.
         </Route>
 
-        <Route path="/case/update" >
+        <Route path="/api/case/update" >
           This will show admin/staff the case they are updating.
         </Route>
 
-        <Route path="/case/submit" >
+        <Route path="/api/case/submit" >
           This will show the submission page for users.
         </Route>
 
@@ -130,11 +136,28 @@ function App() {
         <Route path="*" >
           404
         </Route>
-        
+
       </Switch>
     </BrowserRouter>
   )
 }
+
+// function PrivateRouter({auth, Component, path, location, ...rest}) {
+//   //if auth is true then show Route else redirect to login
+//   return (
+//       <>
+//         {(auth) ?
+//             <Route path={path} {...rest}>
+//               <Component/>
+//             </Route> : <Redirect to={{
+//               pathname: "api/auth/login",
+//               state: {from: location}
+//             }}/>
+//         }
+//       </>
+//   )
+// }
+
 
 export default App
 
