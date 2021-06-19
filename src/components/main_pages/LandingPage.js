@@ -10,6 +10,12 @@ function LandingPage() {
         "text-align" : "center",
     }
 
+    const btnStyle = {
+        "border" : "solid 1px black",
+        "margin" : "auto",
+        "width" : "100px",
+    }
+
 
     return (
         <div>
@@ -19,8 +25,12 @@ function LandingPage() {
             {/* KIV items commented */}
             {/* <NavLink>Sign in with Google</NavLink> */}
             {/* <NavLink>Sign in with Facebook</NavLink> */}
-            <NavLink to="/login">Sign in with Email</NavLink>
-            <NavLink to="/register">Registration</NavLink>
+            <div style={btnStyle}>
+                <NavLink to="/login">Sign in with Email</NavLink>
+            </div>
+            <div style={btnStyle}>
+                <NavLink to="/register">Registration</NavLink>
+            </div>
         </div>
     )
 }

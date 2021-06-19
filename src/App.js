@@ -8,6 +8,7 @@ import Navigation from './components/nav/Navigation';
 import Registration from './components/auth/Registration';
 import Login from './components/auth/Login';
 import LandingPage from './components/main_pages/LandingPage';
+import Home from './components/main_pages/Home';
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -75,7 +76,7 @@ function App() {
         </Route>
 
         <Route path="/home" >
-          This will show home page.
+          <Home />
         </Route>
 
         <Route path="/registration" >
