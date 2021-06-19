@@ -10,6 +10,7 @@ import Login from './components/auth/Login';
 import LandingPage from './components/main_pages/LandingPage';
 import Home from './components/main_pages/Home';
 import Cloudinary from './components/tests/Cloudinary';
+import SubmitCase from './components/cases/SubmitCase';
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -132,7 +133,7 @@ function App() {
         </Route>
 
         <Route path="/case/submit" >
-          This will show the submission page for users.
+          <SubmitCase />
         </Route>
 
         <Route path="/kiv/redeem" >
