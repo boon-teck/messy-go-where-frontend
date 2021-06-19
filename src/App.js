@@ -11,12 +11,15 @@ import LandingPage from './components/main_pages/LandingPage';
 import Home from './components/main_pages/Home';
 import Cloudinary from './components/tests/Cloudinary';
 import SubmitCase from './components/cases/SubmitCase';
+import CaseProgressUser from './components/cases/CaseProgressUser';
 
 function App() {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState(null);
   const [staff, setStaff] = useState(false);
   const [admin, setAdmin] = useState(false);
+  const [caseStatus, setCaseStatus] = useState("Pending")
+
 
   useEffect(()=>{
 
@@ -124,8 +127,8 @@ function App() {
           <SingleCaseView />
         </Route>
 
-        <Route path="/case/progress" >
-          This will show the progress of a case to users.
+        <Route path="/user/case/progress" > {/** This is view individual updates */}
+          <CaseProgressUser caseStatus={caseStatus} />
         </Route>
 
         <Route path="/case/update" >
