@@ -10,6 +10,7 @@ import Login from './components/auth/Login';
 import LandingPage from './components/main_pages/LandingPage';
 import Home from './components/main_pages/Home';
 import axios from "axios";
+import EditProfile from "./components/auth/EditProfile"
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -89,8 +90,9 @@ function App() {
           <Registration setAuth={setAuth}/>
         </Route>
 
-        <Route path="/profile" >
-          This will show profile page.
+        <Route path="/api/auth/profile" >
+          <EditProfile auth={auth} setAuth={setAuth} user={user} setUser={setUser}/>
+          
         </Route>
 
         <Route path="/api/cases" exact>
