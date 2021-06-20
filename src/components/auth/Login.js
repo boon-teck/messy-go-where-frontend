@@ -9,8 +9,8 @@ function Login({setAuth}) {
     let history = useHistory()
     const [cred, setCred] = useState({})
 
-    async function submit(){
-
+    async function submit(e){
+        e.preventDefault()
         try{
             let {data: {token}}= await axios.post("/api/auth/login", cred)
             localStorage.setItem("token",token)
@@ -34,23 +34,23 @@ function Login({setAuth}) {
                     <Form onSubmit={submit}>
                         <Form.Group>
                             <Form.Label>Email</Form.Label>
-                            <Form.Control name="email" 
-                                          type="email" 
-                                          placeholder="Enter email" 
-                                          onChange={change} 
+                            <Form.Control name="email"
+                                          type="email"
+                                          placeholder="Enter email"
+                                          onChange={change}
                                           required />
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Password</Form.Label>
-                            <Form.Control name="password" 
-                                          type="password" 
-                                          placeholder="Enter Password" 
-                                          onChange={change} 
+                            <Form.Control name="password"
+                                          type="password"
+                                          placeholder="Enter Password"
+                                          onChange={change}
                                           required />
                         </Form.Group>
 
-                        <Button variant="primary" 
+                        <Button variant="primary"
                                 type="submit">
                             Login
                         </Button>

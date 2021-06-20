@@ -14,13 +14,14 @@ function Registration({setAuth}) {
     const [successMsg, setSuccessMsg] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
-    async function submit(){
+    async function submit(e){
+        e.preventDefault()
 
         if (!selectedFile) return;
         const reader = new FileReader();
         reader.readAsDataURL(selectedFile);
-        reader.onloadend = () => {
-            uploadImage(reader.result);
+        reader.onloadend = async () => {
+            await uploadImage(reader.result);
         };
         reader.onerror = () => {
             console.error('AHHHHHHHH!!');
@@ -28,7 +29,7 @@ function Registration({setAuth}) {
         };
 
         try{
-            let {data: {token}}= await axios.post("/api/auth/register", formData)
+            let {data: {token}} = await axios.post("/api/auth/register", formData)
             localStorage.setItem("token",token)
             setAuth(true)
             history.push("/api/user/home")
@@ -38,11 +39,26 @@ function Registration({setAuth}) {
         }
     }
 
+    async function uploadImage(base64EncodedImage){
+        try {
+            let imgJSON = JSON.stringify({ data: base64EncodedImage })
+            let {data: {public_id}} = await axios.post('/api/auth/upload', imgJSON, {
+                    headers: {'Content-Type': 'application/json'}});
+            console.log(public_id)
+            setFormData(prevState => ({...prevState, public_id : public_id }))
+            setFileInputState('');
+            setPreviewSource('');
+            setSuccessMsg('Image uploaded successfully');
+
+        } catch (err) {
+            console.error(err);
+            setErrMsg('Something went wrong!');
+        }
+    };
+
     function change(e){
         setFormData(prevState => ({...prevState, [e.target.name] : e.target.value }))
     }
-
-    console.log(formData)
 
     const handleFileInputChange = (e) => {
         const file = e.target.files[0];
@@ -59,26 +75,7 @@ function Registration({setAuth}) {
         };
     };
 
-    // const handleSubmitFile = (e) => {
-    //     e.preventDefault();
-    //
-    // };
 
-    const uploadImage = async (base64EncodedImage) => {
-        try {
-            await fetch('/api/auth/upload', {
-                method: 'POST',
-                body: JSON.stringify({ data: base64EncodedImage }),
-                headers: { 'Content-Type': 'application/json' },
-            });
-            setFileInputState('');
-            setPreviewSource('');
-            setSuccessMsg('Image uploaded successfully');
-        } catch (err) {
-            console.error(err);
-            setErrMsg('Something went wrong!');
-        }
-    };
 
     return (
         <Container>
