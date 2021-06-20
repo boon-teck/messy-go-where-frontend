@@ -20,7 +20,7 @@ function Registration({setAuth}) {
         if (!selectedFile) return;
         const reader = new FileReader();
         reader.readAsDataURL(selectedFile);
-        reader.onloadend = async () => {
+        reader.onloadend = async function(){
             await uploadImage(reader.result);
         };
         reader.onerror = () => {
@@ -45,7 +45,7 @@ function Registration({setAuth}) {
             let {data: {public_id}} = await axios.post('/api/auth/upload', imgJSON, {
                     headers: {'Content-Type': 'application/json'}});
             console.log(public_id)
-            setFormData(prevState => ({...prevState, public_id : public_id }))
+            setFormData(prevState => ({...prevState, profilePic : public_id }))
             setFileInputState('');
             setPreviewSource('');
             setSuccessMsg('Image uploaded successfully');
