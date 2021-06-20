@@ -16,6 +16,7 @@ function AllCases() {
                 {/* 
                     Code to be written to show only a fixed number 
                     Do take note, component is only here to show an example of what can be seen.
+                    Grid cards can be used. Link is included and in Home.js component.
                 */}
                 <PendingCases />
                 {/** KIV --> caseStatus={caseStatus} setCaseStatus={setCaseStatus} */}
@@ -27,6 +28,7 @@ function AllCases() {
                 {/* 
                     Code to be written to show only a fixed number
                     Do take note, component is only here to show an example of what can be seen.
+                    Grid cards can be used. Link is included and in Home.js component.
                 */}
                 <ClosedCases /> 
                 {/** KIV --> caseStatus={caseStatus} setCaseStatus={setCaseStatus} */}
