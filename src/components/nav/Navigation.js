@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap'; 
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
 function Navigation() {
@@ -14,7 +14,7 @@ function Navigation() {
                     <NavLink to="/case/submit">Submit Issue</NavLink>
                     {/*  KIV <NavLink to="/redeem">Redeem</NavLink> */}
                     <NavLink to="/home">Home</NavLink>
-                    
+
                     </Nav>
                     </Navbar.Collapse>
                     <Navbar.Brand href="/" className="d-flex justify-content-center">Messy Go Where</Navbar.Brand>
