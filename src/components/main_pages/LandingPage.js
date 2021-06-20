@@ -1,20 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { logoStyle, btnStyle } from '../../lib/css/css';
 
 function LandingPage() {
-    const logoStyle = {
-        "backgroundColor": "#9DDFD3",
-        "margin" : "auto",
-        "width" : "100px",
-        "height" : "100px",
-        "text-align" : "center",
-    }
-
-    const btnStyle = {
-        "border" : "solid 1px black",
-        "margin" : "auto",
-        "width" : "100px",
-    }
+    
 
 
     return (

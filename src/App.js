@@ -9,12 +9,17 @@ import Registration from './components/auth/Registration';
 import Login from './components/auth/Login';
 import LandingPage from './components/main_pages/LandingPage';
 import Home from './components/main_pages/Home';
+import Cloudinary from './components/tests/Cloudinary';
+import SubmitCase from './components/cases/SubmitCase';
+import CaseProgressUser from './components/cases/CaseProgressUser';
 
 function App() {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState(null);
   const [staff, setStaff] = useState(false);
   const [admin, setAdmin] = useState(false);
+  const [caseStatus, setCaseStatus] = useState("Pending")
+
 
   useEffect(()=>{
 
@@ -67,6 +72,17 @@ function App() {
       <Navigation user={user} logout={logout} />
 
       <Switch>
+        {/** ------------------ */}
+        {/** We can test codes using this route */}
+        {/** Test starts here */}
+
+        <Route path="/test" exact>
+          <Cloudinary />
+        </Route>
+
+        {/** Testing ends here. */}
+        {/** ------------------ */}
+        
         <Route path="/" exact>
           <LandingPage />
         </Route>
@@ -86,7 +102,12 @@ function App() {
         <Route path="/profile" >
           This will show profile page.
         </Route>
+        
+        <Route path="/edit/profile" >
+          This will show edit profile page.
+        </Route>
 
+        {/** This route might not be needed as Home is already showing this component */}
         <Route path="/cases" exact>
           <AllCases />
         </Route>
@@ -107,8 +128,8 @@ function App() {
           <SingleCaseView />
         </Route>
 
-        <Route path="/case/progress" >
-          This will show the progress of a case to users.
+        <Route path="/user/case/progress" > {/** This is view individual updates */}
+          <CaseProgressUser caseStatus={caseStatus} />
         </Route>
 
         <Route path="/case/update" >
@@ -116,14 +137,14 @@ function App() {
         </Route>
 
         <Route path="/case/submit" >
-          This will show the submission page for users.
+          <SubmitCase />
         </Route>
 
         <Route path="/kiv/redeem" >
           Redemption is current KIV.
         </Route>
 
-        <Route path="/voucher" >
+        <Route path="/kiv/vouchers" >
           Voucher is current KIV.
         </Route>
 
