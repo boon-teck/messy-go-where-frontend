@@ -14,22 +14,24 @@ function Registration({setAuth}) {
     const [successMsg, setSuccessMsg] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
-    async function submit(e){
+    async function submit(e) {
         e.preventDefault()
-
         if (!selectedFile) return;
         const reader = new FileReader();
         reader.readAsDataURL(selectedFile);
-        reader.onloadend = async function(){
-            await uploadImage(reader.result);
+        reader.onloadend = async function () {
+            let public_id = await uploadImage(reader.result);
+            postUser({...formData, profilePic: public_id})
         };
         reader.onerror = () => {
             console.error('AHHHHHHHH!!');
             setErrMsg('something went wrong!');
         };
+    }
 
+    async function postUser(userObj) {
         try{
-            let {data: {token}} = await axios.post("/api/auth/register", formData)
+            let {data: {token}} = await axios.post("/api/auth/register", userObj)
             localStorage.setItem("token",token)
             setAuth(true)
             history.push("/api/user/home")
@@ -44,8 +46,7 @@ function Registration({setAuth}) {
             let imgJSON = JSON.stringify({ data: base64EncodedImage })
             let {data: {public_id}} = await axios.post('/api/auth/upload', imgJSON, {
                     headers: {'Content-Type': 'application/json'}});
-            console.log(public_id)
-            setFormData(prevState => ({...prevState, profilePic : public_id }))
+            return public_id
             setFileInputState('');
             setPreviewSource('');
             setSuccessMsg('Image uploaded successfully');
@@ -74,7 +75,6 @@ function Registration({setAuth}) {
             setPreviewSource(reader.result);
         };
     };
-
 
 
     return (
