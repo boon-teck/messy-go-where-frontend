@@ -26,11 +26,16 @@ function Home() {
                 <Col>Total Points Earned: </Col>
                 <Col>Number of points tagged to user.</Col> {/** will update when db is up and connected. */}
             </Row>
-            <div>
-                <Row>
-                    <AllCases />
-                </Row>
-            </div>
+            <Row>
+                {/** 
+                https://react-bootstrap.netlify.app/components/cards/#card-styles
+                link is for reference, can use grid cards.
+                can ensure that 4 of each issue (pending/closed) will be shown.
+                Component is temporarily here as an example.
+                Once Front and Back ends are setup, can be replaced by another? component:code
+                */}
+                <AllCases />
+            </Row>
 
         </Container>
     )

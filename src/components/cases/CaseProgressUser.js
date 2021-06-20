@@ -1,13 +1,19 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { logoStyle } from '../../lib/css/css';
+import { NavLink } from 'react-router-dom';
 
 
 
 function CaseProgressUser({caseStatus}) {
+
+    
     return (
         <Container>
             <Row>
+                <div className="btn" >
+                    <NavLink to="/cases" >X</NavLink>
+                </div>
                 {/** This row will reflect case status as heading. */}
                 <h1>Case {caseStatus}</h1>
             </Row>

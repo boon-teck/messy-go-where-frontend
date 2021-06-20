@@ -107,6 +107,7 @@ function App() {
           This will show edit profile page.
         </Route>
 
+        {/** This route might not be needed as Home is already showing this component */}
         <Route path="/cases" exact>
           <AllCases />
         </Route>
