@@ -8,6 +8,9 @@ function PendingCases() {
     return (
         <div className="border" >
             <div>
+                <div className="btn" >
+                    <NavLink to="/cases" >X</NavLink>
+                </div>
                 This will show all pending cases.
             </div>
             {/* An example for showing multiple pending cases and only the images.

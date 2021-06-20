@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import AllCases from '../cases/AllCases';
-// import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function Home() {
     return (
@@ -19,12 +19,24 @@ function Home() {
                 */}
             </Row>
             <Row>
-                <Col>Issues Reported:</Col>
-                <Col>Number of issues report.</Col> {/** will update when db is up and connected. */}
+            <Col>Issues Reported:</Col>
+            <Col>Number of issues report.</Col> {/** will update when db is up and connected. */}
             </Row>
             <Row>
-                <Col>Total Points Earned: </Col>
-                <Col>Number of points tagged to user.</Col> {/** will update when db is up and connected. */}
+            <Col>Total Points Earned: </Col>
+            <Col>Number of points tagged to user.</Col> {/** will update when db is up and connected. */}
+            </Row>
+            <Row>
+                <Col>
+                    <Col className="btn border">
+                        <NavLink to="/kiv/vouchers">View Details</NavLink>
+                    </Col>
+                </Col>
+                <Col>
+                    <Col className="btn border">
+                        <NavLink to="/kiv/redeem">Redeem</NavLink>
+                    </Col>
+                </Col>
             </Row>
             <Row>
                 {/** 

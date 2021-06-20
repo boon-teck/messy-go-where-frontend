@@ -144,7 +144,7 @@ function App() {
           Redemption is current KIV.
         </Route>
 
-        <Route path="/voucher" >
+        <Route path="/kiv/vouchers" >
           Voucher is current KIV.
         </Route>
 
