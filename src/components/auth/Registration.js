@@ -14,38 +14,28 @@ function Registration({setAuth}) {
     const [successMsg, setSuccessMsg] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
+
+    // main submit function for the reigstration form
     async function submit(e) {
         e.preventDefault()
         if (!selectedFile) return;
         const reader = new FileReader();
-        reader.readAsDataURL(selectedFile);
+        reader.readAsDataURL(selectedFile);   // reads content of selectedFile and calls onloadend when done
         reader.onloadend = async function () {
-            let public_id = await uploadImage(reader.result);
-            postUser({...formData, profilePic: public_id})
+            let public_id = await uploadImage(reader.result);  // calls uploadImage function to upload image, which returns public_id of the uploaded image
+            postUser({...formData, profilePic: public_id}) // calls postUser to save the user. public_id is passed in directly to bypass the delay in setFormdata
         };
         reader.onerror = () => {
-            console.error('AHHHHHHHH!!');
-            setErrMsg('something went wrong!');
+            setErrMsg('something went wrong!'); // error reporting for reader function
         };
     }
 
-    async function postUser(userObj) {
-        try{
-            let {data: {token}} = await axios.post("/api/auth/register", userObj)
-            localStorage.setItem("token",token)
-            setAuth(true)
-            history.push("/api/user/home")
-
-        }catch(e){
-            console.log(e)
-        }
-    }
-
+    // function to upload image to cloudinary
     async function uploadImage(base64EncodedImage){
         try {
             let imgJSON = JSON.stringify({ data: base64EncodedImage })
             let {data: {public_id}} = await axios.post('/api/auth/upload', imgJSON, {
-                    headers: {'Content-Type': 'application/json'}});
+                headers: {'Content-Type': 'application/json'}});
             return public_id
             setFileInputState('');
             setPreviewSource('');
@@ -56,11 +46,26 @@ function Registration({setAuth}) {
             setErrMsg('Something went wrong!');
         }
     };
+    
+    //function to save new user and save token
+    async function postUser(userObj) {
+        try{
+            let {data: {token}} = await axios.post("/api/auth/register", userObj) 
+            localStorage.setItem("token",token)
+            setAuth(true)
+            history.push("/api/user/home")
 
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+    //function to record form entry
     function change(e){
         setFormData(prevState => ({...prevState, [e.target.name] : e.target.value }))
     }
 
+    //function to handle submission of image
     const handleFileInputChange = (e) => {
         const file = e.target.files[0];
         previewFile(file);
@@ -68,6 +73,7 @@ function Registration({setAuth}) {
         setFileInputState(e.target.value);
     };
 
+    //function to generate preview image
     const previewFile = (file) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -76,19 +82,18 @@ function Registration({setAuth}) {
         };
     };
 
-
     return (
         <Container>
             <Row>
                 <Col md={6}>
-                    <h1>Registration page</h1>
+                    <h3>Registration Page</h3>
 
                     <Form onSubmit={submit}>
-                        <h3 className="title">Upload an Image</h3>
+                        <h5>Upload a Profile Pic</h5>
                         <Alert msg={errMsg} type="danger" />
                         <Alert msg={successMsg} type="success" />
-
-                        <input
+                        <Form.Group>
+                            <input
                             id="fileInput"
                             type="file"
                             name="image"
@@ -103,6 +108,7 @@ function Registration({setAuth}) {
                                 style={{ height: '300px' }}
                             />
                         )}
+                        </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Name</Form.Label>
