@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardGroup, Carousel } from 'react-bootstrap';
+import {Card, CardGroup, Carousel, NavLink} from 'react-bootstrap';
 
 
 function ClosedCases() {

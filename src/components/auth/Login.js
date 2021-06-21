@@ -15,7 +15,7 @@ function Login({setAuth}) {
             let {data: {token}}= await axios.post("/api/auth/login", cred)
             localStorage.setItem("token",token)
             setAuth(true)
-            history.push("/api/user/home")
+            history.push("/user/home")
 
         }catch(e){
             console.log(e)

@@ -15,7 +15,7 @@ function Registration({setAuth}) {
     const [errMsg, setErrMsg] = useState('');
 
 
-    // main submit function for the reigstration form
+    // main submit function for the registration form
     async function submit(e) {
         e.preventDefault()
         if (!selectedFile) return;
@@ -23,6 +23,7 @@ function Registration({setAuth}) {
         reader.readAsDataURL(selectedFile);   // reads content of selectedFile and calls onloadend when done
         reader.onloadend = async function () {
             let public_id = await uploadImage(reader.result);  // calls uploadImage function to upload image, which returns public_id of the uploaded image
+
             postUser({...formData, profilePic: public_id}) // calls postUser to save the user. public_id is passed in directly to bypass the delay in setFormdata
         };
         reader.onerror = () => {
@@ -36,24 +37,26 @@ function Registration({setAuth}) {
             let imgJSON = JSON.stringify({ data: base64EncodedImage })
             let {data: {public_id}} = await axios.post('/api/auth/upload', imgJSON, {
                 headers: {'Content-Type': 'application/json'}});
-            return public_id
             setFileInputState('');
             setPreviewSource('');
             setSuccessMsg('Image uploaded successfully');
+
+            return public_id
+
 
         } catch (err) {
             console.error(err);
             setErrMsg('Something went wrong!');
         }
     };
-    
+
     //function to save new user and save token
     async function postUser(userObj) {
         try{
-            let {data: {token}} = await axios.post("/api/auth/register", userObj) 
+            let {data: {token}} = await axios.post("/api/auth/register", userObj)
             localStorage.setItem("token",token)
             setAuth(true)
-            history.push("/api/user/home")
+            // history.push("/api/user/home")
 
         }catch(e){
             console.log(e)

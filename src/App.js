@@ -20,8 +20,8 @@ import CaseProgressUser from './components/cases/CaseProgressUser';
 function App() {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState(null);
-  const [staff, setStaff] = useState(false);
-  const [admin, setAdmin] = useState(false);
+  // const [staff, setStaff] = useState(false);
+  // const [admin, setAdmin] = useState(false);
   const [caseStatus, setCaseStatus] = useState("Pending")
 
 
@@ -44,29 +44,29 @@ function App() {
       }
     }
 
-    // This function is to check if user is a staff.
-    async function setStaffStats(){
-      try{
-
-      }catch(e){
-        setAuth(false);
-        setStaff(false)
-      }
-    }
-
-    // This function is to check if user is an Admin.
-    async function setAdminStats(){
-      try{
-
-      }catch(e){
-        setAuth(false);
-        setAdmin(false)
-      }
-    }
-
-    setUserStats()
-    // setStaffStats()
-    // setAdminStats()
+    // // This function is to check if user is a staff.
+    // async function setStaffStats(){
+    //   try{
+    //
+    //   }catch(e){
+    //     setAuth(false);
+    //     setStaff(false)
+    //   }
+    // }
+    //
+    // // This function is to check if user is an Admin.
+    // async function setAdminStats(){
+    //   try{
+    //
+    //   }catch(e){
+    //     setAuth(false);
+    //     setAdmin(false)
+    //   }
+    // }
+    //
+    // setUserStats()
+    // // setStaffStats()
+    // // setAdminStats()
 
   },[auth])
 
@@ -78,7 +78,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/*<Navigation user={user} logout={logout} />*/}
+      <Navigation auth={auth} logout={logout} />
 
       <Switch>
         {/** ------------------ */}
@@ -97,67 +97,25 @@ function App() {
         </Route>
 
         <Route path="/api/auth/login">
-          <Login auth={auth} setAuth={setAuth} setUser={setUser}/>
-        </Route>
-
-        <Route path="/api/user/home" >
-          <Home />
+          <Login setAuth={setAuth}/>
         </Route>
 
         <Route path="/api/auth/register"  >
           <Registration setAuth={setAuth}/>
         </Route>
 
-        <Route path="/api/auth/profile" >
-          <EditProfile auth={auth} setAuth={setAuth} user={user} setUser={setUser}/>
-
-        </Route>
-
-        <Route path="/edit/profile" >
-          This will show edit profile page.
-        </Route>
-
-        {/** This route might not be needed as Home is already showing this component */}
-        <Route path="/cases" exact>
-          <AllCases />
-        </Route>
-
-        <Route path="/api/cases/pending" >
-          <PendingCases />
-        </Route>
-
-        <Route path="/api/cases/pending/:id" >
-          <SingleCaseView />
-        </Route>
-
-        <Route path="/api/cases/closed" >
-          <ClosedCases />
-        </Route>
-
-        <Route path="/api/cases/closed/:id" >
-          <SingleCaseView />
-        </Route>
-
-        <Route path="/user/case/progress" > {/** This is view individual updates */}
-          <CaseProgressUser caseStatus={caseStatus} />
-        </Route>
-
-        <Route path="/api/case/update" >
-          This will show admin/staff the case they are updating.
-        </Route>
-
-
-        <Route path="/case/submit" >
-          <SubmitCase />
-        </Route>
-
-        <Route path="/kiv/redeem" >
-          Redemption is current KIV.
-        </Route>
-
-        <Route path="/kiv/vouchers" >
-          Voucher is current KIV.
-        </Route>
+        <PrivateRouter auth={auth} path="/user/home" Component={Home} exact/>
+        <PrivateRouter auth={auth} path="/api/auth/profile" Component={EditProfile} auth={auth} setAuth={setAuth} user={user} setUser={setUser} exact />
+        <PrivateRouter auth={auth} path="/cases" Component={AllCases} exact/>      {/** This route might not be needed as Home is already showing this component */}
+        <PrivateRouter auth={auth} path="/api/cases/pending" Component={PendingCases} exact/>
+        <PrivateRouter auth={auth} path="/api/cases/pending/:id" Component={SingleCaseView} exact/>
+        <PrivateRouter auth={auth} path="/api/cases/closed" Component={ClosedCases} exact/>
+        <PrivateRouter auth={auth} path="/api/cases/closed/:id" Component={SingleCaseView} exact/>
+        <PrivateRouter auth={auth} path="/user/case/progress" Component={CaseProgressUser} caseStatus={caseStatus} exact/> {/** This is view individual updates */}
+        {/*<PrivateRouter path="/api/case/update" Component={} exact/> /!**This will show admin/staff the case they are updating.**!/*/}
+        {/*<PrivateRouter path="/case/submit" Component={} exact/> <SubmitCase />*/}
+        {/*<PrivateRouter path="/kiv/redeem" Component={} exact/>   /!**Redemption is current KIV.**!/*/}
+        {/*<PrivateRouter path="/kiv/vouchers" Component={} exact/> /!**Voucher is current KIV.**!/*/}
 
         <Route path="*" >
           404
@@ -168,21 +126,21 @@ function App() {
   )
 }
 
-// function PrivateRouter({auth, Component, path, location, ...rest}) {
-//   //if auth is true then show Route else redirect to login
-//   return (
-//       <>
-//         {(auth) ?
-//             <Route path={path} {...rest}>
-//               <Component/>
-//             </Route> : <Redirect to={{
-//               pathname: "api/auth/login",
-//               state: {from: location}
-//             }}/>
-//         }
-//       </>
-//   )
-// }
+function PrivateRouter({auth, Component, path, location, ...rest}) {
+  //if auth is true then show Route else redirect to login
+  return (
+      <>
+        {(auth) ?
+            <Route path={path} {...rest}>
+              <Component/>
+            </Route> : <Redirect to={{
+              pathname: "/api/auth/login",
+              state: {from: location}
+            }}/>
+        }
+      </>
+  )
+}
 
 
 export default App

@@ -57,10 +57,11 @@ function EditProfile({auth,setAuth,user,setUser}) {
             let imgJSON = JSON.stringify({ data: base64EncodedImage })
             let {data: {public_id}} = await axios.post('/api/auth/upload', imgJSON, {
                 headers: {'Content-Type': 'application/json'}});
-            return public_id
             setFileInputState('');
             setPreviewSource('');
             setSuccessMsg('Image uploaded successfully');
+            return public_id
+
 
         } catch (err) {
             console.error(err);
