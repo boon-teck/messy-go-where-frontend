@@ -56,7 +56,7 @@ function Registration({setAuth}) {
             let {data: {token}} = await axios.post("/api/auth/register", userObj)
             localStorage.setItem("token",token)
             setAuth(true)
-            // history.push("/api/user/home")
+            history.push("/user/home")
 
         }catch(e){
             console.log(e)

@@ -20,18 +20,15 @@ function ShowProfile({user}) {
 
                 </Col>
                 <Col md={4} >
+                    <h5>User ID</h5>
+                    <p>{user.id}</p>
                     <h5>User Name</h5>
                     <p>{user.name}</p>
                     <h5>Email</h5>
                     <p>{user.email}</p>
                 </Col>
             </Row>
-            <Row className={"justify-content-center"}>
-                <NavLink to="/" className="btn btn-success">Edit Profile</NavLink>
-                <NavLink to="/" className="btn btn-warning">Logout</NavLink>
-                <NavLink to="/" className="btn btn-danger">Delete Profile</NavLink>
 
-            </Row>
         </Container>
     );
 }

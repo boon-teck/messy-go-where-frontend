@@ -6,7 +6,7 @@ import Alert from './Alert';
 import { Image } from 'cloudinary-react';
 require('dotenv').config()
 
-function EditProfile({auth,setAuth,user,setUser}) {
+function EditProfile({auth,setAuth,user,setUser, setEditState}) {
 
     let history = useHistory()
     const [formData, setFormData] = useState();
@@ -15,6 +15,9 @@ function EditProfile({auth,setAuth,user,setUser}) {
     const [selectedFile, setSelectedFile] = useState();
     const [successMsg, setSuccessMsg] = useState('');
     const [errMsg, setErrMsg] = useState('');
+
+    let publicID = ""
+
 
     useEffect(()=>{
 
@@ -28,6 +31,7 @@ function EditProfile({auth,setAuth,user,setUser}) {
                 })
                 setAuth(true)
                 setUser(data.user)
+                publicID = data.user.profilePic
             } catch (e) {
                 setAuth(false)
                 setUser(null)
@@ -39,16 +43,21 @@ function EditProfile({auth,setAuth,user,setUser}) {
     // main submit function for the registration form
     async function submit(e) {
         e.preventDefault()
-        if (!selectedFile) return;
-        const reader = new FileReader();
-        reader.readAsDataURL(selectedFile);   // reads content of selectedFile and calls onloadend when done
-        reader.onloadend = async function () {
-            let public_id = await uploadImage(reader.result);  // calls uploadImage function to upload image, which returns public_id of the uploaded image
-            postUser({...formData, profilePic: public_id}) // calls postUser to save the user. public_id is passed in directly to bypass the delay in setFormdata
-        };
-        reader.onerror = () => {
-            setErrMsg('something went wrong!'); // error reporting for reader function
-        };
+        if (!selectedFile) {
+            postUser({...formData, profilePic: publicID})
+            setEditState(false)
+        } else {
+            const reader = new FileReader();
+            reader.readAsDataURL(selectedFile);   // reads content of selectedFile and calls onloadend when done
+            reader.onloadend = async function () {
+                let public_id = await uploadImage(reader.result);  // calls uploadImage function to upload image, which returns public_id of the uploaded image
+                postUser({...formData, profilePic: public_id}) // calls postUser to save the user. public_id is passed in directly to bypass the delay in setFormdata
+            };
+            reader.onerror = () => {
+                setErrMsg('something went wrong!'); // error reporting for reader function
+            };
+            setEditState(false)
+        }
     }
 
     // function to upload image to cloudinary
@@ -72,7 +81,11 @@ function EditProfile({auth,setAuth,user,setUser}) {
     //function to save new user and save token
     async function postUser(userObj) {
         try{
-            let {data: {token}} = await axios.post("/api/auth/register", userObj)
+            let {data: {token}} = await axios.post("/api/auth/update", userObj, {
+                headers: {
+                    authorization: `Bearer ${localStorage.token}`
+                }
+            })
             localStorage.setItem("token",token)
             setAuth(true)
             history.push("/api/user/home")
@@ -117,17 +130,18 @@ function EditProfile({auth,setAuth,user,setUser}) {
                         <Alert msg={successMsg} type="success" />
                         <Form.Group>
 
-                            { (fileInputState ==="") ?
+                            { (!selectedFile) ?
                                 <Image
                                     cloudName="triplethreats"
                                     publicId={user.profilePic}
                                     width="150"
+                                    height="150"
                                     crop="scale"
                                 />: previewSource && (
                                 <img
                                     src={previewSource}
                                     alt="chosen"
-                                    style={{ height: '300px' }}
+                                    style={{ height: '150px' }}
                                 />
                             )
                             }
@@ -147,23 +161,25 @@ function EditProfile({auth,setAuth,user,setUser}) {
 
                 </Col>
                 <Col md={4}>
+                    <h5>User ID</h5>
+                    <p>{user.id}</p>
                     <Form onSubmit={submit}>
                     <Form.Group>
                         <Form.Label>Name</Form.Label>
                         <Form.Control name="name"
                                       type="name"
-                                      value={user.name}
+                                      placeholder={user.name}
                                       onChange={change}
-                                      required/>
+                                      />
                     </Form.Group>
 
                     <Form.Group>
                         <Form.Label>Email address</Form.Label>
                         <Form.Control name="email"
                                       type="email"
-                                      value={user.email}
+                                      placeholder={user.email}
                                       onChange={change}
-                                      required/>
+                                      />
                         <Form.Text className="text-muted">
                             We'll never share your email with anyone else.
                         </Form.Text>
@@ -175,7 +191,7 @@ function EditProfile({auth,setAuth,user,setUser}) {
                                       type="password"
                                       placeholder="Enter New Password"
                                       onChange={change}
-                                      required/>
+                                      />
                     </Form.Group>
 
                     <Form.Group>
