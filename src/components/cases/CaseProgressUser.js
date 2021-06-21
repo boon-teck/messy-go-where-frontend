@@ -1,12 +1,20 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Row, Col, Image } from 'react-bootstrap';
 import { logoStyle } from '../../lib/css/css';
 import { NavLink } from 'react-router-dom';
+import star from '../../lib/img/star.png';
+import starFilled from '../../lib/img/starfilled.png';
+
 
 
 
 function CaseProgressUser({caseStatus}) {
+    const [starState, setStarState] = useState(false)
 
+    const selectedStar =() =>{
+        setStarState(!starState)
+        console.log("hi", starState)
+    }
     
     return (
         <Container>
@@ -51,11 +59,31 @@ function CaseProgressUser({caseStatus}) {
                 Can make these stars reflect input. and style css to light up .
                 Yea you get the idea? 
                 */}
-                <Col>Star1</Col>
-                <Col>Star2</Col>
-                <Col>Star3</Col>
-                <Col>Star4</Col>
-                <Col>Star5</Col>
+                <Col>
+                    <span onClick={()=>selectedStar()}  >
+                        <Image style={{width: "80%"}} src={starState ? starFilled : star} />
+                    </span>
+                </Col>
+                <Col>
+                    <span onClick={()=>selectedStar()}  >
+                        <Image style={{width: "80%"}} src={starState ? starFilled : star} />
+                    </span>
+                </Col>
+                <Col>
+                    <span onClick={()=>selectedStar()}  >
+                        <Image style={{width: "80%"}} src={starState ? starFilled : star} />
+                    </span>
+                </Col>
+                <Col>
+                    <span onClick={()=>selectedStar()}  >
+                        <Image style={{width: "80%"}} src={starState ? starFilled : star} />
+                    </span>
+                </Col>
+                <Col>
+                    <span onClick={()=>selectedStar()}  >
+                        <Image style={{width: "80%"}} src={starState ? starFilled : star} />
+                    </span>
+                </Col>
             </Row>
 
         </Container>

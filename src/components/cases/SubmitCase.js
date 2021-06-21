@@ -4,38 +4,47 @@ import { Container, Row, Form } from 'react-bootstrap';
 
 function SubmitCase() {
     return (
-        <Container>
+        <Container className="justify-content-sm-center" >
             <Form>
                 <Row>
-                    {/** Img tag with url from cloudinary */}
-                    <input type="file" name="picture"/>
+                    {/** Img tag with url from cloudinary for preview */}
+                    <input type="file" name="issuePic"/>
                     <button>Upload Image</button>
                 </Row>
-                <Row>
-                    <input placeholder="Description of Issue" name="description" />
-                </Row>
-                <Row>
-                    <p>Date: <input placeholder="date" name="date"/></p>
-                </Row>
-                <Row>
-                    <p>Time: <input placeholder="time" name="time" /></p>
-                </Row>
-                <Row>
-                    <p>Location: <input placeholder="location" name="location" /></p>
-                </Row>
-                <Row>
-                    <select name="category">
-                        <option value="pest">Pests</option>
-                        <option value="lift">Lift</option>
-                        <option value="bird">Birds</option>
-                        <option value="cleanliness">Cleanliness</option>
-                        <option value="grass">Grass</option>
-                        <option value="drain">Drain</option>
-                    </select>
-                </Row>
-                <Row>
-                    <input type="submit" />
-                </Row>
+                <Container className="mt-5" >
+                    <Row>
+                        <p>Description: <input placeholder="Description of Issue" name="description" /></p>
+                    </Row>
+                    <Row>
+                        <p>Date: <input placeholder="date" name="date"/></p>
+                    </Row>
+                    <Row>
+                        <p>Time: <input placeholder="time" name="time" /></p>
+                    </Row>
+                    <Row>
+                        <p>Location: <input placeholder="location" name="location" /></p>
+                    </Row>
+                    <Row>
+                        <select name="category">
+                            <option value="general">General</option>
+                            <option value="pest">Pests</option>
+                            <option value="animalsAndBirds">Animals & Birds</option>
+                            <option value="cleanliness">Cleanliness</option>
+                            <option value="roadsAndFootpaths">Roads & Footpaths</option>
+                            <option value="facilitiesInHDB">Facilities in HDB</option>
+                            <option value="drinkingWater">Drinking Water</option>
+                            <option value="drainAndSewers">Drains & Sewers</option>
+                            <option value="parksAndGreenery">Parks & Greenery</option>
+                            <option value="constructionSites">Contruction Sites</option>
+                            <option value="abandonedTrolleys">Abandoned Trolleys</option>
+                            <option value="sharedBicycles">Shared Bicycles</option>
+                            <option value="illegalParking">Illegal Parking</option>
+                        </select>
+                    </Row>
+                    <Row>
+                        <input type="submit" />
+                    </Row>
+                </Container>
             </Form>
             
         </Container>

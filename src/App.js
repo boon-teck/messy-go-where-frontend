@@ -78,7 +78,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/*<Navigation user={user} logout={logout} />*/}
+      {/** 
+        Comment next line out and add proxy back 
+        http://localhost:4004
+      */}
+      {/** 
+        <Navigation user={user} logout={logout} /> 
+       */}
 
       <Switch>
         {/** ------------------ */}
