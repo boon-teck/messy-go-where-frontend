@@ -36,7 +36,7 @@ function EditProfile({auth,setAuth,user,setUser}) {
         }
     },[auth])
 
-    // main submit function for the reigstration form
+    // main submit function for the registration form
     async function submit(e) {
         e.preventDefault()
         if (!selectedFile) return;
@@ -106,22 +106,31 @@ function EditProfile({auth,setAuth,user,setUser}) {
 
     return (
         <Container>
-            <Row>
-                <Col md={6}>
-                    <h3>Edit Profile</h3>
+            <Row className={"justify-content-center"}>
+                <h3>Edit Profile</h3>
+            </Row>
+            <Row className={"justify-content-center"}>
 
-                    <Image
-                        cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                        publicId={user.profilePic}
-                        width="300"
-                        crop="scale"
-                    />
-
-                    <Form onSubmit={submit}>
+            <Col md={4}>
                         <h5>Upload a Profile Pic</h5>
                         <Alert msg={errMsg} type="danger" />
                         <Alert msg={successMsg} type="success" />
                         <Form.Group>
+
+                            { (fileInputState ==="") ?
+                                <Image
+                                    cloudName="triplethreats"
+                                    publicId={user.profilePic}
+                                    width="150"
+                                    crop="scale"
+                                />: previewSource && (
+                                <img
+                                    src={previewSource}
+                                    alt="chosen"
+                                    style={{ height: '300px' }}
+                                />
+                            )
+                            }
                             <input
                                 id="fileInput"
                                 type="file"
@@ -130,66 +139,66 @@ function EditProfile({auth,setAuth,user,setUser}) {
                                 value={fileInputState}
                                 className="form-input"
                             />
-                            {previewSource && (
-                                <img
-                                    src={previewSource}
-                                    alt="chosen"
-                                    style={{ height: '300px' }}
-                                />
-                            )}
+
                         </Form.Group>
 
-                        <Form.Group>
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control name="name"
-                                          type="name"
-                                          placeholder={user.name}
-                                          onChange={change}
-                                          required/>
-                        </Form.Group>
 
-                        <Form.Group>
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control name="email"
-                                          type="email"
-                                          placeholder={user.email}
-                                          onChange={change}
-                                          required/>
-                            <Form.Text className="text-muted">
-                                We'll never share your email with anyone else.
-                            </Form.Text>
-                        </Form.Group>
 
-                        <Form.Group>
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control name="password"
-                                          type="password"
-                                          placeholder="Enter New Password"
-                                          onChange={change}
-                                          required/>
-                        </Form.Group>
 
-                        <Form.Group>
-                            <Form.Label>User Type</Form.Label>
-                            <div className="mb-3">
-                                <Form.Check inline label="User"
-                                            name="userType"
-                                            type={"radio"}
-                                            value={"User"}
-                                            onChange={change} defaultChecked/>
-                                <Form.Check inline label="Staff"
-                                            name="userType"
-                                            type={"radio"}
-                                            value={"Staff"}
-                                            onChange={change}/>
-                            </div>
-                        </Form.Group>
+                </Col>
+                <Col md={4}>
+                    <Form onSubmit={submit}>
+                    <Form.Group>
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control name="name"
+                                      type="name"
+                                      value={user.name}
+                                      onChange={change}
+                                      required/>
+                    </Form.Group>
 
+                    <Form.Group>
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control name="email"
+                                      type="email"
+                                      value={user.email}
+                                      onChange={change}
+                                      required/>
+                        <Form.Text className="text-muted">
+                            We'll never share your email with anyone else.
+                        </Form.Text>
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control name="password"
+                                      type="password"
+                                      placeholder="Enter New Password"
+                                      onChange={change}
+                                      required/>
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>User Type</Form.Label>
+                        <div className="mb-3">
+                            <Form.Check inline label="User"
+                                        name="userType"
+                                        type={"radio"}
+                                        value={"User"}
+                                        onChange={change} defaultChecked/>
+                            <Form.Check inline label="Staff"
+                                        name="userType"
+                                        type={"radio"}
+                                        value={"Staff"}
+                                        onChange={change}/>
+                        </div>
+                    </Form.Group>
                         <Button variant="primary" type="submit">
                             Submit
                         </Button>
                     </Form>
                 </Col>
+
             </Row>
 
         </Container>

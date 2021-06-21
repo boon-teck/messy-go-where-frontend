@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import {Container, Row, Col, Button} from 'react-bootstrap';
 import AllCases from '../cases/AllCases';
 import { NavLink } from 'react-router-dom';
 
@@ -7,16 +7,16 @@ function Home() {
     return (
         <Container>
             <Row>
-                {/** 
+                {/**
                 <Col>
-                    <img /> will be on the left. 
+                    <img /> will be on the left.
                 </Col>
                 <Col>
                     {user.username?}
                     {user.email?}
                 </Col>
                     <NavLink to="/edit/profile" className="btn">Edit Profile</NavLink>
-                */}
+                **/}
             </Row>
             <Row>
             <Col>Issues Reported:</Col>
@@ -39,7 +39,7 @@ function Home() {
                 </Col>
             </Row>
             <Row>
-                {/** 
+                {/**
                 https://react-bootstrap.netlify.app/components/cards/#card-styles
                 link is for reference, can use grid cards.
                 can ensure that 4 of each issue (pending/closed) will be shown.

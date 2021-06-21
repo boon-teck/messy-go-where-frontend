@@ -12,6 +12,7 @@ import Home from './components/main_pages/Home';
 
 import axios from "axios";
 import EditProfile from "./components/auth/EditProfile"
+import Profile from "./components/auth/Profile";
 import Cloudinary from './components/tests/Cloudinary';
 import SubmitCase from './components/cases/SubmitCase';
 import CaseProgressUser from './components/cases/CaseProgressUser';
@@ -35,6 +36,7 @@ function App() {
             authorization: `Bearer ${localStorage.token}`
           }
         })
+        console.log("App.js: ",data.user)
         setAuth(true)
         setUser(data.user)
       } catch (e) {
@@ -64,7 +66,7 @@ function App() {
     //   }
     // }
     //
-    // setUserStats()
+    setUserStats()
     // // setStaffStats()
     // // setAdminStats()
 
@@ -105,7 +107,7 @@ function App() {
         </Route>
 
         <PrivateRouter auth={auth} path="/user/home" Component={Home} exact/>
-        <PrivateRouter auth={auth} path="/api/auth/profile" Component={EditProfile} auth={auth} setAuth={setAuth} user={user} setUser={setUser} exact />
+        <PrivateRouter auth={auth} path="/api/auth/profile" Component={Profile} setAuth={setAuth} user={user} setUser={setUser} exact />
         <PrivateRouter auth={auth} path="/cases" Component={AllCases} exact/>      {/** This route might not be needed as Home is already showing this component */}
         <PrivateRouter auth={auth} path="/api/cases/pending" Component={PendingCases} exact/>
         <PrivateRouter auth={auth} path="/api/cases/pending/:id" Component={SingleCaseView} exact/>
@@ -131,8 +133,8 @@ function PrivateRouter({auth, Component, path, location, ...rest}) {
   return (
       <>
         {(auth) ?
-            <Route path={path} {...rest}>
-              <Component/>
+            <Route path={path} >
+              <Component {...rest}/>
             </Route> : <Redirect to={{
               pathname: "/api/auth/login",
               state: {from: location}
