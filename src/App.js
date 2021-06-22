@@ -15,7 +15,7 @@ import Profile from "./components/auth/Profile";
 import Cloudinary from './components/tests/Cloudinary';
 import SubmitCase from './components/cases/SubmitCase';
 import CaseProgressUser from './components/cases/CaseProgressUser';
-
+import SimpleBottomNavigation from "./components/nav/BottomNavigation"
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -111,6 +111,7 @@ function App() {
         </Route>
 
       </Switch>
+      {/*<SimpleBottomNavigation />*/}
     </BrowserRouter>
   )
 }
@@ -123,7 +124,7 @@ function PrivateRouter({auth, Component, path, location, ...rest}) {
             <Route path={path} >
               <Component {...rest}/>
             </Route> : <Redirect to={{
-              pathname: "/api/auth/login",
+              pathname: "/",
               state: {from: location}
             }}/>
         }
