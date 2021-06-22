@@ -19,9 +19,6 @@ function Navigation({auth}) {
                                 <NavLink to="/api/auth/register" >/ Register /</NavLink>
                             </> }
 
-
-
-
                             {/*  KIV <NavLink to="/redeem">Redeem</NavLink> */}
 
                         </Nav>

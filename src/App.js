@@ -115,7 +115,7 @@ function App() {
         <PrivateRouter auth={auth} path="/api/cases/closed/:id" Component={SingleCaseView} exact/>
         <PrivateRouter auth={auth} path="/user/case/progress" Component={CaseProgressUser} caseStatus={caseStatus} exact/> {/** This is view individual updates */}
         {/*<PrivateRouter path="/api/case/update" Component={} exact/> /!**This will show admin/staff the case they are updating.**!/*/}
-        {/*<PrivateRouter path="/case/submit" Component={} exact/> <SubmitCase />*/}
+        <PrivateRouter auth={auth} path="/case/submit" Component={SubmitCase} setAuth={setAuth} user={user} exact/>
         {/*<PrivateRouter path="/kiv/redeem" Component={} exact/>   /!**Redemption is current KIV.**!/*/}
         {/*<PrivateRouter path="/kiv/vouchers" Component={} exact/> /!**Voucher is current KIV.**!/*/}
 
