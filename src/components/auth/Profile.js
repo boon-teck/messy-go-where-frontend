@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Container, Row, Col, Form, Button} from "react-bootstrap";
+import {Container, Row, Col, Form, Button, Modal, ButtonGroup} from "react-bootstrap";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 import ShowProfile from "./ShowProfile";
@@ -8,6 +8,11 @@ import EditProfile from "./EditProfile";
 function Profile({setAuth,user,setUser}) {
 
     const [editState, setEditState] = useState(false)
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     let history = useHistory()
 
     useEffect(()=>{
@@ -57,15 +62,35 @@ function Profile({setAuth,user,setUser}) {
 
     return (
         <Container fluid>
+            <Row>
+
             { !editState ?
                 <ShowProfile user={user} />
                 :
                 <EditProfile setEditState={setEditState} setAuth={setAuth} user={user} setUser={setUser} exact/>
             }
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm Deletion of Profile</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Please click "Delete" below to confirm deletion of profile.</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Go Back
+                    </Button>
+                    <Button variant="primary" onClick={deleteAcct}>
+                        Confirm Deletion
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            </Row>
             <Row className={"justify-content-center"}>
+                <ButtonGroup>
                 <Button onClick={()=>setEditState(true)}>Edit Profile</Button>
-                <Button onClick={logout}>Log Out</Button>
-                <Button onClick={deleteAcct}>Delete Profile</Button>
+                <Button variant="warning" onClick={logout}>Log Out</Button>
+                <Button variant="danger" onClick={handleShow}>Delete Profile</Button>
+                </ButtonGroup>
             </Row>
         </Container>
     );

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Container, Row, Col, Form, Button} from "react-bootstrap";
+import {Container, Row, Col, Form, Button, ButtonGroup} from "react-bootstrap";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 import Alert from './Alert';
@@ -209,14 +209,16 @@ function EditProfile({auth,setAuth,user,setUser, setEditState}) {
                                         onChange={change}/>
                         </div>
                     </Form.Group>
+                        <ButtonGroup>
                         <Button variant="primary" type="submit">
                             Submit
                         </Button>
+                        <Button variant="secondary" onClick={()=>setEditState(false)}>Go Back</Button>
+                        </ButtonGroup>
                     </Form>
                 </Col>
 
             </Row>
-
         </Container>
 
     )
