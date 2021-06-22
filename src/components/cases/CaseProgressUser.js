@@ -49,11 +49,13 @@ function CaseProgressUser({caseStatus}) {
                 <h4 className="m-auto">Rate Transaction!</h4>
             </Row>
             <Row>
-                {/** 
-                Can make these stars reflect input. and style css to light up .
-                Yea you get the idea? 
-                */}
-                <SimpleRating />
+                <div className="m-auto" >
+                    {/** 
+                    Can make these stars reflect input. and style css to light up .
+                    Yea you get the idea? 
+                    */}
+                    <SimpleRating />
+                </div>
             </Row>
 
         </Container>
