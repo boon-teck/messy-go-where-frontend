@@ -5,9 +5,11 @@ import { NavLink } from 'react-router-dom';
 function Navigation({auth}) {
     return (
         <div>
-            <Navbar bg="light" expand="lg">
-                <Container>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+
+            <Navbar bg="light" expand="lg" style={{"text-align" : "center"}} >
+                <Container fluid>
+                    <Navbar.Brand href="/" style={{"margin" : "auto"}} >Messy Go Where</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <NavLink to="/user/home">/ Home /</NavLink>
@@ -23,7 +25,6 @@ function Navigation({auth}) {
 
                         </Nav>
                     </Navbar.Collapse>
-                    <Navbar.Brand href="/" className="d-flex justify-content-center">Messy Go Where</Navbar.Brand>
                 </Container>
             </Navbar>
         </div>
