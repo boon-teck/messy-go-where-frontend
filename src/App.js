@@ -111,7 +111,7 @@ function App() {
           <Registration setAuth={setAuth}/>
         </Route>
 
-        <PrivateRouter auth={auth} path="/user/home" Component={Home} exact/>
+        <PrivateRouter auth={auth} path="/user/home" Component={Home} user={user} exact/>
         <PrivateRouter auth={auth} path="/api/auth/profile" Component={Profile} setAuth={setAuth} user={user} setUser={setUser} exact />
         <PrivateRouter auth={auth} path="/cases" Component={AllCases} exact/>      {/** This route might not be needed as Home is already showing this component */}
         <PrivateRouter auth={auth} path="/api/cases/pending" Component={PendingCases} exact/>

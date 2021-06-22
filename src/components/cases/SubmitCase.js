@@ -93,11 +93,6 @@ function SubmitCase({auth, setAuth, user}) {
         };
     };
 
-
-
-
-    console.log(formData)
-
     return (
         <Container>
             <Row>

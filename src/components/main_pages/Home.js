@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Container, Row, Col, Button} from 'react-bootstrap';
 import AllCases from '../cases/AllCases';
 import { NavLink } from 'react-router-dom';
+import axios from "axios";
 
-function Home() {
+function Home({user}) {
+
+
+
     return (
         <Container>
             <Row>
@@ -46,7 +50,7 @@ function Home() {
                  Component is temporarily here as an example.
                  Once Front and Back ends are setup, can be replaced by another? component:code
                  */}
-                <AllCases/>
+                <AllCases user={user}/>
             </Row>
 
         </Container>
