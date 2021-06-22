@@ -11,7 +11,6 @@ import LandingPage from './components/main_pages/LandingPage';
 import Home from './components/main_pages/Home';
 
 import axios from "axios";
-import EditProfile from "./components/auth/EditProfile"
 import Profile from "./components/auth/Profile";
 import Cloudinary from './components/tests/Cloudinary';
 import SubmitCase from './components/cases/SubmitCase';
@@ -80,13 +79,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/** 
-        Comment next line out and add proxy back 
+      {/**
+        Comment next line out and add proxy back
         http://localhost:4004
       */}
-      {/** 
-        <Navigation auth={auth} user={user} logout={logout} /> 
-       */}
+
+        <Navigation auth={auth} user={user} logout={logout} />
+
 
       <Switch>
         {/** ------------------ */}

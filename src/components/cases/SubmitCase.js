@@ -21,8 +21,7 @@ function SubmitCase({auth, setAuth, user}) {
         reader.readAsDataURL(selectedFile);   // reads content of selectedFile and calls onloadend when done
         reader.onloadend = async function () {
             let public_id = await uploadImage(reader.result);  // calls uploadImage function to upload image, which returns public_id of the uploaded image
-
-            postUser({...formData, profilePic: public_id}) // calls postUser to save the user. public_id is passed in directly to bypass the delay in setFormdata
+            postIssue({...formData, picture: public_id}) // calls postUser to save the user. public_id is passed in directly to bypass the delay in setFormdata
         };
         reader.onerror = () => {
             setErrMsg('something went wrong!'); // error reporting for reader function
@@ -33,7 +32,7 @@ function SubmitCase({auth, setAuth, user}) {
     async function uploadImage(base64EncodedImage) {
         try {
             let imgJSON = JSON.stringify({data: base64EncodedImage})
-            let {data: {public_id}} = await axios.post('/api/auth/upload', imgJSON, {
+            let {data: {public_id}} = await axios.post('/api/issue/upload', imgJSON, {
                 headers: {'Content-Type': 'application/json'}
             });
             setFileInputState('');
@@ -49,10 +48,15 @@ function SubmitCase({auth, setAuth, user}) {
         }
     }
 
-    //function to save new user and save token
-    async function postUser(userObj) {
+    //function to submit new issue and save token
+    async function postIssue(userObj) {
         try {
-            let {data: {token}} = await axios.post("/api/auth/register", userObj)
+            let {data: {token}} = await axios.post("/api/issue/submit", userObj,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.token}`
+                    }
+                })
             localStorage.setItem("token", token)
             setAuth(true)
             history.push("/user/home")
@@ -135,6 +139,25 @@ function SubmitCase({auth, setAuth, user}) {
                             />
                         </Form.Group>
                         <br />
+
+
+                        <Form.Group>
+                            <Form.Label>Date</Form.Label>
+                            <Form.Control name="date"
+                                          type="date"
+                                          onChange={change}
+                                          required/>
+                        </Form.Group>
+                        <br />
+                        <Form.Group>
+                            <Form.Label>Time</Form.Label>
+                            <Form.Control name="time"
+                                          type="time"
+                                          onChange={change}
+                                          required/>
+                        </Form.Group>
+                        <br />
+
                         <Form.Group>
                             <Form.Label>Location</Form.Label>
                             <Form.Control name="location"
