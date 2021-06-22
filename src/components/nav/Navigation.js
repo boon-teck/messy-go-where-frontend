@@ -5,8 +5,9 @@ import { NavLink } from 'react-router-dom';
 function Navigation() {
     return (
         <div>
-            <Navbar bg="light" expand="lg">
-                <Container>
+            <Navbar bg="light" expand="lg" style={{"text-align" : "center"}} >
+                <Container fluid>
+                    <Navbar.Brand href="/" style={{"margin" : "auto"}} >Messy Go Where</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
@@ -17,7 +18,6 @@ function Navigation() {
 
                     </Nav>
                     </Navbar.Collapse>
-                    <Navbar.Brand href="/" className="d-flex justify-content-center">Messy Go Where</Navbar.Brand>
                 </Container>
             </Navbar>
         </div>

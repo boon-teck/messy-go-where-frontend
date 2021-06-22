@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardGroup, Carousel } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 
 
 function ClosedCases() {
