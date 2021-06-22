@@ -80,7 +80,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navigation auth={auth} logout={logout} />
+      {/** 
+        Comment next line out and add proxy back 
+        http://localhost:4004
+      */}
+      {/** 
+        <Navigation auth={auth} user={user} logout={logout} /> 
+       */}
 
       <Switch>
         {/** ------------------ */}
