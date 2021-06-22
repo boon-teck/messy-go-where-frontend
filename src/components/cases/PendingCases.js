@@ -1,13 +1,17 @@
 import React from 'react';
 import {Card, CardGroup, Col, Container, Row} from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Image } from 'cloudinary-react';
 
 function PendingCases({pending}) {
+    let history = useHistory();
 
-    let pendingObj = pending
+    console.log("pending cases", pending)
 
-    console.log(pendingObj)
+
+    function redirect(id){
+        history.push(`/api/cases/pending/${id}`)
+    }
 
     return (
         <Container className="border" >
@@ -24,29 +28,36 @@ function PendingCases({pending}) {
             ))} */}
 
 
-                <Row className="d-flex flex-row flex-nowrap overflow-auto">
-                    {pendingObj.map(issue=>(
-                        <Col md={2}>
-                            <CardGroup>
-                                <Card>
-                                    <Image
-                                        cloudName="triplethreats"
-                                        publicId={issue.picture}
-                                        width="150"
-                                        height="150"
-                                        crop="scale"
-                                    />
-                                    <Card.Title>{issue.id}</Card.Title>
-                                    <Card.Body>{issue.description}</Card.Body>
-                                    <Card.Footer>
-                                        <small className="text-muted" >{issue.date}</small>
-                                    </Card.Footer>
-                                </Card>
-                            </CardGroup>
-                        </Col>
-                    ))}
 
-                </Row>
+            {(pending.length>0)?
+                <Row className="d-flex flex-row flex-nowrap overflow-auto">
+                    {pending.map(issue => (
+
+                        <Card className="text-center" style={{ width: '14rem' }}>
+                            <Card.Header as="h5">{issue.issueType}</Card.Header>
+                            <Row className="align-content-center">
+                                <Image
+                                    cloudName="triplethreats"
+                                    publicId={issue.picture}
+                                    width="150"
+                                    height="150"
+                                    crop="scale"
+                                />
+                            </Row>
+                            <Card.Body>{issue.description}</Card.Body>
+                            <Card.Footer>
+                                <small className="text-muted">Status: {issue.issueStatus}</small>
+                            </Card.Footer>
+                            <a className={"stretched-link"} style={{ cursor: 'pointer' }} onClick={()=>redirect(issue._id)}></a>
+                        </Card>
+
+                    ))}
+                </Row> :
+                <div> No Pending Issues! <NavLink to="/case/submit" >Click here to submit</NavLink></div>
+
+            }
+
+
             <br/>
 
 

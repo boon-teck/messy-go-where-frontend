@@ -20,12 +20,13 @@ import CaseProgressUser from './components/cases/CaseProgressUser';
 function App() {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState(null);
-  // const [staff, setStaff] = useState(false);
-  // const [admin, setAdmin] = useState(false);
   const [caseStatus, setCaseStatus] = useState("Pending")
+  const [pending, setPending] = useState([])
+  const [resolved, setResolved] = useState([])
 
 
-  useEffect(()=>{
+
+  useEffect(() => {
 
     //This function is to check if a user has logged in..
     async function setUserStats() {
@@ -35,41 +36,22 @@ function App() {
             authorization: `Bearer ${localStorage.token}`
           }
         })
-        console.log("App.js: ",data.user)
-        setAuth(true)
-        setUser(data.user)
+        console.log("App.js: ", data.user)
+        await setAuth(true)
+        await setUser(data.user)
+        await setPending(data.user.pendingIssues)
+        await setResolved(data.user.closedIssues)
       } catch (e) {
-        setAuth(false)
-        setUser(null)
+        await setAuth(false)
+        await setUser(null)
+        console.log("App.js token removed")
         localStorage.removeItem("token")
       }
     }
 
-    // // This function is to check if user is a staff.
-    // async function setStaffStats(){
-    //   try{
-    //
-    //   }catch(e){
-    //     setAuth(false);
-    //     setStaff(false)
-    //   }
-    // }
-    //
-    // // This function is to check if user is an Admin.
-    // async function setAdminStats(){
-    //   try{
-    //
-    //   }catch(e){
-    //     setAuth(false);
-    //     setAdmin(false)
-    //   }
-    // }
-    //
     setUserStats()
-    // // setStaffStats()
-    // // setAdminStats()
 
-  },[auth])
+  }, [auth])
 
   function logout(){
     setAuth(false)
@@ -111,7 +93,7 @@ function App() {
           <Registration setAuth={setAuth}/>
         </Route>
 
-        <PrivateRouter auth={auth} path="/user/home" Component={Home} user={user} exact/>
+        <PrivateRouter auth={auth} path="/user/home" Component={Home} user={user} setUser={setUser} pending={pending} resolved={resolved} exact/>
         <PrivateRouter auth={auth} path="/api/auth/profile" Component={Profile} setAuth={setAuth} user={user} setUser={setUser} exact />
         <PrivateRouter auth={auth} path="/cases" Component={AllCases} exact/>      {/** This route might not be needed as Home is already showing this component */}
         <PrivateRouter auth={auth} path="/api/cases/pending" Component={PendingCases} exact/>

@@ -3,15 +3,12 @@ import ClosedCases from './ClosedCases';
 import PendingCases from './PendingCases';
 import {NavLink} from 'react-router-dom';
 
-function AllCases({user}) {
+function AllCases({user, pending, resolved}) {
     //temp case state, can edit anytime.
 
-    const [pending, setPending] = useState(user.pendingIssues)
-    // const [resolved, setResolved] = useState(user.closedIssues)
 
     return (
         <div>
-            <div>This shows both pending and closed cases</div>
             <div>
                 <div className="btn">
                     <NavLink to="/cases/pending">Show all<br/>pending cases</NavLink>
