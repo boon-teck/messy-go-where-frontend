@@ -82,7 +82,7 @@ function App() {
         {/** ------------------ */}
 
         <Route path="/" exact>
-          <LandingPage />
+          <LandingPage auth={auth}/>
         </Route>
 
         <Route path="/api/auth/login">
@@ -131,7 +131,5 @@ function PrivateRouter({auth, Component, path, location, ...rest}) {
       </>
   )
 }
-
-
 export default App
 

@@ -1,9 +1,16 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
 import { logoStyle, btnStyle } from '../../lib/css/css';
 
-function LandingPage() {
-    
+function LandingPage({auth}) {
+
+    let history = useHistory();
+
+    useEffect(()=>{
+        if (auth) {
+            history.push("/user/home")
+        }
+    },[auth])
 
     return (
         <div>
