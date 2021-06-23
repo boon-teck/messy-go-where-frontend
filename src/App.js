@@ -131,7 +131,5 @@ function PrivateRouter({auth, Component, path, location, ...rest}) {
       </>
   )
 }
-
-
 export default App
 
