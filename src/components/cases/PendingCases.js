@@ -21,11 +21,6 @@ function PendingCases({pending}) {
                 </div>
                 This will show all pending cases.
             </div>
-            {/* An example for showing multiple pending cases and only the images.
-                {pendingCases.map(pendingCase=>(
-                {el.img}
-                <NavLink to="/case/:id">View case: {`el.id(case.id) can be here.`}</NavLink>
-            ))} */}
 
             {(pending.length>0)?
                 <Row className="d-flex flex-row flex-nowrap overflow-auto">

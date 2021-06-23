@@ -22,7 +22,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [caseStatus, setCaseStatus] = useState("Pending")
   const [pending, setPending] = useState([])
-  const [resolved, setResolved] = useState([])
+  const [closed, setClosed] = useState([])
 
 
 
@@ -40,7 +40,7 @@ function App() {
         await setAuth(true)
         await setUser(data.user)
         await setPending(data.user.pendingIssues)
-        await setResolved(data.user.closedIssues)
+        await setClosed(data.user.closedIssues)
       } catch (e) {
         await setAuth(false)
         await setUser(null)
@@ -93,7 +93,7 @@ function App() {
           <Registration setAuth={setAuth}/>
         </Route>
 
-        <PrivateRouter auth={auth} path="/user/home" Component={Home} user={user} setUser={setUser} pending={pending} resolved={resolved} exact/>
+        <PrivateRouter auth={auth} path="/user/home" Component={Home} user={user} setUser={setUser} pending={pending} closed={closed} exact/>
         <PrivateRouter auth={auth} path="/api/auth/profile" Component={Profile} setAuth={setAuth} user={user} setUser={setUser} exact />
         <PrivateRouter auth={auth} path="/cases" Component={AllCases} exact/>      {/** This route might not be needed as Home is already showing this component */}
         <PrivateRouter auth={auth} path="/api/cases/pending" Component={PendingCases} exact/>

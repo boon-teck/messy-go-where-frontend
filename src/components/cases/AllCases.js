@@ -3,7 +3,7 @@ import ClosedCases from './ClosedCases';
 import PendingCases from './PendingCases';
 import {NavLink} from 'react-router-dom';
 
-function AllCases({user, pending, resolved}) {
+function AllCases({user, pending, closed}) {
     //temp case state, can edit anytime.
 
 
@@ -30,7 +30,7 @@ function AllCases({user, pending, resolved}) {
                     Do take note, component is only here to show an example of what can be seen.
                     Grid cards can be used. Link is included and in Home.js component.
                 */}
-                <ClosedCases/>
+                <ClosedCases closed={{closed}}/>
                 {/** KIV --> caseStatus={caseStatus} setCaseStatus={setCaseStatus} */}
             </div>
         </div>
