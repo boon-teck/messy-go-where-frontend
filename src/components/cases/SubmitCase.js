@@ -57,8 +57,8 @@ function SubmitCase({auth, setAuth, user}) {
                         authorization: `Bearer ${localStorage.token}`
                     }
                 })
-            localStorage.setItem("token", token)
-            setAuth(true)
+            // localStorage.setItem("token", token)
+            // setAuth(true)
             history.push("/user/home")
 
         } catch (e) {
