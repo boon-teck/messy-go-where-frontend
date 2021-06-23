@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import {Container, Row, Col} from "react-bootstrap";
-import {useParams} from "react-router-dom";
+import {Container, Row, Col, Button} from "react-bootstrap";
+import {useParams, useHistory} from "react-router-dom";
 import axios from "axios";
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -12,10 +12,13 @@ import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import { Image } from 'cloudinary-react';
 
-function SingleCaseView() {
+function SingleCaseView({user}) {
 
+    const history = useHistory()
     const [issue, setIssue] = useState({})
+    const [form, setForm] = useState({})
     const [expanded, setExpanded] = useState("Panel1");
+
     const id = useParams()
     let updates = []
     useEffect(()=>{
@@ -83,6 +86,20 @@ function SingleCaseView() {
         setExpanded(isExpanded ? panel : false);
     };
 
+    async function deleteIssue(id) {
+        try {
+            console.log("inside delete issue")
+            await axios.post(`/api/issue/iDeleted/${id}`,form,{
+                headers: {
+                    authorization: `Bearer ${localStorage.token}`
+                }
+            })
+            history.goBack()
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
     console.log(id.id)
     console.log(issue)
     updates = issue.updates
@@ -109,8 +126,6 @@ function SingleCaseView() {
                     <p>{issue.issueType}</p>
                     <p>Date: {issue.date} Time: {issue.time}</p>
 
-
-
                     <div>
                         {updates && updates.map((update,id)=>(
                             <Accordion square expanded={expanded === `panel${id+1}`} onChange={handleChange(`panel${id+1}`)}>
@@ -127,6 +142,33 @@ function SingleCaseView() {
 
                         ))}
                     </div>
+                    <br />
+                    <Button onClick={() => history.goBack()}>Go Back</Button>
+
+
+                    {(issue && issue.issueStatus !=="Deleted") ?
+                    <Button onClick={() =>deleteIssue(issue._id)}>Close Issue</Button>
+                    : <></>
+                    }
+
+
+                    {(user.userType === "Staff") ?
+                        (issue && issue.issueStatus ==="Open") ?
+                            <Button onClick={() => history.goBack()}>Accept Case</Button>
+                            :
+                            <Button onClick={() => history.goBack()}>Update Case</Button>
+
+                        : <></>
+                    }
+
+
+
+
+
+
+
+
+
                 </Col>
             </Row>
         </Container>

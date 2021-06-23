@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {Container, Row, Col, Form, Button, ButtonGroup} from "react-bootstrap";
+import {Container, Row, Col, Form, Button, ButtonGroup, Image} from "react-bootstrap";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 import Alert from './Alert';
-import { Image } from 'cloudinary-react';
 require('dotenv').config()
 
 function EditProfile({auth,setAuth,user,setUser, setEditState}) {
@@ -132,12 +131,9 @@ function EditProfile({auth,setAuth,user,setUser, setEditState}) {
 
                             { (!selectedFile) ?
                                 <Image
-                                    cloudName="triplethreats"
-                                    publicId={user.profilePic}
-                                    width="150"
-                                    height="150"
-                                    crop="scale"
-                                />: previewSource && (
+                                src={user.profilePic}
+                                />
+                                : previewSource && (
                                 <img
                                     src={previewSource}
                                     alt="chosen"

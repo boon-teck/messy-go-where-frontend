@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Card, CardGroup, Col, Container, Row} from 'react-bootstrap';
 import { NavLink, useHistory } from 'react-router-dom';
-import { Image } from 'cloudinary-react';
+
 import axios from "axios";
 
 function OpenCases() {
@@ -12,13 +12,16 @@ function OpenCases() {
 
     useEffect(() => {
         async function getOpen() {
+            console.log("inside getopen useeffect")
+
             try {
-                let {data} = await axios.get("/api/issue/global", {
+                let {data} = await axios.get("/api/issue/staff/open", {
                     headers: {
                         authorization: `Bearer ${localStorage.token}`
                     }
                 })
-                await setOpenCase(data.globalCaseStatus[0].openIssues)
+                console.log(data)
+                await setOpenCase(data.globalOpenIssues)
             } catch (e) {
                 console.log(e)
             }
@@ -49,13 +52,7 @@ function OpenCases() {
                         <Card className="text-center" style={{ width: '14rem' }} key={id}>
                             <Card.Header as="h5">{issue.issueType}</Card.Header>
                             <Row className="align-content-center">
-                                <Image
-                                    cloudName="triplethreats"
-                                    publicId={issue.picture}
-                                    width="150"
-                                    height="150"
-                                    crop="scale"
-                                />
+                                <Card.Img variant="top" src={issue.picture} />
                             </Row>
                             <Card.Body>{issue.description}</Card.Body>
                             <Card.Footer>

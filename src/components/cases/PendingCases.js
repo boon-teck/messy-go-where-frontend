@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, CardGroup, Col, Container, Row} from 'react-bootstrap';
 import { NavLink, useHistory } from 'react-router-dom';
-import { Image } from 'cloudinary-react';
+
 
 function PendingCases({pending}) {
     let history = useHistory();
@@ -25,17 +25,10 @@ function PendingCases({pending}) {
             {(pending.length>0)?
                 <Row className="d-flex flex-row flex-nowrap overflow-auto">
                     {pending.map((issue,id) => (
-
                         <Card className="text-center" style={{ width: '14rem' }} key={id}>
                             <Card.Header as="h5">{issue.issueType}</Card.Header>
                             <Row className="align-content-center">
-                                <Image
-                                    cloudName="triplethreats"
-                                    publicId={issue.picture}
-                                    width="150"
-                                    height="150"
-                                    crop="scale"
-                                />
+                                <Card.Img variant="top" src={issue.picture} fluid/>
                             </Row>
                             <Card.Body>{issue.description}</Card.Body>
                             <Card.Footer>

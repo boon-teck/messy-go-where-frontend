@@ -21,10 +21,6 @@ function App() {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState(null);
   const [caseStatus, setCaseStatus] = useState("Pending")
-  const [pending, setPending] = useState([])
-  const [closed, setClosed] = useState([])
-
-
 
   useEffect(() => {
 
@@ -39,8 +35,6 @@ function App() {
         console.log("App.js: ", data.user)
         await setAuth(true)
         await setUser(data.user)
-        await setPending(data.user.pendingIssues)
-        await setClosed(data.user.closedIssues)
       } catch (e) {
         await setAuth(false)
         await setUser(null)
@@ -94,11 +88,11 @@ function App() {
           <Registration setAuth={setAuth}/>
         </Route>
 
-        <PrivateRouter auth={auth} path="/user/home" Component={Home} user={user} setUser={setUser} pending={pending} closed={closed} exact/>
+        <PrivateRouter auth={auth} path="/user/home" Component={Home} user={user} setUser={setUser} setAuth={setAuth} exact/>
         <PrivateRouter auth={auth} path="/api/auth/profile" Component={Profile} setAuth={setAuth} user={user} setUser={setUser} exact />
         <PrivateRouter auth={auth} path="/cases" Component={AllCases} exact/>      {/** This route might not be needed as Home is already showing this component */}
         <PrivateRouter auth={auth} path="/api/cases/pending" Component={PendingCases} exact/>
-        <PrivateRouter auth={auth} path="/api/cases/pending/:id" Component={SingleCaseView} exact/>
+        <PrivateRouter auth={auth} path="/api/cases/pending/:id" Component={SingleCaseView} user={user }exact/>
         <PrivateRouter auth={auth} path="/api/cases/closed" Component={ClosedCases} exact/>
         <PrivateRouter auth={auth} path="/api/cases/closed/:id" Component={SingleCaseView} exact/>
         <PrivateRouter auth={auth} path="/user/case/progress" Component={CaseProgressUser} caseStatus={caseStatus} exact/> {/** This is view individual updates */}

@@ -4,14 +4,14 @@ import PendingCases from './PendingCases';
 import OpenCases from "./OpenCases";
 import {NavLink} from 'react-router-dom';
 
-function AllCases({user, pending, closed}) {
+function AllCases({user, pending, resolved}) {
     //temp case state, can edit anytime.
 
 
     return (
         <div>
             <div>
-                {(user.userType==="Staff") ?
+                {(user && user.userType==="Staff") ?
                     <div>
                         <div className="btn">
                             <NavLink to="">Show all<br/>Open cases</NavLink>
@@ -35,7 +35,7 @@ function AllCases({user, pending, closed}) {
                     <NavLink to="/cases/closed">Show all<br/>closed cases</NavLink>
                 </div>
 
-                <ClosedCases closed={{closed}}/>
+                <ClosedCases resolved={resolved}/>
                 {/** KIV --> caseStatus={caseStatus} setCaseStatus={setCaseStatus} */}
             </div>
         </div>

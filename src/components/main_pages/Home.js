@@ -4,33 +4,36 @@ import AllCases from '../cases/AllCases';
 import { NavLink } from 'react-router-dom';
 import axios from "axios";
 
-function Home({user, setUser, pending, resolved}) {
+function Home({user, setUser, setAuth}) {
 
+    const [pending, setPending] = useState([])
+    const [resolved, setResolved] = useState([])
 
+    useEffect(() => {
 
-    // useEffect(()=>{
-    //
-    //     //This function is to check if a user has logged in..
-    //     async function setUserStats() {
-    //         try {
-    //             let {data} = await axios.get("/api/auth/user", {
-    //                 headers: {
-    //                     authorization: `Bearer ${localStorage.token}`
-    //                 }
-    //             })
-    //             console.log("App.js: ",data.user)
-    //             await setUser(data.user)
-    //             await setPending(user.pendingIssues)
-    //             await setResolved(user.closedIssues)
-    //         } catch (e) {
-    //             await setUser(null)
-    //             console.log("Home.js token removed")
-    //             localStorage.removeItem("token")
-    //         }
-    //     }
-    //     setUserStats()
-    //
-    // },[])
+        //This function is to check if a user has logged in..
+        async function setUserStats() {
+            try {
+                let {data} = await axios.get("/api/auth/user", {
+                    headers: {
+                        authorization: `Bearer ${localStorage.token}`
+                    }
+                })
+                console.log("App.js: ", data.user)
+                await setAuth(true)
+                await setUser(data.user)
+                await setPending(data.user.pendingIssues)
+                await setResolved(data.user.closedIssues)
+            } catch (e) {
+                await setAuth(false)
+                await setUser(null)
+                console.log("App.js token removed")
+                localStorage.removeItem("token")
+            }
+        }
+        setUserStats()
+
+    },[])
 
     return (
         <Container>
