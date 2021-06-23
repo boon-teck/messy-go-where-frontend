@@ -1,12 +1,32 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Card, CardGroup, Col, Container, Row} from 'react-bootstrap';
 import { NavLink, useHistory } from 'react-router-dom';
 import { Image } from 'cloudinary-react';
+import axios from "axios";
 
-function PendingCases({pending}) {
+function OpenCases() {
+
+    const [openCase, setOpenCase] = useState()
+
     let history = useHistory();
 
-    console.log("pending cases", pending)
+    useEffect(() => {
+        async function getOpen() {
+            try {
+                let {data} = await axios.get("/api/issue/global", {
+                    headers: {
+                        authorization: `Bearer ${localStorage.token}`
+                    }
+                })
+                await setOpenCase(data.globalCaseStatus[0].openIssues)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+        getOpen()
+    }, [])
+
+    console.log("globalCases", openCase)
 
 
     function redirect(id){
@@ -19,12 +39,12 @@ function PendingCases({pending}) {
                 <div className="btn" >
                     <NavLink to="/cases" >X</NavLink>
                 </div>
-                This will show all pending cases.
+                This will show all open cases.
             </div>
 
-            {(pending.length>0)?
+            {(openCase && openCase.length>0)?
                 <Row className="d-flex flex-row flex-nowrap overflow-auto">
-                    {pending.map((issue,id) => (
+                    {openCase.map((issue,id) => (
 
                         <Card className="text-center" style={{ width: '14rem' }} key={id}>
                             <Card.Header as="h5">{issue.issueType}</Card.Header>
@@ -46,7 +66,7 @@ function PendingCases({pending}) {
 
                     ))}
                 </Row> :
-                <div> No Pending Issues! <NavLink to="/case/submit" >Click here to submit</NavLink></div>
+                <div> No Open Issues.</div>
 
             }
 
@@ -58,4 +78,4 @@ function PendingCases({pending}) {
     )
 }
 
-export default PendingCases
+export default OpenCases
