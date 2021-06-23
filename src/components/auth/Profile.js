@@ -63,34 +63,41 @@ function Profile({setAuth,user,setUser}) {
     return (
         <Container fluid>
             <Row>
+                <Col md={6}>
+                    <Row>
 
-            { !editState ?
-                <ShowProfile user={user} />
-                :
-                <EditProfile setEditState={setEditState} setAuth={setAuth} user={user} setUser={setUser} exact/>
-            }
 
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Confirm Deletion of Profile</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Please click "Delete" below to confirm deletion of profile.</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Go Back
-                    </Button>
-                    <Button variant="primary" onClick={deleteAcct}>
-                        Confirm Deletion
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-            </Row>
-            <Row className={"justify-content-center"}>
-                <ButtonGroup>
-                <Button onClick={()=>setEditState(true)}>Edit Profile</Button>
-                <Button variant="warning" onClick={logout}>Log Out</Button>
-                <Button variant="danger" onClick={handleShow}>Delete Profile</Button>
-                </ButtonGroup>
+                        {!editState ?
+                            <ShowProfile user={user}/>
+                            :
+                            <EditProfile setEditState={setEditState} setAuth={setAuth} user={user} setUser={setUser}
+                                         exact/>
+                        }
+
+                        <Modal show={show} onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Confirm Deletion of Profile</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>Please click "Delete" below to confirm deletion of profile.</Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={handleClose}>
+                                    Go Back
+                                </Button>
+                                <Button variant="primary" onClick={deleteAcct}>
+                                    Confirm Deletion
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
+                    </Row>
+                    <Row className={"justify-content-center"}>
+                        <ButtonGroup>
+                            <Button onClick={() => setEditState(true)}>Edit Profile</Button>
+                            <Button variant="warning" onClick={logout}>Log Out</Button>
+                            <Button variant="danger" onClick={handleShow}>Delete Profile</Button>
+                        </ButtonGroup>
+
+                    </Row>
+                </Col>
             </Row>
         </Container>
     );

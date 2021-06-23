@@ -4,11 +4,8 @@ import { logoStyle } from '../../lib/css/css';
 import { NavLink } from 'react-router-dom';
 import SimpleRating from '../../lib/css/Rating';
 
-
-
-
 function CaseProgressUser({caseStatus}) {
-    
+
     return (
         <Container>
             <Row>
@@ -22,9 +19,9 @@ function CaseProgressUser({caseStatus}) {
                 Points earned!
             </Row>
             <Row>
-                {/** 
-                    Img of issue, will settle when cloudinary is set up. 
-                also style is temp 
+                {/**
+                    Img of issue, will settle when cloudinary is set up.
+                also style is temp
                 */}
                 <div style={logoStyle}>
                     IMG
@@ -50,9 +47,9 @@ function CaseProgressUser({caseStatus}) {
             </Row>
             <Row>
                 <div className="m-auto" >
-                    {/** 
+                    {/**
                     Can make these stars reflect input. and style css to light up .
-                    Yea you get the idea? 
+                    Yea you get the idea?
                     */}
                     <SimpleRating />
                 </div>

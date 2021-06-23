@@ -11,22 +11,22 @@ import LandingPage from './components/main_pages/LandingPage';
 import Home from './components/main_pages/Home';
 
 import axios from "axios";
-import EditProfile from "./components/auth/EditProfile"
 import Profile from "./components/auth/Profile";
 import Cloudinary from './components/tests/Cloudinary';
 import SubmitCase from './components/cases/SubmitCase';
 import CaseProgressUser from './components/cases/CaseProgressUser';
-
+import SimpleBottomNavigation from "./components/nav/BottomNavigation"
 
 function App() {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState(null);
-  // const [staff, setStaff] = useState(false);
-  // const [admin, setAdmin] = useState(false);
   const [caseStatus, setCaseStatus] = useState("Pending")
+  const [pending, setPending] = useState([])
+  const [closed, setClosed] = useState([])
 
 
-  useEffect(()=>{
+
+  useEffect(() => {
 
     //This function is to check if a user has logged in..
     async function setUserStats() {
@@ -36,41 +36,22 @@ function App() {
             authorization: `Bearer ${localStorage.token}`
           }
         })
-        console.log("App.js: ",data.user)
-        setAuth(true)
-        setUser(data.user)
+        console.log("App.js: ", data.user)
+        await setAuth(true)
+        await setUser(data.user)
+        await setPending(data.user.pendingIssues)
+        await setClosed(data.user.closedIssues)
       } catch (e) {
-        setAuth(false)
-        setUser(null)
+        await setAuth(false)
+        await setUser(null)
+        console.log("App.js token removed")
         localStorage.removeItem("token")
       }
     }
 
-    // // This function is to check if user is a staff.
-    // async function setStaffStats(){
-    //   try{
-    //
-    //   }catch(e){
-    //     setAuth(false);
-    //     setStaff(false)
-    //   }
-    // }
-    //
-    // // This function is to check if user is an Admin.
-    // async function setAdminStats(){
-    //   try{
-    //
-    //   }catch(e){
-    //     setAuth(false);
-    //     setAdmin(false)
-    //   }
-    // }
-    //
     setUserStats()
-    // // setStaffStats()
-    // // setAdminStats()
 
-  },[auth])
+  }, [auth])
 
   function logout(){
     setAuth(false)
@@ -80,13 +61,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/** 
-        Comment next line out and add proxy back 
+      {/**
+        Comment next line out and add proxy back
         http://localhost:4004
       */}
-      {/** 
-        <Navigation auth={auth} user={user} logout={logout} /> 
-       */}
+
+        <Navigation auth={auth} user={user} logout={logout} />
+
 
       <Switch>
         {/** ------------------ */}
@@ -112,7 +93,7 @@ function App() {
           <Registration setAuth={setAuth}/>
         </Route>
 
-        <PrivateRouter auth={auth} path="/user/home" Component={Home} exact/>
+        <PrivateRouter auth={auth} path="/user/home" Component={Home} user={user} setUser={setUser} pending={pending} closed={closed} exact/>
         <PrivateRouter auth={auth} path="/api/auth/profile" Component={Profile} setAuth={setAuth} user={user} setUser={setUser} exact />
         <PrivateRouter auth={auth} path="/cases" Component={AllCases} exact/>      {/** This route might not be needed as Home is already showing this component */}
         <PrivateRouter auth={auth} path="/api/cases/pending" Component={PendingCases} exact/>
@@ -121,7 +102,7 @@ function App() {
         <PrivateRouter auth={auth} path="/api/cases/closed/:id" Component={SingleCaseView} exact/>
         <PrivateRouter auth={auth} path="/user/case/progress" Component={CaseProgressUser} caseStatus={caseStatus} exact/> {/** This is view individual updates */}
         {/*<PrivateRouter path="/api/case/update" Component={} exact/> /!**This will show admin/staff the case they are updating.**!/*/}
-        {/*<PrivateRouter path="/case/submit" Component={} exact/> <SubmitCase />*/}
+        <PrivateRouter auth={auth} path="/case/submit" Component={SubmitCase} setAuth={setAuth} user={user} exact/>
         {/*<PrivateRouter path="/kiv/redeem" Component={} exact/>   /!**Redemption is current KIV.**!/*/}
         {/*<PrivateRouter path="/kiv/vouchers" Component={} exact/> /!**Voucher is current KIV.**!/*/}
 
@@ -130,6 +111,7 @@ function App() {
         </Route>
 
       </Switch>
+      {/*<SimpleBottomNavigation />*/}
     </BrowserRouter>
   )
 }
@@ -142,7 +124,7 @@ function PrivateRouter({auth, Component, path, location, ...rest}) {
             <Route path={path} >
               <Component {...rest}/>
             </Route> : <Redirect to={{
-              pathname: "/api/auth/login",
+              pathname: "/",
               state: {from: location}
             }}/>
         }

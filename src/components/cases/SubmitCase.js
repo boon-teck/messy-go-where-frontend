@@ -1,70 +1,201 @@
-import React from 'react';
-import { Container, Row, Form, Button } from 'react-bootstrap';
+import React, {useState} from 'react';
+import {Container, Row, Col, Form, Button} from "react-bootstrap";
+import axios from "axios";
+import {useHistory} from "react-router-dom";
+import Alert from '../auth/Alert';
+
+function SubmitCase({auth, setAuth, user}) {
+
+    let history = useHistory()
+    const [formData, setFormData] = useState();
+    const [fileInputState, setFileInputState] = useState('');
+    const [previewSource, setPreviewSource] = useState('');
+    const [selectedFile, setSelectedFile] = useState();
+    const [successMsg, setSuccessMsg] = useState('');
+    const [errMsg, setErrMsg] = useState('');
+
+    async function submit(e) {
+        e.preventDefault()
+        if (!selectedFile) return;
+        const reader = new FileReader();
+        reader.readAsDataURL(selectedFile);   // reads content of selectedFile and calls onloadend when done
+        reader.onloadend = async function () {
+            let public_id = await uploadImage(reader.result);  // calls uploadImage function to upload image, which returns public_id of the uploaded image
+            postIssue({...formData, picture: public_id}) // calls postUser to save the user. public_id is passed in directly to bypass the delay in setFormdata
+        };
+        reader.onerror = () => {
+            setErrMsg('something went wrong!'); // error reporting for reader function
+        };
+    }
+
+    // function to upload image to cloudinary
+    async function uploadImage(base64EncodedImage) {
+        try {
+            let imgJSON = JSON.stringify({data: base64EncodedImage})
+            let {data: {public_id}} = await axios.post('/api/issue/upload', imgJSON, {
+                headers: {'Content-Type': 'application/json'}
+            });
+            setFileInputState('');
+            setPreviewSource('');
+            setSuccessMsg('Image uploaded successfully');
+
+            return public_id
 
 
-function SubmitCase() {
+        } catch (err) {
+            console.error(err);
+            setErrMsg('Something went wrong!');
+        }
+    }
+
+    //function to submit new issue and save token
+    async function postIssue(userObj) {
+        try {
+            let {data: {token}} = await axios.post("/api/issue/submit", userObj,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.token}`
+                    }
+                })
+            localStorage.setItem("token", token)
+            setAuth(true)
+            history.push("/user/home")
+
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    //function to record form entry
+    function change(e) {
+        setFormData(prevState => ({...prevState, [e.target.name]: e.target.value}))
+    }
+
+
+    function changeSelect(e) {
+        setFormData(prevState => ({...prevState, issueType: e.target.value}))
+    }
+
+    //function to handle submission of image
+    const handleFileInputChange = (e) => {
+        const file = e.target.files[0];
+        previewFile(file);
+        setSelectedFile(file);
+        setFileInputState(e.target.value);
+    };
+
+    //function to generate preview image
+    const previewFile = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setPreviewSource(reader.result);
+        };
+    };
 
     return (
-        <Container className="justify-content-sm-center" >
-            <Form>
-                <Row>
-                {/** Img tag with url from cloudinary for preview */}
-                    <div>Image</div>
-                    <input type="file" name="issuePic"/>
-                    <button>Upload Image</button>
-                </Row>
-                <Container className="mt-5" >
+        <Container>
+            <Row>
+                <Col md={6}>
+                    <h3>Issue Submission Page</h3>
 
-                    <Form.Group>
-                        <Row>
-                            <p>Description: <input placeholder="Description of Issue" name="description" /></p>
-                        </Row>
-                    </Form.Group>
+                    <Form onSubmit={submit}>
+                        <h5>Upload a picture of the issue</h5>
+                        <Alert msg={errMsg} type="danger"/>
+                        <Alert msg={successMsg} type="success"/>
 
-                    <Form.Group>
-                        <Row>
-                            <p>Date: <input placeholder="date" name="date"/></p>
-                        </Row>
-                    </Form.Group>
+                        <Form.Group>
+                            <input
+                                id="fileInput"
+                                type="file"
+                                name="image"
+                                onChange={handleFileInputChange}
+                                value={fileInputState}
+                                className="form-input"
+                            />
+                            {previewSource && (
+                                <img
+                                    src={previewSource}
+                                    alt="chosen"
+                                    style={{height: '300px'}}
+                                />
+                            )}
+                        </Form.Group>
+                        <br />
+                        <Form.Group>
+                            <Form.Label>Description of Issue</Form.Label>
+                            <Form.Control
+                                name="description"
+                                as="textarea"
+                                placeholder="Please describe the issue"
+                                style={{height: '100px'}}
+                                onChange={change}
+                                required
+                            />
+                        </Form.Group>
+                        <br />
 
-                    <Form.Group>
-                        <Row>
-                            <p>Time: <input placeholder="time" name="time" /></p>
-                        </Row>
-                    </Form.Group>
 
-                    <Form.Group>
-                        <Row>
-                            <p>Location: <input placeholder="location" name="location" /></p>
-                        </Row>
-                    </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Date</Form.Label>
+                            <Form.Control name="date"
+                                          type="date"
+                                          onChange={change}
+                                          required/>
+                        </Form.Group>
+                        <br />
+                        <Form.Group>
+                            <Form.Label>Time</Form.Label>
+                            <Form.Control name="time"
+                                          type="time"
+                                          onChange={change}
+                                          required/>
+                        </Form.Group>
+                        <br />
 
-                    <Form.Group>
-                        <Row>
-                            <select name="category">
-                                <option value="general">General</option>
-                                <option value="pest">Pests</option>
-                                <option value="animalsAndBirds">Animals & Birds</option>
-                                <option value="cleanliness">Cleanliness</option>
-                                <option value="roadsAndFootpaths">Roads & Footpaths</option>
-                                <option value="facilitiesInHDB">Facilities in HDB</option>
-                                <option value="drinkingWater">Drinking Water</option>
-                                <option value="drainAndSewers">Drains & Sewers</option>
-                                <option value="parksAndGreenery">Parks & Greenery</option>
-                                <option value="constructionSites">Contruction Sites</option>
-                                <option value="abandonedTrolleys">Abandoned Trolleys</option>
-                                <option value="sharedBicycles">Shared Bicycles</option>
-                                <option value="illegalParking">Illegal Parking</option>
+                        <Form.Group>
+                            <Form.Label>Location</Form.Label>
+                            <Form.Control name="location"
+                                          type="test"
+                                          placeholder="Enter Location"
+                                          onChange={change}
+                                          required/>
+                        </Form.Group>
+
+                        <br />
+                        <Form.Group>
+                            <Form.Label>Select Category of Issue</Form.Label>
+                            <select className={"form-control"} onChange={changeSelect}>
+                                <option value="General" >General</option>
+                                <option value="Pests">Pests</option>
+                                <option value="Animal & Birds">Animal & Birds</option>
+                                <option value="Cleanliness">Cleanliness</option>
+                                <option value="Roads & Footpaths">Roads & Footpaths</option>
+                                <option value="Facilities in HDB">Facilities in HDB</option>
+                                <option value="Drinking Water">Drinking Water</option>
+                                <option value="Drains & Sewers">Drains & Sewers</option>
+                                <option value="Parks & Greenery">Parks & Greenery</option>
+                                <option value="Construction Sites">Construction Sites</option>
+                                <option value="Abandoned Trolleys">Abandoned Trolleys</option>
+                                <option value="Shared Bicycles">Shared Bicycles</option>
+                                <option value="Illegal Parking">Illegal Parking</option>
+
                             </select>
+                        </Form.Group>
+                        <br />
+                        <Form.Group>
+
+                            <br />
+
+                        <Row>
+                            <Button variant="primary" type="submit">
+                                Submit Issue
+                            </Button>
                         </Row>
-                    </Form.Group>
-                    
-                    <Row>
-                        <Button variant="primary" type="submit">Submit</Button>
-                    </Row>
-                </Container>
-            </Form>
-            
+                        </Form.Group>
+                    </Form>
+                </Col>
+            </Row>
         </Container>
     )
 }

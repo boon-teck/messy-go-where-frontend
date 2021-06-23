@@ -13,7 +13,10 @@ function Login({setAuth}) {
         e.preventDefault()
         try{
             let {data: {token}}= await axios.post("/api/auth/login", cred)
+
             localStorage.setItem("token",token)
+            console.log("Login.js token set")
+
             setAuth(true)
             history.push("/user/home")
 
