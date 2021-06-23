@@ -35,8 +35,8 @@ function Home({user, setUser, pending, resolved}) {
     return (
         <Container>
             <Row className="text-center">
-                <p>Username: {user.name}</p>
-                <p>User ID: {user.id}</p>
+                <p>Username: {user && user.name}</p>
+                <p>User ID: {user && user.id}</p>
             </Row>
 
             {/*<Row>*/}
