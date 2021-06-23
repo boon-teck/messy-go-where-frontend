@@ -11,14 +11,18 @@ function AllCases({user, pending, closed}) {
     return (
         <div>
             <div>
-                <div>
-                    <div className="btn">
-                        <NavLink to="">Show all<br/>Open cases</NavLink>
-                    </div>
+                {(user.userType==="Staff") ?
+                    <div>
+                        <div className="btn">
+                            <NavLink to="">Show all<br/>Open cases</NavLink>
+                        </div>
 
-                    <OpenCases />
-                    {/** KIV --> caseStatus={caseStatus} setCaseStatus={setCaseStatus} */}
-                </div>
+                        <OpenCases />
+                        {/** KIV --> caseStatus={caseStatus} setCaseStatus={setCaseStatus} */}
+                    </div>
+                    : ""}
+
+
                 <div className="btn">
                     <NavLink to="/cases/pending">Show all<br/>pending cases</NavLink>
                 </div>
