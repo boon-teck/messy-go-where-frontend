@@ -1,13 +1,11 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Row, Col, Image } from 'react-bootstrap';
 import { logoStyle } from '../../lib/css/css';
 import { NavLink } from 'react-router-dom';
-
-
+import SimpleRating from '../../lib/css/Rating';
 
 function CaseProgressUser({caseStatus}) {
 
-    
     return (
         <Container>
             <Row>
@@ -21,9 +19,9 @@ function CaseProgressUser({caseStatus}) {
                 Points earned!
             </Row>
             <Row>
-                {/** 
-                    Img of issue, will settle when cloudinary is set up. 
-                also style is temp 
+                {/**
+                    Img of issue, will settle when cloudinary is set up.
+                also style is temp
                 */}
                 <div style={logoStyle}>
                     IMG
@@ -42,20 +40,19 @@ function CaseProgressUser({caseStatus}) {
             </Row>
             <Row>
                 Wah this one I think toughest cause need a lot of CSS. So need time to trial and error.
-            </Row>
-            <Row >
-                <h4>Rate Transaction!</h4>
+                <br />This part shows the issue status
             </Row>
             <Row>
-                {/** 
-                Can make these stars reflect input. and style css to light up .
-                Yea you get the idea? 
-                */}
-                <Col>Star1</Col>
-                <Col>Star2</Col>
-                <Col>Star3</Col>
-                <Col>Star4</Col>
-                <Col>Star5</Col>
+                <h4 className="m-auto">Rate Transaction!</h4>
+            </Row>
+            <Row>
+                <div className="m-auto" >
+                    {/**
+                    Can make these stars reflect input. and style css to light up .
+                    Yea you get the idea?
+                    */}
+                    <SimpleRating />
+                </div>
             </Row>
 
         </Container>

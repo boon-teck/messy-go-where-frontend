@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {Container, Row, Col, Form, Button} from "react-bootstrap";
+import {Container, Row, Col, Form, Button, ButtonGroup} from "react-bootstrap";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 import Alert from './Alert';
 import { Image } from 'cloudinary-react';
 require('dotenv').config()
 
-function EditProfile({auth,setAuth,user,setUser}) {
+function EditProfile({auth,setAuth,user,setUser, setEditState}) {
 
     let history = useHistory()
     const [formData, setFormData] = useState();
@@ -15,6 +15,9 @@ function EditProfile({auth,setAuth,user,setUser}) {
     const [selectedFile, setSelectedFile] = useState();
     const [successMsg, setSuccessMsg] = useState('');
     const [errMsg, setErrMsg] = useState('');
+
+    let publicID = ""
+
 
     useEffect(()=>{
 
@@ -28,6 +31,7 @@ function EditProfile({auth,setAuth,user,setUser}) {
                 })
                 setAuth(true)
                 setUser(data.user)
+                publicID = data.user.profilePic
             } catch (e) {
                 setAuth(false)
                 setUser(null)
@@ -36,19 +40,24 @@ function EditProfile({auth,setAuth,user,setUser}) {
         }
     },[auth])
 
-    // main submit function for the reigstration form
+    // main submit function for the registration form
     async function submit(e) {
         e.preventDefault()
-        if (!selectedFile) return;
-        const reader = new FileReader();
-        reader.readAsDataURL(selectedFile);   // reads content of selectedFile and calls onloadend when done
-        reader.onloadend = async function () {
-            let public_id = await uploadImage(reader.result);  // calls uploadImage function to upload image, which returns public_id of the uploaded image
-            postUser({...formData, profilePic: public_id}) // calls postUser to save the user. public_id is passed in directly to bypass the delay in setFormdata
-        };
-        reader.onerror = () => {
-            setErrMsg('something went wrong!'); // error reporting for reader function
-        };
+        if (!selectedFile) {
+            postUser({...formData, profilePic: publicID})
+            setEditState(false)
+        } else {
+            const reader = new FileReader();
+            reader.readAsDataURL(selectedFile);   // reads content of selectedFile and calls onloadend when done
+            reader.onloadend = async function () {
+                let public_id = await uploadImage(reader.result);  // calls uploadImage function to upload image, which returns public_id of the uploaded image
+                postUser({...formData, profilePic: public_id}) // calls postUser to save the user. public_id is passed in directly to bypass the delay in setFormdata
+            };
+            reader.onerror = () => {
+                setErrMsg('something went wrong!'); // error reporting for reader function
+            };
+            setEditState(false)
+        }
     }
 
     // function to upload image to cloudinary
@@ -57,10 +66,11 @@ function EditProfile({auth,setAuth,user,setUser}) {
             let imgJSON = JSON.stringify({ data: base64EncodedImage })
             let {data: {public_id}} = await axios.post('/api/auth/upload', imgJSON, {
                 headers: {'Content-Type': 'application/json'}});
-            return public_id
             setFileInputState('');
             setPreviewSource('');
             setSuccessMsg('Image uploaded successfully');
+            return public_id
+
 
         } catch (err) {
             console.error(err);
@@ -71,7 +81,11 @@ function EditProfile({auth,setAuth,user,setUser}) {
     //function to save new user and save token
     async function postUser(userObj) {
         try{
-            let {data: {token}} = await axios.post("/api/auth/register", userObj)
+            let {data: {token}} = await axios.post("/api/auth/update", userObj, {
+                headers: {
+                    authorization: `Bearer ${localStorage.token}`
+                }
+            })
             localStorage.setItem("token",token)
             setAuth(true)
             history.push("/api/user/home")
@@ -105,22 +119,32 @@ function EditProfile({auth,setAuth,user,setUser}) {
 
     return (
         <Container>
-            <Row>
-                <Col md={6}>
-                    <h3>Edit Profile</h3>
+            <Row className={"justify-content-center"}>
+                <h3>Edit Profile</h3>
+            </Row>
+            <Row className={"justify-content-center"}>
 
-                    <Image
-                        cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                        publicId={user.profilePic}
-                        width="300"
-                        crop="scale"
-                    />
-
-                    <Form onSubmit={submit}>
+            <Col md={4}>
                         <h5>Upload a Profile Pic</h5>
                         <Alert msg={errMsg} type="danger" />
                         <Alert msg={successMsg} type="success" />
                         <Form.Group>
+
+                            { (!selectedFile) ?
+                                <Image
+                                    cloudName="triplethreats"
+                                    publicId={user.profilePic}
+                                    width="150"
+                                    height="150"
+                                    crop="scale"
+                                />: previewSource && (
+                                <img
+                                    src={previewSource}
+                                    alt="chosen"
+                                    style={{ height: '150px' }}
+                                />
+                            )
+                            }
                             <input
                                 id="fileInput"
                                 type="file"
@@ -129,68 +153,72 @@ function EditProfile({auth,setAuth,user,setUser}) {
                                 value={fileInputState}
                                 className="form-input"
                             />
-                            {previewSource && (
-                                <img
-                                    src={previewSource}
-                                    alt="chosen"
-                                    style={{ height: '300px' }}
-                                />
-                            )}
+
                         </Form.Group>
 
-                        <Form.Group>
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control name="name"
-                                          type="name"
-                                          placeholder={user.name}
-                                          onChange={change}
-                                          required/>
-                        </Form.Group>
 
-                        <Form.Group>
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control name="email"
-                                          type="email"
-                                          placeholder={user.email}
-                                          onChange={change}
-                                          required/>
-                            <Form.Text className="text-muted">
-                                We'll never share your email with anyone else.
-                            </Form.Text>
-                        </Form.Group>
 
-                        <Form.Group>
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control name="password"
-                                          type="password"
-                                          placeholder="Enter New Password"
-                                          onChange={change}
-                                          required/>
-                        </Form.Group>
 
-                        <Form.Group>
-                            <Form.Label>User Type</Form.Label>
-                            <div className="mb-3">
-                                <Form.Check inline label="User"
-                                            name="userType"
-                                            type={"radio"}
-                                            value={"User"}
-                                            onChange={change} defaultChecked/>
-                                <Form.Check inline label="Staff"
-                                            name="userType"
-                                            type={"radio"}
-                                            value={"Staff"}
-                                            onChange={change}/>
-                            </div>
-                        </Form.Group>
+                </Col>
+                <Col md={4}>
+                    <h5>User ID</h5>
+                    <p>{user.id}</p>
+                    <Form onSubmit={submit}>
+                    <Form.Group>
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control name="name"
+                                      type="name"
+                                      placeholder={user.name}
+                                      onChange={change}
+                                      />
+                    </Form.Group>
 
+                    <Form.Group>
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control name="email"
+                                      type="email"
+                                      placeholder={user.email}
+                                      onChange={change}
+                                      />
+                        <Form.Text className="text-muted">
+                            We'll never share your email with anyone else.
+                        </Form.Text>
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control name="password"
+                                      type="password"
+                                      placeholder="Enter New Password"
+                                      onChange={change}
+                                      />
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>User Type</Form.Label>
+                        <div className="mb-3">
+                            <Form.Check inline label="User"
+                                        name="userType"
+                                        type={"radio"}
+                                        value={"User"}
+                                        onChange={change} defaultChecked/>
+                            <Form.Check inline label="Staff"
+                                        name="userType"
+                                        type={"radio"}
+                                        value={"Staff"}
+                                        onChange={change}/>
+                        </div>
+                    </Form.Group>
+                        <ButtonGroup>
                         <Button variant="primary" type="submit">
                             Submit
                         </Button>
+                        <Button variant="secondary" onClick={()=>setEditState(false)}>Go Back</Button>
+                        </ButtonGroup>
                     </Form>
                 </Col>
-            </Row>
 
+            </Row>
         </Container>
 
     )
