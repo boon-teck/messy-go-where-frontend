@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Card, Button, Col } from "react-bootstrap";
 import axios from 'axios';
-import {useHistory} from "react-router-dom";
 
 function VoucherMother({auth, setAuth, user}) {
-    let history = useHistory()
     const [vouchers, setVouchers] = useState({})
     const [vACount, setVACount] = useState("")
     const [vBCount, setVBCount] = useState("")
@@ -18,7 +16,6 @@ function VoucherMother({auth, setAuth, user}) {
 
         const getVouchers = async () =>{
             try {
-                console.log(localStorage.token)
                 let {data} = await axios.get(`/api/vouchers`, {
                         headers: {
                             authorization: `Bearer ${localStorage.token}`
@@ -31,20 +28,20 @@ function VoucherMother({auth, setAuth, user}) {
                 setVCCount(data.voucherCCount)
                 setVDCount(data.voucherDCount)
                 setPoints(data.userPoints)
-                console.log(data)
+
             } catch (error) {
                 console.log(error)
             }
         }
         getVouchers()
-        
+
     },[])
 
     const buyVoucher = async (id) =>{
         let num = {
             "num" : id
-        } 
-        
+        }
+
         try {
             let {data} = await axios.post(`/api/vouchers/buy`, num, {
                 headers: {
@@ -59,8 +56,8 @@ function VoucherMother({auth, setAuth, user}) {
     const redeemVoucher = async (id) =>{
         let num = {
             "num" : id
-        } 
-        
+        }
+
         try {
             let {data} = await axios.post(`/api/vouchers/redeem`, num, {
                 headers: {
@@ -78,9 +75,10 @@ function VoucherMother({auth, setAuth, user}) {
             {/** */}
             {(vouchers.length>0)?
                 <Row>
-                    <Col sm={3}>
+
                         {vouchers.map((el,id)=>(
-                            <Card>
+                            <Col md={6}>
+                            <Card key={id}>
                                 <Card.Img variant="top" src={el.picture} />
                                 <Card.Body>
                                     <Card.Title>{el.name}</Card.Title>
@@ -92,14 +90,12 @@ function VoucherMother({auth, setAuth, user}) {
                                     <Button onClick={()=>redeemVoucher(id)} variant="primary">Use</Button>
                                 </Card.Body>
                             </Card>
-
+                            </Col>
                         ))}
-                    </Col>
-                </Row> : 
+
+                </Row> :
                 <div>No Vouchers For Sale</div>
             }
-            {/* */}
-            
 
         </Container>
     )

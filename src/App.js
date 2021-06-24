@@ -54,8 +54,6 @@ function App() {
     localStorage.removeItem("token")
   }
 
-  console.log("app",auth)
-
   return (
 
       <BrowserRouter>
@@ -79,11 +77,9 @@ function App() {
           <PrivateRouter auth={auth} path="/user/home" Component={Home} user={user} setUser={setUser} setAuth={setAuth} exact/>
           <PrivateRouter auth={auth} path="/api/auth/profile" Component={Profile} setAuth={setAuth} user={user} setUser={setUser} exact/>
           <PrivateRouter auth={auth} path="/cases" Component={AllCases} exact/>
-          {/*<PrivateRouter auth={auth} path="/api/cases/pending" Component={PendingCases} exact/>*/}
           <PrivateRouter auth={auth} path="/api/cases/pending/:id" Component={SingleCaseView} user={user} exact/>
-          {/*<PrivateRouter auth={auth} path="/api/cases/closed" Component={ClosedCases} exact/>*/}
           <PrivateRouter auth={auth} path="/case/submit" Component={SubmitCase} setAuth={setAuth} user={user} exact/>
-          {/*<PrivateRouter auth={auth} path="/vouchers" Component={VoucherMother} setAuth={setAuth} user={user} exact/>*/}
+          <PrivateRouter auth={auth} path="/vouchers" Component={VoucherMother} setAuth={setAuth} user={user} exact/>
           <Route path="*">404</Route>
 
         </Switch>

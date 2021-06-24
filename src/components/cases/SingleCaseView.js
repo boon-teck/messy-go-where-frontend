@@ -167,7 +167,7 @@ function SingleCaseView({user}) {
                     <Card >
                         <Card.Header>Status: {issue.issueStatus}</Card.Header>
                         <Card.Header>Category: {issue.issueType}</Card.Header>
-                        <Card.Img variant="top" src={issue.picture}/>
+                        <Card.Img variant="top" src={issue.picture} style={{width: '80%', margin: "auto"}}/>
                         <Card.Body>
 
                             <Card.Title>Description</Card.Title>
@@ -209,7 +209,7 @@ function SingleCaseView({user}) {
                             {(user && user.userType === "User") ?
                                 (issue && issue.issueStatus === "Resolved") ?
                                     (issue.rating === -1) ?<>
-
+                                            <Card.Title>Issue Rating</Card.Title>
                                             <HoverRating issue={issue}/>
                                         </>
 
@@ -219,7 +219,10 @@ function SingleCaseView({user}) {
                                         </>
                                     : <></>
                                 : (issue.rating > -1) ?
+                                    <>
+                                    <Card.Title>Issue Rating</Card.Title>
                                     <ShowRating issue={issue}/>
+                                    </>
                                     : <></>
                             }
 

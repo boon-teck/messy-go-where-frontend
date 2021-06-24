@@ -33,10 +33,7 @@ function Home({user, setUser, setAuth}) {
 
     return (
         <Container>
-            <Row className="text-center">
-                <p>Username: {user && user.name}</p>
-                <p>User ID: {user && user.id}</p>
-            </Row>
+            <br/>
             <Row>
                 <AllCases user={user} pending={pending} resolved={resolved}/>
             </Row>

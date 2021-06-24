@@ -19,7 +19,7 @@ function Navigation({auth, user}) {
 
                                 <NavLink className={"nav-link active"} to="/api/auth/profile">Profile</NavLink>
                                 <NavLink className={"nav-link active"} to="/case/submit">Submit Issue </NavLink>
-                                <NavLink className={"nav-link active"} to="/vouchers">/ Vouchers / </NavLink> 
+                                <NavLink className={"nav-link active"} to="/vouchers">Vouchers</NavLink>
                                 <NavLink className={"nav-link active"} id={"emailnav"} to="/api/auth/profile">{user && user.email}</NavLink>
 
                             </> :<>
