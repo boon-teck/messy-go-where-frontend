@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {Container, Row, Col, Form, Button, ButtonGroup} from "react-bootstrap";
+import {Container, Row, Col, Form, Button, ButtonGroup, Image} from "react-bootstrap";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 import Alert from './Alert';
-import { Image } from 'cloudinary-react';
 require('dotenv').config()
 
 function EditProfile({auth,setAuth,user,setUser, setEditState}) {
@@ -15,8 +14,8 @@ function EditProfile({auth,setAuth,user,setUser, setEditState}) {
     const [selectedFile, setSelectedFile] = useState();
     const [successMsg, setSuccessMsg] = useState('');
     const [errMsg, setErrMsg] = useState('');
+    const [publicID, setPublicID] = useState()
 
-    let publicID = ""
 
 
     useEffect(()=>{
@@ -29,15 +28,16 @@ function EditProfile({auth,setAuth,user,setUser, setEditState}) {
                         authorization: `Bearer ${localStorage.token}`
                     }
                 })
-                setAuth(true)
-                setUser(data.user)
-                publicID = data.user.profilePic
+                await setAuth(true)
+                await setUser(data.user)
+                await setPublicID(data.user.profilePic)
             } catch (e) {
-                setAuth(false)
-                setUser(null)
+                await setAuth(false)
+                await setUser(null)
                 localStorage.removeItem("token")
             }
         }
+        setUserStats()
     },[auth])
 
     // main submit function for the registration form
@@ -132,12 +132,9 @@ function EditProfile({auth,setAuth,user,setUser, setEditState}) {
 
                             { (!selectedFile) ?
                                 <Image
-                                    cloudName="triplethreats"
-                                    publicId={user.profilePic}
-                                    width="150"
-                                    height="150"
-                                    crop="scale"
-                                />: previewSource && (
+                                src={user.profilePic}
+                                />
+                                : previewSource && (
                                 <img
                                     src={previewSource}
                                     alt="chosen"

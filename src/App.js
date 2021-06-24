@@ -9,23 +9,18 @@ import Registration from './components/auth/Registration';
 import Login from './components/auth/Login';
 import LandingPage from './components/main_pages/LandingPage';
 import Home from './components/main_pages/Home';
+
 import VoucherMother from './components/voucher/VoucherMother';
+
 
 import axios from "axios";
 import Profile from "./components/auth/Profile";
-import Cloudinary from './components/tests/Cloudinary';
 import SubmitCase from './components/cases/SubmitCase';
-import CaseProgressUser from './components/cases/CaseProgressUser';
-import SimpleBottomNavigation from "./components/nav/BottomNavigation"
+
 
 function App() {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState(null);
-  const [caseStatus, setCaseStatus] = useState("Pending")
-  const [pending, setPending] = useState([])
-  const [closed, setClosed] = useState([])
-
-
 
   useEffect(() => {
 
@@ -37,20 +32,19 @@ function App() {
             authorization: `Bearer ${localStorage.token}`
           }
         })
-        console.log("App.js: ", data.user)
+
         await setAuth(true)
         await setUser(data.user)
-        await setPending(data.user.pendingIssues)
-        await setClosed(data.user.closedIssues)
       } catch (e) {
         await setAuth(false)
         await setUser(null)
-        console.log("App.js token removed")
+
         localStorage.removeItem("token")
       }
     }
 
     setUserStats()
+
 
   }, [auth])
 
@@ -63,61 +57,37 @@ function App() {
   console.log("app",auth)
 
   return (
-    <BrowserRouter>
-      {/**
-        Comment next line out and add proxy back
-        http://localhost:4004
-      */}
 
-        <Navigation auth={auth} user={user} logout={logout} />
+      <BrowserRouter>
 
+        <Navigation auth={auth} user={user} logout={logout}/>
 
-      <Switch>
-        {/** ------------------ */}
-        {/** We can test codes using this route */}
-        {/** Test starts here */}
+        <Switch>
 
-        <Route path="/test" exact>
-          <Cloudinary />
-        </Route>
+          <Route path="/" exact>
+            <LandingPage auth={auth}/>
+          </Route>
 
-        {/** Testing ends here. */}
-        {/** ------------------ */}
+          <Route path="/api/auth/login">
+            <Login setAuth={setAuth}/>
+          </Route>
 
-        <Route path="/" exact>
-          <LandingPage />
-        </Route>
+          <Route path="/api/auth/register">
+            <Registration setAuth={setAuth}/>
+          </Route>
 
-        <Route path="/api/auth/login">
-          <Login setAuth={setAuth}/>
-        </Route>
+          <PrivateRouter auth={auth} path="/user/home" Component={Home} user={user} setUser={setUser} setAuth={setAuth} exact/>
+          <PrivateRouter auth={auth} path="/api/auth/profile" Component={Profile} setAuth={setAuth} user={user} setUser={setUser} exact/>
+          <PrivateRouter auth={auth} path="/cases" Component={AllCases} exact/>
+          {/*<PrivateRouter auth={auth} path="/api/cases/pending" Component={PendingCases} exact/>*/}
+          <PrivateRouter auth={auth} path="/api/cases/pending/:id" Component={SingleCaseView} user={user} exact/>
+          {/*<PrivateRouter auth={auth} path="/api/cases/closed" Component={ClosedCases} exact/>*/}
+          <PrivateRouter auth={auth} path="/case/submit" Component={SubmitCase} setAuth={setAuth} user={user} exact/>
+          {/*<PrivateRouter auth={auth} path="/vouchers" Component={VoucherMother} setAuth={setAuth} user={user} exact/>*/}
+          <Route path="*">404</Route>
 
-        <Route path="/api/auth/register"  >
-          <Registration setAuth={setAuth}/>
-        </Route>
-
-
-        <PrivateRouter auth={auth} path="/user/home" Component={Home} user={user} setUser={setUser} pending={pending} closed={closed} exact/>
-        <PrivateRouter auth={auth} path="/api/auth/profile" Component={Profile} setAuth={setAuth} user={user} setUser={setUser} exact />
-        <PrivateRouter auth={auth} path="/cases" Component={AllCases} exact/>      {/** This route might not be needed as Home is already showing this component */}
-        <PrivateRouter auth={auth} path="/api/cases/pending" Component={PendingCases} exact/>
-        <PrivateRouter auth={auth} path="/api/cases/pending/:id" Component={SingleCaseView} exact/>
-        <PrivateRouter auth={auth} path="/api/cases/closed" Component={ClosedCases} exact/>
-        <PrivateRouter auth={auth} path="/api/cases/closed/:id" Component={SingleCaseView} exact/>
-        <PrivateRouter auth={auth} path="/user/case/progress" Component={CaseProgressUser} caseStatus={caseStatus} exact/> {/** This is view individual updates */}
-        <PrivateRouter auth={auth} path="/kiv/vouchers" Component={VoucherMother} setAuth={setAuth} user={user} exact/>
-        {/*<PrivateRouter path="/api/case/update" Component={} exact/> /!**This will show admin/staff the case they are updating.**!/*/}
-        <PrivateRouter auth={auth} path="/case/submit" Component={SubmitCase} setAuth={setAuth} user={user} exact/>
-        {/*<PrivateRouter path="/kiv/redeem" Component={} exact/>   /!**Redemption is current KIV.**!/*/}
-
-
-        <Route path="*" >
-          404
-        </Route>
-
-      </Switch>
-      {/*<SimpleBottomNavigation />*/}
-    </BrowserRouter>
+        </Switch>
+      </BrowserRouter>
   )
 }
 

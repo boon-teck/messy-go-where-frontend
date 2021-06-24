@@ -3,6 +3,8 @@ import {Container, Row, Col, Form, Button} from "react-bootstrap";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 import Alert from './Alert';
+import './login.css'
+
 
 function Registration({setAuth}) {
 
@@ -22,9 +24,9 @@ function Registration({setAuth}) {
         const reader = new FileReader();
         reader.readAsDataURL(selectedFile);   // reads content of selectedFile and calls onloadend when done
         reader.onloadend = async function () {
-            let public_id = await uploadImage(reader.result);  // calls uploadImage function to upload image, which returns public_id of the uploaded image
+            let url = await uploadImage(reader.result);  // calls uploadImage function to upload image, which returns public_id of the uploaded image
 
-            postUser({...formData, profilePic: public_id}) // calls postUser to save the user. public_id is passed in directly to bypass the delay in setFormdata
+            postUser({...formData, profilePic: url}) // calls postUser to save the user. public_id is passed in directly to bypass the delay in setFormdata
         };
         reader.onerror = () => {
             setErrMsg('something went wrong!'); // error reporting for reader function
@@ -35,13 +37,13 @@ function Registration({setAuth}) {
     async function uploadImage(base64EncodedImage){
         try {
             let imgJSON = JSON.stringify({ data: base64EncodedImage })
-            let {data: {public_id}} = await axios.post('/api/auth/upload', imgJSON, {
+            let {data: {url}} = await axios.post('/api/auth/upload', imgJSON, {
                 headers: {'Content-Type': 'application/json'}});
             setFileInputState('');
             setPreviewSource('');
             setSuccessMsg('Image uploaded successfully');
 
-            return public_id
+            return url
 
 
         } catch (err) {
@@ -87,7 +89,7 @@ function Registration({setAuth}) {
 
     return (
         <Container>
-            <Row>
+            <Row className={"d-flex justify-content-center mt-3"}>
                 <Col md={6}>
                     <h3>Registration Page</h3>
 

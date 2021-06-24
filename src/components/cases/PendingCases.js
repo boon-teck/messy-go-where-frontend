@@ -1,13 +1,14 @@
 import React from 'react';
-import {Card, CardGroup, Col, Container, Row} from 'react-bootstrap';
-import { NavLink, useHistory } from 'react-router-dom';
-import { Image } from 'cloudinary-react';
+import {Card, Container, Row} from 'react-bootstrap';
+import {NavLink, useHistory} from 'react-router-dom';
+
+
 
 function PendingCases({pending}) {
     let history = useHistory();
 
-    console.log("pending cases", pending)
-
+    let reversePending = [...pending]
+    reversePending.reverse()
 
     function redirect(id){
         history.push(`/api/cases/pending/${id}`)
@@ -15,35 +16,22 @@ function PendingCases({pending}) {
 
     return (
         <Container className="border" >
-            <div>
-                <div className="btn" >
-                    <NavLink to="/cases" >X</NavLink>
-                </div>
-                This will show all pending cases.
-            </div>
+            <Row className="text-center">
+            <h5>Open and In Progress Issues</h5>
+            </Row>
+            {(reversePending.length>0)?
 
-            {(pending.length>0)?
                 <Row className="d-flex flex-row flex-nowrap overflow-auto">
-                    {pending.map(issue => (
-
-                        <Card className="text-center" style={{ width: '14rem' }}>
+                    {reversePending.map((issue,id) => (
+                        <Card className="text-center" style={{ width: '14rem' }} key={id}>
                             <Card.Header as="h5">{issue.issueType}</Card.Header>
-                            <Row className="align-content-center">
-                                <Image
-                                    cloudName="triplethreats"
-                                    publicId={issue.picture}
-                                    width="150"
-                                    height="150"
-                                    crop="scale"
-                                />
-                            </Row>
+                                <Card.Img variant="top" src={issue.picture} style={{width: '100%', height: '150px'}}/>
                             <Card.Body>{issue.description}</Card.Body>
                             <Card.Footer>
                                 <small className="text-muted">Status: {issue.issueStatus}</small>
                             </Card.Footer>
                             <a className={"stretched-link"} style={{ cursor: 'pointer' }} onClick={()=>redirect(issue._id)}></a>
                         </Card>
-
                     ))}
                 </Row> :
                 <div> No Pending Issues! <NavLink to="/case/submit" >Click here to submit</NavLink></div>
@@ -59,3 +47,4 @@ function PendingCases({pending}) {
 }
 
 export default PendingCases
+
