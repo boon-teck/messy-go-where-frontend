@@ -3,7 +3,6 @@ import {Container, Row, Col, Button} from 'react-bootstrap';
 import AllCases from '../cases/AllCases';
 import { NavLink } from 'react-router-dom';
 import axios from "axios";
-
 function Home({user, setUser, pending, resolved}) {
 
 

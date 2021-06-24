@@ -7,6 +7,7 @@ import {Button, Container} from "react-bootstrap";
 function LandingPage({auth}) {
 
     let history = useHistory();
+    const background = "https://images.pexels.com/photos/3771790/pexels-photo-3771790.jpeg?cs=srgb&dl=pexels-andrea-piacquadio-3771790.jpg&fm=jpg"
 
     useEffect(()=>{
         if (auth) {
