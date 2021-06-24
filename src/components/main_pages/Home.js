@@ -3,6 +3,7 @@ import {Container, Row} from 'react-bootstrap';
 import AllCases from '../cases/AllCases';
 import axios from "axios";
 
+
 function Home({user, setUser, setAuth}) {
 
     const [pending, setPending] = useState([])
