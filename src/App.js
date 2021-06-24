@@ -9,6 +9,7 @@ import Registration from './components/auth/Registration';
 import Login from './components/auth/Login';
 import LandingPage from './components/main_pages/LandingPage';
 import Home from './components/main_pages/Home';
+import VoucherMother from './components/voucher/VoucherMother';
 
 import axios from "axios";
 import Profile from "./components/auth/Profile";
@@ -93,6 +94,7 @@ function App() {
           <Registration setAuth={setAuth}/>
         </Route>
 
+
         <PrivateRouter auth={auth} path="/user/home" Component={Home} user={user} setUser={setUser} pending={pending} closed={closed} exact/>
         <PrivateRouter auth={auth} path="/api/auth/profile" Component={Profile} setAuth={setAuth} user={user} setUser={setUser} exact />
         <PrivateRouter auth={auth} path="/cases" Component={AllCases} exact/>      {/** This route might not be needed as Home is already showing this component */}
@@ -104,7 +106,7 @@ function App() {
         {/*<PrivateRouter path="/api/case/update" Component={} exact/> /!**This will show admin/staff the case they are updating.**!/*/}
         <PrivateRouter auth={auth} path="/case/submit" Component={SubmitCase} setAuth={setAuth} user={user} exact/>
         {/*<PrivateRouter path="/kiv/redeem" Component={} exact/>   /!**Redemption is current KIV.**!/*/}
-        {/*<PrivateRouter path="/kiv/vouchers" Component={} exact/> /!**Voucher is current KIV.**!/*/}
+        <PrivateRouter path="/kiv/vouchers" auth={auth} setAuth={setAuth} Component={VoucherMother} exact/>
 
         <Route path="*" >
           404
