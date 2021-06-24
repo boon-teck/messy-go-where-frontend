@@ -6,6 +6,9 @@ import { NavLink, useHistory } from 'react-router-dom';
 function ClosedCases({resolved}) {
     let history = useHistory();
 
+    let reversedResolved = [...resolved]
+    reversedResolved.reverse()
+
     console.log("closed cases", resolved)
 
 
@@ -22,9 +25,9 @@ function ClosedCases({resolved}) {
                 This will show all pending cases.
             </div>
 
-            {(resolved.length>0)?
+            {(reversedResolved.length>0)?
                 <Row className="d-flex flex-row flex-nowrap overflow-auto">
-                    {resolved.map((issue,id) => (
+                    {reversedResolved.map((issue,id) => (
 
                         <Card className="text-center" style={{ width: '14rem' }} key={id}>
                             <Card.Header as="h5">{issue.issueType}</Card.Header>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Container, Row, Col, Button} from "react-bootstrap";
+import {Container, Row, Col, Button, Modal, Form, Card} from "react-bootstrap";
 import {useParams, useHistory} from "react-router-dom";
 import axios from "axios";
 import Accordion from '@material-ui/core/Accordion';
@@ -18,8 +18,16 @@ function SingleCaseView({user}) {
 
     const history = useHistory()
     const [issue, setIssue] = useState({})
-    const [form, setForm] = useState({})
     const [expanded, setExpanded] = useState("Panel1");
+    const [showResolve, setShowResolve] = useState(false);
+    const [showClose, setShowClose] = useState(false);
+    const [formData, setFormData] = useState();
+    const form = "dummy"
+
+    const handleCloseResolve = () => setShowResolve(false);
+    const handleShowResolve = () => setShowResolve(true);
+    const handleCloseClose = () => setShowClose(false);
+    const handleShowClose = () => setShowClose(true);
 
     const id = useParams()
     let updates = []
@@ -91,7 +99,7 @@ function SingleCaseView({user}) {
     async function deleteIssue(id) {
         try {
             console.log("inside delete issue")
-            await axios.post(`/api/issue/iDeleted/${id}`,form,{
+            await axios.post(`/api/issue/iDeleted/${id}`,formData,{
                 headers: {
                     authorization: `Bearer ${localStorage.token}`
                 }
@@ -119,7 +127,7 @@ function SingleCaseView({user}) {
     async function resolveIssue(id) {
         try {
             console.log("inside resolve issue")
-            await axios.post(`/api/issue/iResolved/${id}`,form,{
+            await axios.post(`/api/issue/iResolved/${id}`,formData,{
                 headers: {
                     authorization: `Bearer ${localStorage.token}`
                 }
@@ -128,6 +136,10 @@ function SingleCaseView({user}) {
         }catch (e) {
             console.log(e)
         }
+    }
+
+    function change(e) {
+        setFormData(prevState => ({...prevState, [e.target.name]: e.target.value}))
     }
 
     console.log(id.id)
@@ -139,7 +151,10 @@ function SingleCaseView({user}) {
         <Container>
             <Row>
                 <Col md={6}>
-                    <h5>Single View Component</h5>
+                    <Card>
+                        <Card.Header>{issue.issueStatus}</Card.Header>
+
+                    </Card>
                     <p>Issue Status: {issue.issueStatus}</p>
                     <Image
                         cloudName="triplethreats"
@@ -175,6 +190,69 @@ function SingleCaseView({user}) {
                     </div>
                     <br />
 
+
+                    <Modal show={showResolve} onHide={handleCloseResolve}>
+                        <Modal.Header>
+                            <Modal.Title>Resolve Issue</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form>
+                                <Form.Group>
+                                    <Form.Label>Issue Update</Form.Label>
+                                    <Form.Control
+                                        name="description"
+                                        as="textarea"
+                                        placeholder="Please describe how the issue was resolved"
+                                        style={{height: '100px'}}
+                                        onChange={change}
+                                        required
+                                    ></Form.Control>
+                                </Form.Group>
+                            </Form>
+
+
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleCloseResolve}>
+                                Go Back
+                            </Button>
+                            <Button variant="primary" onClick={() => resolveIssue(issue._id)}>
+                                Submit and Resolve
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+
+                    <Modal show={showClose} onHide={handleCloseClose}>
+                        <Modal.Header>
+                            <Modal.Title>Close Issue</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form>
+                                <Form.Group>
+                                    <Form.Label>Issue Update</Form.Label>
+                                    <Form.Control
+                                        name="description"
+                                        as="textarea"
+                                        placeholder="Please describe why this issue was closed"
+                                        style={{height: '100px'}}
+                                        onChange={change}
+                                        required
+                                    ></Form.Control>
+                                </Form.Group>
+                            </Form>
+
+
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleCloseClose}>
+                                Go Back
+                            </Button>
+                            <Button variant="primary" onClick={() =>deleteIssue(issue._id)}>
+                                Submit and Close
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+
                     {(user && user.userType === "User") ?
                         (issue && issue.issueStatus === "Resolved") ?
                             (issue.rating === -1) ?
@@ -190,7 +268,7 @@ function SingleCaseView({user}) {
                     <Button onClick={() => history.goBack()}>Go Back</Button>
 
                     {(issue && !(issue.issueStatus ==="Deleted" || issue.issueStatus ==="Resolved" )) ?
-                    <Button onClick={() =>deleteIssue(issue._id)}>Close Issue</Button>
+                    <Button onClick={handleShowClose}>Close Issue</Button>
                     : <></>
                     }
 
@@ -198,7 +276,7 @@ function SingleCaseView({user}) {
                         (issue && issue.issueStatus ==="Open") ?
                             <Button onClick={() => acceptIssue(issue._id)}>Accept Issue</Button>
                             : (issue && issue.issueStatus ==="In Progress") ?
-                            <Button onClick={() => resolveIssue(issue._id)}>Resolve Case</Button>
+                            <Button onClick={handleShowResolve}>Resolve Issue</Button>
                             : <></>
                         : <></>
                     }

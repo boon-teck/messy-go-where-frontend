@@ -31,6 +31,8 @@ function OpenCases() {
 
     console.log("globalCases", openCase)
 
+    let reverseOpen = [...openCase]
+    reverseOpen.reverse()
 
     function redirect(id){
         history.push(`/api/cases/pending/${id}`)
@@ -45,9 +47,9 @@ function OpenCases() {
                 This will show all open cases.
             </div>
 
-            {(openCase && openCase.length>0)?
+            {(reverseOpen && reverseOpen.length>0)?
                 <Row className="d-flex flex-row flex-nowrap overflow-auto">
-                    {openCase.map((issue,id) => (
+                    {reverseOpen.map((issue,id) => (
 
                         <Card className="text-center" style={{ width: '14rem' }} key={id}>
                             <Card.Header as="h5">{issue.issueType}</Card.Header>

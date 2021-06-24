@@ -6,8 +6,8 @@ import { NavLink, useHistory } from 'react-router-dom';
 function PendingCases({pending}) {
     let history = useHistory();
 
-    console.log("pending cases", pending)
-
+    let reversePending = [...pending]
+    reversePending.reverse()
 
     function redirect(id){
         history.push(`/api/cases/pending/${id}`)
@@ -22,9 +22,11 @@ function PendingCases({pending}) {
                 This will show all pending cases.
             </div>
 
-            {(pending.length>0)?
+
+
+            {(reversePending.length>0)?
                 <Row className="d-flex flex-row flex-nowrap overflow-auto">
-                    {pending.map((issue,id) => (
+                    {reversePending.map((issue,id) => (
                         <Card className="text-center" style={{ width: '14rem' }} key={id}>
                             <Card.Header as="h5">{issue.issueType}</Card.Header>
                             <Row className="align-content-center">
@@ -36,7 +38,6 @@ function PendingCases({pending}) {
                             </Card.Footer>
                             <a className={"stretched-link"} style={{ cursor: 'pointer' }} onClick={()=>redirect(issue._id)}></a>
                         </Card>
-
                     ))}
                 </Row> :
                 <div> No Pending Issues! <NavLink to="/case/submit" >Click here to submit</NavLink></div>
@@ -52,3 +53,4 @@ function PendingCases({pending}) {
 }
 
 export default PendingCases
+
