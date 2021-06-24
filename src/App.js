@@ -9,6 +9,9 @@ import Registration from './components/auth/Registration';
 import Login from './components/auth/Login';
 import LandingPage from './components/main_pages/LandingPage';
 import Home from './components/main_pages/Home';
+import VoucherShop from "./components/vouchers/VoucherShop";
+import UserVoucher from "./components/vouchers/UserVoucher";
+import VoucherClaim from "./components/vouchers/VoucherClaim";
 
 import axios from "axios";
 import Profile from "./components/auth/Profile";
@@ -105,6 +108,22 @@ function App() {
         <PrivateRouter auth={auth} path="/case/submit" Component={SubmitCase} setAuth={setAuth} user={user} exact/>
         {/*<PrivateRouter path="/kiv/redeem" Component={} exact/>   /!**Redemption is current KIV.**!/*/}
         {/*<PrivateRouter path="/kiv/vouchers" Component={} exact/> /!**Voucher is current KIV.**!/*/}
+
+        <Route path="/voucher/shop">
+          <VoucherShop/>
+        </Route>
+        {/*<PrivateRouter auth={auth} path="/voucher/shop" Component={UserVoucher} user={user} setUser={setUser} exact/>*/}
+
+        <Route path="/user/voucher" exact>
+          <UserVoucher />
+        </Route>
+        <Route path="/user/voucher" exact>
+          <UserVoucher />
+        </Route>
+        <Route path="/user/voucher/:voucherid">
+          <VoucherClaim />
+        </Route>
+
 
         <Route path="*" >
           404
