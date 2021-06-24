@@ -6,7 +6,7 @@ import './navigation.css'
 function Navigation({auth}) {
     return (
         <div>
-            <Navbar bg="dark" variant="dark" expand="lg" style={{"text-align" : "center"}} >
+            <Navbar bg="dark" variant="dark" expand="lg" style={{"textAlign" : "center"}} >
                 <Container fluid>
                     <Navbar.Brand href="/" style={{"margin" : "auto"}} >MessyGoWhere</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />

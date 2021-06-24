@@ -12,12 +12,10 @@ import Home from './components/main_pages/Home';
 import axios from "axios";
 import Profile from "./components/auth/Profile";
 import SubmitCase from './components/cases/SubmitCase';
-import CaseProgressUser from './components/cases/CaseProgressUser';
 
 function App() {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState(null);
-  const [caseStatus, setCaseStatus] = useState("Pending")
 
   useEffect(() => {
 
@@ -76,8 +74,6 @@ function App() {
           <PrivateRouter auth={auth} path="/api/cases/pending" Component={PendingCases} exact/>
           <PrivateRouter auth={auth} path="/api/cases/pending/:id" Component={SingleCaseView} user={user} exact/>
           <PrivateRouter auth={auth} path="/api/cases/closed" Component={ClosedCases} exact/>
-          <PrivateRouter auth={auth} path="/api/cases/closed/:id" Component={SingleCaseView} exact/>
-          <PrivateRouter auth={auth} path="/user/case/progress" Component={CaseProgressUser} caseStatus={caseStatus} exact/>
           <PrivateRouter auth={auth} path="/case/submit" Component={SubmitCase} setAuth={setAuth} user={user} exact/>
 
           <Route path="*">404</Route>

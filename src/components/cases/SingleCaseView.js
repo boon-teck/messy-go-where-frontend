@@ -10,8 +10,8 @@ import {withStyles,makeStyles} from "@material-ui/core";
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import HoverRating from "../../lib/css/Rating";
-import ShowRating from "../../lib/css/ShowRating";
+import HoverRating from "./Rating";
+import ShowRating from "./ShowRating";
 
 function SingleCaseView({user}) {
 
@@ -167,7 +167,7 @@ function SingleCaseView({user}) {
                     <Card >
                         <Card.Header>Status: {issue.issueStatus}</Card.Header>
                         <Card.Header>Category: {issue.issueType}</Card.Header>
-                        <Card.Img variant="top" src={issue.picture} fluid/>
+                        <Card.Img variant="top" src={issue.picture}/>
                         <Card.Body>
 
                             <Card.Title>Description</Card.Title>
