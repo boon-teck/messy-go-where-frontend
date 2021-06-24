@@ -109,10 +109,11 @@ function App() {
         {/*<PrivateRouter path="/kiv/redeem" Component={} exact/>   /!**Redemption is current KIV.**!/*/}
         {/*<PrivateRouter path="/kiv/vouchers" Component={} exact/> /!**Voucher is current KIV.**!/*/}
 
-        <Route path="/voucher/shop">
-          <VoucherShop/>
-        </Route>
-        {/*<PrivateRouter auth={auth} path="/voucher/shop" Component={UserVoucher} user={user} setUser={setUser} exact/>*/}
+        {/*<Route path="/voucher/shop">*/}
+        {/*  <VoucherShop/>*/}
+        {/*</Route>*/}
+
+        <PrivateRouter auth={auth} path="/voucher/shop" Component={UserVoucher} user={user} setUser={setUser} exact/>
 
         <Route path="/user/voucher" exact>
           <UserVoucher />

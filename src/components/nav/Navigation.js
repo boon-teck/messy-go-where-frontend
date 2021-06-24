@@ -16,6 +16,7 @@ function Navigation({auth}) {
                             {auth ? <>
                                 <NavLink to="/api/auth/profile">/ Profile (Account) /</NavLink>
                                 <NavLink to="/case/submit">/ Submit Issue / </NavLink>
+                                <NavLink to="/voucher/shop" >/ Voucher Shop /</NavLink>
                             </> :<>
                                 <NavLink to="/api/auth/login" >/ Login /</NavLink>
                                 <NavLink to="/api/auth/register" >/ Register /</NavLink>
