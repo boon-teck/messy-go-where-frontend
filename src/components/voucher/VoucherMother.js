@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function VoucherMother({auth, setAuth, user}) {
     const [vouchers, setVouchers] = useState({})
-    
+
     useEffect(()=>{
 
         const getVouchers = async () =>{
@@ -15,8 +15,7 @@ function VoucherMother({auth, setAuth, user}) {
                             authorization: `Bearer ${localStorage.token}`
                         }
                 })
-                localStorage.setItem("token", token)
-                setAuth(true)
+
                 console.log(token)
 
             } catch (error) {
@@ -25,6 +24,8 @@ function VoucherMother({auth, setAuth, user}) {
         }
         getVouchers()
     })
+
+    console.log("inside voucher")
 
     return (
         <div>

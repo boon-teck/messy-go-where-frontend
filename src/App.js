@@ -60,6 +60,8 @@ function App() {
     localStorage.removeItem("token")
   }
 
+  console.log("app",auth)
+
   return (
     <BrowserRouter>
       {/**
@@ -103,10 +105,11 @@ function App() {
         <PrivateRouter auth={auth} path="/api/cases/closed" Component={ClosedCases} exact/>
         <PrivateRouter auth={auth} path="/api/cases/closed/:id" Component={SingleCaseView} exact/>
         <PrivateRouter auth={auth} path="/user/case/progress" Component={CaseProgressUser} caseStatus={caseStatus} exact/> {/** This is view individual updates */}
+        <PrivateRouter auth={auth} path="/kiv/vouchers" Component={VoucherMother} setAuth={setAuth} user={user} exact/>
         {/*<PrivateRouter path="/api/case/update" Component={} exact/> /!**This will show admin/staff the case they are updating.**!/*/}
         <PrivateRouter auth={auth} path="/case/submit" Component={SubmitCase} setAuth={setAuth} user={user} exact/>
         {/*<PrivateRouter path="/kiv/redeem" Component={} exact/>   /!**Redemption is current KIV.**!/*/}
-        <PrivateRouter path="/kiv/vouchers" auth={auth} setAuth={setAuth} Component={VoucherMother} exact/>
+
 
         <Route path="*" >
           404
