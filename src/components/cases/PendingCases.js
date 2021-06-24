@@ -1,7 +1,7 @@
 import React from 'react';
-import {Card, CardGroup, Col, Container, Row} from 'react-bootstrap';
-import {Link, NavLink, useHistory} from 'react-router-dom';
-import { Image } from 'cloudinary-react';
+import {Card, Container, Row} from 'react-bootstrap';
+import {NavLink, useHistory} from 'react-router-dom';
+
 
 
 function PendingCases({pending}) {
@@ -25,9 +25,7 @@ function PendingCases({pending}) {
                     {reversePending.map((issue,id) => (
                         <Card className="text-center" style={{ width: '14rem' }} key={id}>
                             <Card.Header as="h5">{issue.issueType}</Card.Header>
-                            <Row className="align-content-center">
-                                <Card.Img variant="top" src={issue.picture} fluid/>
-                            </Row>
+                                <Card.Img variant="top" src={issue.picture} style={{width: '100%', height: '150px'}}/>
                             <Card.Body>{issue.description}</Card.Body>
                             <Card.Footer>
                                 <small className="text-muted">Status: {issue.issueStatus}</small>

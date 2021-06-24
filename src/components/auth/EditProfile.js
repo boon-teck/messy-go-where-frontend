@@ -14,8 +14,8 @@ function EditProfile({auth,setAuth,user,setUser, setEditState}) {
     const [selectedFile, setSelectedFile] = useState();
     const [successMsg, setSuccessMsg] = useState('');
     const [errMsg, setErrMsg] = useState('');
+    const [publicID, setPublicID] = useState()
 
-    let publicID = ""
 
 
     useEffect(()=>{
@@ -28,15 +28,16 @@ function EditProfile({auth,setAuth,user,setUser, setEditState}) {
                         authorization: `Bearer ${localStorage.token}`
                     }
                 })
-                setAuth(true)
-                setUser(data.user)
-                publicID = data.user.profilePic
+                await setAuth(true)
+                await setUser(data.user)
+                await setPublicID(data.user.profilePic)
             } catch (e) {
-                setAuth(false)
-                setUser(null)
+                await setAuth(false)
+                await setUser(null)
                 localStorage.removeItem("token")
             }
         }
+        setUserStats()
     },[auth])
 
     // main submit function for the registration form

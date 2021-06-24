@@ -1,9 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Rating from '@material-ui/lab/Rating';
 
 function ShowRating({issue}) {
-
-
 
     return (
         <div>

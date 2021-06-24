@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Container, Row, Col, Button} from 'react-bootstrap';
+import {Container, Row} from 'react-bootstrap';
 import AllCases from '../cases/AllCases';
-import { NavLink } from 'react-router-dom';
 import axios from "axios";
 
 function Home({user, setUser, setAuth}) {
@@ -18,7 +17,6 @@ function Home({user, setUser, setAuth}) {
                         authorization: `Bearer ${localStorage.token}`
                     }
                 })
-                console.log("App.js: ", data.user)
                 await setAuth(true)
                 await setUser(data.user)
                 await setPending(data.user.pendingIssues)
@@ -26,7 +24,6 @@ function Home({user, setUser, setAuth}) {
             } catch (e) {
                 await setAuth(false)
                 await setUser(null)
-                console.log("App.js token removed")
                 localStorage.removeItem("token")
             }
         }

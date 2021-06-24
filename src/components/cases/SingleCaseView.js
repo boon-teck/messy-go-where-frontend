@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Container, Row, Col, Button, Modal, Form, Card, ListGroupItem, ListGroup} from "react-bootstrap";
+import {Container, Row, Col, Button, Modal, Form, Card} from "react-bootstrap";
 import {useParams, useHistory} from "react-router-dom";
 import axios from "axios";
 import Accordion from '@material-ui/core/Accordion';
@@ -10,9 +10,8 @@ import {withStyles,makeStyles} from "@material-ui/core";
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import { Image } from 'cloudinary-react';
-import HoverRating from "../../lib/css/Rating";
-import ShowRating from "../../lib/css/ShowRating";
+import HoverRating from "./Rating";
+import ShowRating from "./ShowRating";
 
 function SingleCaseView({user}) {
 
@@ -42,7 +41,6 @@ function SingleCaseView({user}) {
                         authorization: `Bearer ${localStorage.token}`
                     }
                 })
-                console.log("inside useEffect",data.singleIssue)
                 await setIssue(data.singleIssue)
 
 
@@ -117,7 +115,6 @@ function SingleCaseView({user}) {
 
     async function deleteIssue(id) {
         try {
-            console.log("inside delete issue")
             await axios.post(`/api/issue/iDeleted/${id}`,formData,{
                 headers: {
                     authorization: `Bearer ${localStorage.token}`
@@ -131,7 +128,6 @@ function SingleCaseView({user}) {
 
     async function acceptIssue(id) {
         try {
-            console.log("inside accept issue")
             await axios.post(`/api/issue/iAccept/${id}`,form,{
                 headers: {
                     authorization: `Bearer ${localStorage.token}`
@@ -145,7 +141,7 @@ function SingleCaseView({user}) {
 
     async function resolveIssue(id) {
         try {
-            console.log("inside resolve issue")
+
             await axios.post(`/api/issue/iResolved/${id}`,formData,{
                 headers: {
                     authorization: `Bearer ${localStorage.token}`
@@ -161,9 +157,7 @@ function SingleCaseView({user}) {
         setFormData(prevState => ({...prevState, [e.target.name]: e.target.value}))
     }
 
-    console.log(id.id)
-    console.log(issue)
-    console.log(user)
+
     updates = issue.updates
 
     return (
@@ -173,7 +167,7 @@ function SingleCaseView({user}) {
                     <Card >
                         <Card.Header>Status: {issue.issueStatus}</Card.Header>
                         <Card.Header>Category: {issue.issueType}</Card.Header>
-                        <Card.Img variant="top" src={issue.picture} fluid/>
+                        <Card.Img variant="top" src={issue.picture}/>
                         <Card.Body>
 
                             <Card.Title>Description</Card.Title>
@@ -268,8 +262,6 @@ function SingleCaseView({user}) {
                                     ></Form.Control>
                                 </Form.Group>
                             </Form>
-
-
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleCloseResolve}>

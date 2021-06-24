@@ -1,9 +1,7 @@
-import React, {useState} from 'react'
+import React from 'react'
 import ClosedCases from './ClosedCases';
 import PendingCases from './PendingCases';
 import OpenCases from "./OpenCases";
-import {NavLink} from 'react-router-dom';
-import {Row} from "react-bootstrap";
 
 function AllCases({user, pending, resolved}) {
 
