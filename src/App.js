@@ -113,7 +113,7 @@ function App() {
         {/*  <VoucherShop/>*/}
         {/*</Route>*/}
 
-        <PrivateRouter auth={auth} path="/voucher/shop" Component={UserVoucher} user={user} setUser={setUser} exact/>
+        <PrivateRouter auth={auth} path="/voucher/shop" Component={VoucherShop} user={user} setUser={setUser} exact/>
 
         <Route path="/user/voucher" exact>
           <UserVoucher />
