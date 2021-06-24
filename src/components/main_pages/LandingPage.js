@@ -19,9 +19,9 @@ function LandingPage({auth}) {
         <>
             <Container>
                 <div>
-                    <h1>Have an issue?</h1>
-                    <h3>Don't know how to solve it?</h3>
-                    <h5>Ask for help here</h5>
+                    <h1>Encounter an issue??</h1>
+                    <h3>And don't know how to resolve it?</h3>
+                    <h5>Ask for help here!</h5>
                 </div>
             {/* KIV items commented */}
             {/* <NavLink>Sign in with Google</NavLink> */}
