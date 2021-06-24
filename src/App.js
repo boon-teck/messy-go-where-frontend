@@ -9,6 +9,10 @@ import Registration from './components/auth/Registration';
 import Login from './components/auth/Login';
 import LandingPage from './components/main_pages/LandingPage';
 import Home from './components/main_pages/Home';
+
+import VoucherMother from './components/voucher/VoucherMother';
+
+
 import axios from "axios";
 import Profile from "./components/auth/Profile";
 import SubmitCase from './components/cases/SubmitCase';
@@ -50,7 +54,10 @@ function App() {
     localStorage.removeItem("token")
   }
 
+  console.log("app",auth)
+
   return (
+
       <BrowserRouter>
 
         <Navigation auth={auth} user={user} logout={logout}/>
