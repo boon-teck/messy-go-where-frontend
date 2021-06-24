@@ -1,6 +1,7 @@
 import React from 'react';
 import {Card, CardGroup, Col, Container, Row} from 'react-bootstrap';
-import { NavLink, useHistory } from 'react-router-dom';
+import {Link, NavLink, useHistory} from 'react-router-dom';
+import { Image } from 'cloudinary-react';
 
 
 function PendingCases({pending}) {
@@ -19,6 +20,7 @@ function PendingCases({pending}) {
             <h5>Open and In Progress Issues</h5>
             </Row>
             {(reversePending.length>0)?
+
                 <Row className="d-flex flex-row flex-nowrap overflow-auto">
                     {reversePending.map((issue,id) => (
                         <Card className="text-center" style={{ width: '14rem' }} key={id}>
