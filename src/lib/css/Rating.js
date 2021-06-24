@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
-import {Button} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 
@@ -53,7 +53,8 @@ export default function HoverRating({issue}) {
   console.log(hover)
 
   return (
-    <div className={classes.root}>
+    <Row>
+      <Col>
       <Rating
         name="hover-feedback"
         value={value}
@@ -65,12 +66,13 @@ export default function HoverRating({issue}) {
           setHover(newHover);
         }}
       />
+      </Col>
       {/*{value !== null && <Box ml={2}>{[hover !== -1 ? hover : value]}</Box>}*/}
-      <br/>
+      <Col>
       <Button onClick={() =>submitRating(issue._id)}> Submit Rating</Button>
+      </Col>
 
-
-    </div>
+    </Row>
   );
 }
 

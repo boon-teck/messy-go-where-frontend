@@ -18,13 +18,9 @@ function ClosedCases({resolved}) {
 
     return (
         <Container className="border" >
-            <div>
-                <div className="btn" >
-                    <NavLink to="/cases" >X</NavLink>
-                </div>
-                This will show all pending cases.
-            </div>
-
+            <Row className="text-center">
+            <h5>Resolved and Closed Issues</h5>
+            </Row>
             {(reversedResolved.length>0)?
                 <Row className="d-flex flex-row flex-nowrap overflow-auto">
                     {reversedResolved.map((issue,id) => (

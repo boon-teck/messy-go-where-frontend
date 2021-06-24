@@ -40,13 +40,9 @@ function OpenCases() {
 
     return (
         <Container className="border" >
-            <div>
-                <div className="btn" >
-                    <NavLink to="/cases" >X</NavLink>
-                </div>
-                This will show all open cases.
-            </div>
-
+            <Row className="text-center">
+            <h5>Open Issues</h5>
+            </Row>
             {(reverseOpen && reverseOpen.length>0)?
                 <Row className="d-flex flex-row flex-nowrap overflow-auto">
                     {reverseOpen.map((issue,id) => (

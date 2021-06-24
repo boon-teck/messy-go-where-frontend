@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react'
-import {Container, Row, Col, Button, Modal, Form, Card} from "react-bootstrap";
+import {Container, Row, Col, Button, Modal, Form, Card, ListGroupItem, ListGroup} from "react-bootstrap";
 import {useParams, useHistory} from "react-router-dom";
 import axios from "axios";
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-import {withStyles} from "@material-ui/core";
+import {withStyles,makeStyles} from "@material-ui/core";
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
@@ -19,6 +19,7 @@ function SingleCaseView({user}) {
     const history = useHistory()
     const [issue, setIssue] = useState({})
     const [expanded, setExpanded] = useState("Panel1");
+
     const [showResolve, setShowResolve] = useState(false);
     const [showClose, setShowClose] = useState(false);
     const [formData, setFormData] = useState();
@@ -31,6 +32,7 @@ function SingleCaseView({user}) {
 
     const id = useParams()
     let updates = []
+
     useEffect(()=>{
 
         async function getSingleIssue(){
@@ -50,6 +52,23 @@ function SingleCaseView({user}) {
         }
         getSingleIssue()
     },[])
+
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            width: '100%',
+        },
+        heading: {
+            fontSize: theme.typography.pxToRem(15),
+            flexBasis: '33.33%',
+            flexShrink: 0,
+        },
+        secondaryHeading: {
+            fontSize: theme.typography.pxToRem(15),
+            color: theme.palette.text.secondary,
+        },
+    }));
+
+    const classes = useStyles();
 
     const Accordion = withStyles({
         root: {
@@ -151,45 +170,85 @@ function SingleCaseView({user}) {
         <Container>
             <Row>
                 <Col md={6}>
-                    <Card>
-                        <Card.Header>{issue.issueStatus}</Card.Header>
+                    <Card >
+                        <Card.Header>Status: {issue.issueStatus}</Card.Header>
+                        <Card.Header>Category: {issue.issueType}</Card.Header>
+                        <Card.Img variant="top" src={issue.picture} fluid/>
+                        <Card.Body>
 
+                            <Card.Title>Description</Card.Title>
+                            <Card.Text>
+                                {issue.description}
+                            </Card.Text>
+                            <Card.Title>Location</Card.Title>
+                            <Card.Text>
+                                {issue.location}
+                            </Card.Text>
+                            <Card.Title>Submission Date & Time</Card.Title>
+                            <Card.Text>
+                                {issue.date} / {issue.time}
+                            </Card.Text>
+
+                            <Card.Title>Issue Updates</Card.Title>
+                            <div>
+                                {updates && updates.map((update, id) => (
+                                    <Accordion square expanded={expanded === `panel${id + 1}`}
+                                               onChange={handleChange(`panel${id + 1}`)}>
+                                        <AccordionSummary aria-controls={`panel${id + 1}d-content`}
+                                                          id={`panel${id + 1}d-header`}>
+                                            <Typography className={classes.heading}>{update.updateStatus}</Typography>
+                                            <Typography className={classes.secondaryHeading}>{update.date} / {update.time}</Typography>
+                                            <Typography></Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+
+                                            <Typography>
+                                                {update.updateDescription}
+                                            </Typography>
+                                        </AccordionDetails>
+                                    </Accordion>
+
+                                ))}
+                            </div>
+                            <br />
+
+                            {(user && user.userType === "User") ?
+                                (issue && issue.issueStatus === "Resolved") ?
+                                    (issue.rating === -1) ?<>
+
+                                            <HoverRating issue={issue}/>
+                                        </>
+
+                                        : <>
+                                            <Card.Title>Issue Rating</Card.Title>
+                                            <ShowRating issue={issue}/>
+                                        </>
+                                    : <></>
+                                : (issue.rating > -1) ?
+                                    <ShowRating issue={issue}/>
+                                    : <></>
+                            }
+
+                            <Button onClick={() => history.goBack()}>Go Back</Button>
+
+                            {(issue && !(issue.issueStatus ==="Deleted" || issue.issueStatus ==="Resolved" )) ?
+                                <Button onClick={handleShowClose}>Close Issue</Button>
+                                : <></>
+                            }
+
+                            {(user && user.userType === "Staff") ?
+                                (issue && issue.issueStatus ==="Open") ?
+                                    <Button onClick={() => acceptIssue(issue._id)}>Accept Issue</Button>
+                                    : (issue && issue.issueStatus ==="In Progress") ?
+                                    <Button onClick={handleShowResolve}>Resolve Issue</Button>
+                                    : <></>
+                                : <></>
+                            }
+
+
+                        </Card.Body>
+                        <Card.Footer className="text-muted">Issue Ref: {issue.issueID}</Card.Footer>
                     </Card>
-                    <p>Issue Status: {issue.issueStatus}</p>
-                    <Image
-                        cloudName="triplethreats"
-                        publicId={issue.picture}
-                        width="150"
-                        height="150"
-                        crop="scale"
-                    />
-                    <p>Issue Ref: {issue.issueID}</p>
-                    <p>Description</p>
-                    <p>{issue.description}</p>
-                    <p>Location</p>
-                    <p>{issue.location}</p>
-                    <p>Issue Type</p>
-                    <p>{issue.issueType}</p>
-                    <p>Date: {issue.date} Time: {issue.time}</p>
-
-                    <div>
-                        {updates && updates.map((update,id)=>(
-                            <Accordion square expanded={expanded === `panel${id+1}`} onChange={handleChange(`panel${id+1}`)}>
-                                <AccordionSummary aria-controls={`panel${id+1}d-content`} id={`panel${id+1}d-header`}>
-                                    <Typography>{update.updateStatus}</Typography>
-                                </AccordionSummary>
-                                <AccordionDetails>
-
-                                    <Typography>
-                                        {update.updateDescription}
-                                    </Typography>
-                                </AccordionDetails>
-                            </Accordion>
-
-                        ))}
-                    </div>
-                    <br />
-
 
                     <Modal show={showResolve} onHide={handleCloseResolve}>
                         <Modal.Header>
@@ -253,33 +312,7 @@ function SingleCaseView({user}) {
                         </Modal.Footer>
                     </Modal>
 
-                    {(user && user.userType === "User") ?
-                        (issue && issue.issueStatus === "Resolved") ?
-                            (issue.rating === -1) ?
-                                <HoverRating issue={issue}/>
-                                : <ShowRating issue={issue}/>
-                            : <></>
-                        : (issue.rating > -1) ?
-                            <ShowRating issue={issue}/>
-                            : <></>
-                    }
-                    <br />
 
-                    <Button onClick={() => history.goBack()}>Go Back</Button>
-
-                    {(issue && !(issue.issueStatus ==="Deleted" || issue.issueStatus ==="Resolved" )) ?
-                    <Button onClick={handleShowClose}>Close Issue</Button>
-                    : <></>
-                    }
-
-                    {(user && user.userType === "Staff") ?
-                        (issue && issue.issueStatus ==="Open") ?
-                            <Button onClick={() => acceptIssue(issue._id)}>Accept Issue</Button>
-                            : (issue && issue.issueStatus ==="In Progress") ?
-                            <Button onClick={handleShowResolve}>Resolve Issue</Button>
-                            : <></>
-                        : <></>
-                    }
 
                 </Col>
             </Row>
@@ -288,3 +321,4 @@ function SingleCaseView({user}) {
 }
 
 export default SingleCaseView
+

@@ -3,40 +3,26 @@ import ClosedCases from './ClosedCases';
 import PendingCases from './PendingCases';
 import OpenCases from "./OpenCases";
 import {NavLink} from 'react-router-dom';
+import {Row} from "react-bootstrap";
 
 function AllCases({user, pending, resolved}) {
-    //temp case state, can edit anytime.
-
 
     return (
         <div>
             <div>
-                {(user && user.userType==="Staff") ?
-                    <div>
-                        <div className="btn">
-                            <NavLink to="">Show all<br/>Open cases</NavLink>
-                        </div>
-
-                        <OpenCases />
-                        {/** KIV --> caseStatus={caseStatus} setCaseStatus={setCaseStatus} */}
-                    </div>
+                {(user && user.userType === "Staff") ?
+                        <>
+                            <OpenCases/>
+                            <br/>
+                        </>
                     : ""}
-
-
-                <div className="btn">
-                    <NavLink to="/cases/pending">Show all<br/>pending cases</NavLink>
-                </div>
-
-                <PendingCases pending={pending}/>
-                {/** KIV --> caseStatus={caseStatus} setCaseStatus={setCaseStatus} */}
             </div>
             <div>
-                <div className="btn">
-                    <NavLink to="/cases/closed">Show all<br/>closed cases</NavLink>
-                </div>
-
+                <PendingCases pending={pending}/>
+            </div>
+            <br/>
+            <div>
                 <ClosedCases resolved={resolved}/>
-                {/** KIV --> caseStatus={caseStatus} setCaseStatus={setCaseStatus} */}
             </div>
         </div>
     )
