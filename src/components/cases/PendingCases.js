@@ -1,6 +1,6 @@
 import React from 'react';
 import {Card, CardGroup, Col, Container, Row} from 'react-bootstrap';
-import { NavLink, useHistory } from 'react-router-dom';
+import {Link, NavLink, useHistory} from 'react-router-dom';
 import { Image } from 'cloudinary-react';
 
 function PendingCases({pending}) {
@@ -16,10 +16,10 @@ function PendingCases({pending}) {
     return (
         <Container className="border" >
             <div>
-                <div className="btn" >
-                    <NavLink to="/cases" >X</NavLink>
-                </div>
-                This will show all pending cases.
+                <Link to={"/cases"}>
+                    <button type="button" className="btn-close" aria-label="Close"></button>
+                </Link>
+                Pending Cases
             </div>
 
             {(pending.length>0)?
