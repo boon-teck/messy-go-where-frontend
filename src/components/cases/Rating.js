@@ -13,7 +13,7 @@ export default function HoverRating({issue}) {
 
   async function submitRating(id){
     try {
-      console.log("inside rating issue")
+
       await axios.post(`/api/issue/iRating/${id}`,{"rating":value},{
         headers: {
           authorization: `Bearer ${localStorage.token}`

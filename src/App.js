@@ -13,6 +13,7 @@ import axios from "axios";
 import Profile from "./components/auth/Profile";
 import SubmitCase from './components/cases/SubmitCase';
 
+
 function App() {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState(null);
@@ -71,11 +72,11 @@ function App() {
           <PrivateRouter auth={auth} path="/user/home" Component={Home} user={user} setUser={setUser} setAuth={setAuth} exact/>
           <PrivateRouter auth={auth} path="/api/auth/profile" Component={Profile} setAuth={setAuth} user={user} setUser={setUser} exact/>
           <PrivateRouter auth={auth} path="/cases" Component={AllCases} exact/>
-          <PrivateRouter auth={auth} path="/api/cases/pending" Component={PendingCases} exact/>
+          {/*<PrivateRouter auth={auth} path="/api/cases/pending" Component={PendingCases} exact/>*/}
           <PrivateRouter auth={auth} path="/api/cases/pending/:id" Component={SingleCaseView} user={user} exact/>
-          <PrivateRouter auth={auth} path="/api/cases/closed" Component={ClosedCases} exact/>
+          {/*<PrivateRouter auth={auth} path="/api/cases/closed" Component={ClosedCases} exact/>*/}
           <PrivateRouter auth={auth} path="/case/submit" Component={SubmitCase} setAuth={setAuth} user={user} exact/>
-
+          {/*<PrivateRouter auth={auth} path="/vouchers" Component={VoucherMother} setAuth={setAuth} user={user} exact/>*/}
           <Route path="*">404</Route>
 
         </Switch>

@@ -262,8 +262,6 @@ function SingleCaseView({user}) {
                                     ></Form.Control>
                                 </Form.Group>
                             </Form>
-
-
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleCloseResolve}>
