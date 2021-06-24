@@ -3,7 +3,9 @@ import {Navbar, Nav, Container, Button} from 'react-bootstrap';
 import {Link, NavLink} from 'react-router-dom';
 import './navigation.css'
 
-function Navigation({auth}) {
+function Navigation({auth, user}) {
+
+
     return (
         <div>
             <Navbar bg="dark" variant="dark" expand="lg" style={{"textAlign" : "center"}} >
@@ -16,6 +18,8 @@ function Navigation({auth}) {
                             {auth ? <>
                                 <NavLink className={"nav-link active"} to="/api/auth/profile">Profile</NavLink>
                                 <NavLink className={"nav-link active"} to="/case/submit">Submit Issue </NavLink>
+                                <NavLink className={"nav-link active"} id={"emailnav"} to="/api/auth/profile">{user && user.email}</NavLink>
+
                             </> :<>
                                 <Link to="/api/auth/login"><Button variant="outline-success">Login</Button></Link>
                                 <Link to="/api/auth/register"><Button variant="outline-success">Register</Button></Link>

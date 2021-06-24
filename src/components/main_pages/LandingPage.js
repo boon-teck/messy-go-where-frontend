@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import './landingpage.css'
-import {Button} from "react-bootstrap";
+import {Button, Container} from "react-bootstrap";
 
 function LandingPage({auth}) {
 
@@ -26,6 +26,7 @@ function LandingPage({auth}) {
             <Link to="/api/auth/register"><Button>Register with us</Button></Link>
             </div>
         </div>
+
         </>
     )
 }
