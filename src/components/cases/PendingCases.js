@@ -1,7 +1,7 @@
 import React from 'react';
-import {Card, CardGroup, Col, Container, Row} from 'react-bootstrap';
-import {Link, NavLink, useHistory} from 'react-router-dom';
-import { Image } from 'cloudinary-react';
+import {Card, Container, Row} from 'react-bootstrap';
+import {NavLink, useHistory} from 'react-router-dom';
+
 
 
 function PendingCases({pending}) {

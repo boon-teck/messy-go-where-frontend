@@ -25,7 +25,7 @@ function Profile({setAuth,user,setUser}) {
                 })
                 setAuth(true)
                 setUser(data.user)
-                console.log("Profile.js: ",data.user)
+
             } catch (e) {
                 setAuth(false)
                 setUser(null)

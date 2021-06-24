@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardGroup, Col, Container, Row} from 'react-bootstrap';
+import {Card, Container, Row} from 'react-bootstrap';
 import { NavLink, useHistory } from 'react-router-dom';
 
 
@@ -8,9 +8,6 @@ function ClosedCases({resolved}) {
 
     let reversedResolved = [...resolved]
     reversedResolved.reverse()
-
-    console.log("closed cases", resolved)
-
 
     function redirect(id){
         history.push(`/api/cases/pending/${id}`)

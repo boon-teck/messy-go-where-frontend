@@ -1,18 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {Card, CardGroup, Col, Container, Row} from 'react-bootstrap';
-import { NavLink, useHistory } from 'react-router-dom';
+import {Card, Container, Row} from 'react-bootstrap';
+import {useHistory } from 'react-router-dom';
 
 import axios from "axios";
 
 function OpenCases() {
 
     const [openCase, setOpenCase] = useState()
-
+    let reverseOpen = []
     let history = useHistory();
 
     useEffect(() => {
         async function getOpen() {
-            console.log("inside getopen useeffect")
 
             try {
                 let {data} = await axios.get("/api/issue/staff/open", {
@@ -20,7 +19,7 @@ function OpenCases() {
                         authorization: `Bearer ${localStorage.token}`
                     }
                 })
-                console.log(data)
+
                 await setOpenCase(data.globalOpenIssues)
             } catch (e) {
                 console.log(e)
@@ -29,10 +28,11 @@ function OpenCases() {
         getOpen()
     }, [])
 
-    console.log("globalCases", openCase)
+    if (openCase) {
+        reverseOpen = [...openCase]
+        reverseOpen.reverse()
+    }
 
-    let reverseOpen = [...openCase]
-    reverseOpen.reverse()
 
     function redirect(id){
         history.push(`/api/cases/pending/${id}`)

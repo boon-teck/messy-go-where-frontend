@@ -5,7 +5,7 @@ import { Image } from 'cloudinary-react';
 
     // The current image store will be following the publicId
     // currently there's no set way to differentiate the image url at the upload point
-    // more time is needed to figure that part out. 
+    // more time is needed to figure that part out.
 
 
 function Cloudinary() {
@@ -18,11 +18,11 @@ function Cloudinary() {
 
         axios.post('https://api.cloudinary.com/v1_1/josiahpjy/image/upload', formData)
             .then((res)=>{
-                console.log(res)
+
             })
     };
 
-    
+
 
     return (
         <div>

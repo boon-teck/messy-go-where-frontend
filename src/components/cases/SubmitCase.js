@@ -51,14 +51,12 @@ function SubmitCase({auth, setAuth, user}) {
     //function to submit new issue and save token
     async function postIssue(userObj) {
         try {
-            let {data: {token}} = await axios.post("/api/issue/submit", userObj,
+            await axios.post("/api/issue/submit", userObj,
                 {
                     headers: {
                         authorization: `Bearer ${localStorage.token}`
                     }
                 })
-            // localStorage.setItem("token", token)
-            // setAuth(true)
             history.push("/user/home")
 
         } catch (e) {
@@ -121,7 +119,7 @@ function SubmitCase({auth, setAuth, user}) {
                                 />
                             )}
                         </Form.Group>
-                        <br />
+                        <br/>
                         <Form.Group>
                             <Form.Label>Description of Issue</Form.Label>
                             <Form.Control
@@ -133,7 +131,7 @@ function SubmitCase({auth, setAuth, user}) {
                                 required
                             />
                         </Form.Group>
-                        <br />
+                        <br/>
 
 
                         <Form.Group>
@@ -143,7 +141,7 @@ function SubmitCase({auth, setAuth, user}) {
                                           onChange={change}
                                           required/>
                         </Form.Group>
-                        <br />
+                        <br/>
                         <Form.Group>
                             <Form.Label>Time</Form.Label>
                             <Form.Control name="time"
@@ -151,7 +149,7 @@ function SubmitCase({auth, setAuth, user}) {
                                           onChange={change}
                                           required/>
                         </Form.Group>
-                        <br />
+                        <br/>
 
                         <Form.Group>
                             <Form.Label>Location</Form.Label>
@@ -162,11 +160,11 @@ function SubmitCase({auth, setAuth, user}) {
                                           required/>
                         </Form.Group>
 
-                        <br />
+                        <br/>
                         <Form.Group>
                             <Form.Label>Select Category of Issue</Form.Label>
                             <select className={"form-control"} onChange={changeSelect}>
-                                <option value="General" >General</option>
+                                <option value="General">General</option>
                                 <option value="Pests">Pests</option>
                                 <option value="Animal & Birds">Animal & Birds</option>
                                 <option value="Cleanliness">Cleanliness</option>
@@ -182,16 +180,16 @@ function SubmitCase({auth, setAuth, user}) {
 
                             </select>
                         </Form.Group>
-                        <br />
+                        <br/>
                         <Form.Group>
 
-                            <br />
+                            <br/>
 
-                        <Row>
-                            <Button variant="primary" type="submit">
-                                Submit Issue
-                            </Button>
-                        </Row>
+                            <Row>
+                                <Button variant="primary" type="submit">
+                                    Submit Issue
+                                </Button>
+                            </Row>
                         </Form.Group>
                     </Form>
                 </Col>

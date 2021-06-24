@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Image } from 'react-bootstrap';
+import { Container, Row} from 'react-bootstrap';
 import { logoStyle } from '../../lib/css/css';
 import { NavLink } from 'react-router-dom';
 import SimpleRating from '../../lib/css/Rating';
