@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Card, Button, Col } from "react-bootstrap";
 import axios from 'axios';
+import {useHistory} from "react-router-dom";
 
 function VoucherMother({auth, setAuth, user}) {
+    let history = useHistory()
     const [vouchers, setVouchers] = useState({})
     const [vACount, setVACount] = useState("")
     const [vBCount, setVBCount] = useState("")
     const [vCCount, setVCCount] = useState("")
     const [vDCount, setVDCount] = useState("")
     let allCount = [vACount, vBCount, vCCount, vDCount]
+    const [points, setPoints] = useState("")
 
 
     useEffect(()=>{
@@ -27,6 +30,7 @@ function VoucherMother({auth, setAuth, user}) {
                 setVBCount(data.voucherBCount)
                 setVCCount(data.voucherCCount)
                 setVDCount(data.voucherDCount)
+                setPoints(data.userPoints)
                 console.log(data)
             } catch (error) {
                 console.log(error)
@@ -63,7 +67,6 @@ function VoucherMother({auth, setAuth, user}) {
                     authorization: `Bearer ${localStorage.token}`
                 }
             })
-
         } catch (error) {
             console.log(error)
         }
@@ -71,6 +74,7 @@ function VoucherMother({auth, setAuth, user}) {
 
     return (
         <Container>
+            <h4>You have {points} point(s).</h4>
             {/** */}
             {(vouchers.length>0)?
                 <Row>
