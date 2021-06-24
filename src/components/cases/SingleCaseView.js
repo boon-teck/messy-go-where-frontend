@@ -100,6 +100,36 @@ function SingleCaseView({user}) {
         }
     }
 
+    async function acceptIssue(id) {
+        try {
+            console.log("inside accept issue")
+            await axios.post(`/api/issue/iAccept/${id}`,form,{
+                headers: {
+                    authorization: `Bearer ${localStorage.token}`
+                }
+            })
+            history.goBack()
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
+    async function resolveIssue(id) {
+        try {
+            console.log("inside resolve issue")
+            await axios.post(`/api/issue/iResolved/${id}`,form,{
+                headers: {
+                    authorization: `Bearer ${localStorage.token}`
+                }
+            })
+            history.goBack()
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
+
+
     console.log(id.id)
     console.log(issue)
     updates = issue.updates
@@ -154,9 +184,9 @@ function SingleCaseView({user}) {
 
                     {(user.userType === "Staff") ?
                         (issue && issue.issueStatus ==="Open") ?
-                            <Button onClick={() => history.goBack()}>Accept Case</Button>
+                            <Button onClick={() => acceptIssue(issue._id)}>Accept Issue</Button>
                             :
-                            <Button onClick={() => history.goBack()}>Update Case</Button>
+                            <Button onClick={() => resolveIssue(issue._id)}>Resolve Case</Button>
 
                         : <></>
                     }
