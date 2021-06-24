@@ -176,13 +176,13 @@ function SingleCaseView({user}) {
                     <Button onClick={() => history.goBack()}>Go Back</Button>
 
 
-                    {(issue && issue.issueStatus !=="Deleted") ?
+                    {(issue && !(issue.issueStatus ==="Deleted" || issue.issueStatus ==="Resolved" )) ?
                     <Button onClick={() =>deleteIssue(issue._id)}>Close Issue</Button>
                     : <></>
                     }
 
 
-                    {(user.userType === "Staff") ?
+                    {(user && user.userType === "Staff") ?
                         (issue && issue.issueStatus ==="Open") ?
                             <Button onClick={() => acceptIssue(issue._id)}>Accept Issue</Button>
                             :
