@@ -1,14 +1,38 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Card, CardGroup, Col, Container, Row} from 'react-bootstrap';
-import {Link, NavLink, useHistory} from 'react-router-dom';
-import { Image } from 'cloudinary-react';
+import { NavLink, useHistory } from 'react-router-dom';
 
+import axios from "axios";
 
-function PendingCases({pending}) {
+function OpenCases() {
+
+    const [openCase, setOpenCase] = useState()
+
     let history = useHistory();
 
-    let reversePending = [...pending]
-    reversePending.reverse()
+    useEffect(() => {
+        async function getOpen() {
+            console.log("inside getopen useeffect")
+
+            try {
+                let {data} = await axios.get("/api/issue/staff/open", {
+                    headers: {
+                        authorization: `Bearer ${localStorage.token}`
+                    }
+                })
+                console.log(data)
+                await setOpenCase(data.globalOpenIssues)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+        getOpen()
+    }, [])
+
+    console.log("globalCases", openCase)
+
+    let reverseOpen = [...openCase]
+    reverseOpen.reverse()
 
     function redirect(id){
         history.push(`/api/cases/pending/${id}`)
@@ -17,16 +41,16 @@ function PendingCases({pending}) {
     return (
         <Container className="border" >
             <Row className="text-center">
-            <h5>Open and In Progress Issues</h5>
+            <h5>Open Issues</h5>
             </Row>
-            {(reversePending.length>0)?
-
+            {(reverseOpen && reverseOpen.length>0)?
                 <Row className="d-flex flex-row flex-nowrap overflow-auto">
-                    {reversePending.map((issue,id) => (
+                    {reverseOpen.map((issue,id) => (
+
                         <Card className="text-center" style={{ width: '14rem' }} key={id}>
                             <Card.Header as="h5">{issue.issueType}</Card.Header>
                             <Row className="align-content-center">
-                                <Card.Img variant="top" src={issue.picture} fluid/>
+                                <Card.Img variant="top" src={issue.picture} />
                             </Row>
                             <Card.Body>{issue.description}</Card.Body>
                             <Card.Footer>
@@ -34,9 +58,10 @@ function PendingCases({pending}) {
                             </Card.Footer>
                             <a className={"stretched-link"} style={{ cursor: 'pointer' }} onClick={()=>redirect(issue._id)}></a>
                         </Card>
+
                     ))}
                 </Row> :
-                <div> No Pending Issues! <NavLink to="/case/submit" >Click here to submit</NavLink></div>
+                <div> No Open Issues.</div>
 
             }
 
@@ -48,5 +73,4 @@ function PendingCases({pending}) {
     )
 }
 
-export default PendingCases
-
+export default OpenCases

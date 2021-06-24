@@ -20,8 +20,8 @@ function SubmitCase({auth, setAuth, user}) {
         const reader = new FileReader();
         reader.readAsDataURL(selectedFile);   // reads content of selectedFile and calls onloadend when done
         reader.onloadend = async function () {
-            let public_id = await uploadImage(reader.result);  // calls uploadImage function to upload image, which returns public_id of the uploaded image
-            postIssue({...formData, picture: public_id}) // calls postUser to save the user. public_id is passed in directly to bypass the delay in setFormdata
+            let url = await uploadImage(reader.result);  // calls uploadImage function to upload image, which returns public_id of the uploaded image
+            postIssue({...formData, picture: url}) // calls postUser to save the user. public_id is passed in directly to bypass the delay in setFormdata
         };
         reader.onerror = () => {
             setErrMsg('something went wrong!'); // error reporting for reader function
@@ -32,14 +32,14 @@ function SubmitCase({auth, setAuth, user}) {
     async function uploadImage(base64EncodedImage) {
         try {
             let imgJSON = JSON.stringify({data: base64EncodedImage})
-            let {data: {public_id}} = await axios.post('/api/issue/upload', imgJSON, {
+            let {data: {url}} = await axios.post('/api/issue/upload', imgJSON, {
                 headers: {'Content-Type': 'application/json'}
             });
             setFileInputState('');
             setPreviewSource('');
             setSuccessMsg('Image uploaded successfully');
 
-            return public_id
+            return url
 
 
         } catch (err) {
