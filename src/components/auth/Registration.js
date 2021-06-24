@@ -3,6 +3,8 @@ import {Container, Row, Col, Form, Button} from "react-bootstrap";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 import Alert from './Alert';
+import './login.css'
+
 
 function Registration({setAuth}) {
 
@@ -87,7 +89,7 @@ function Registration({setAuth}) {
 
     return (
         <Container>
-            <Row>
+            <Row className={"d-flex justify-content-center mt-3"}>
                 <Col md={6}>
                     <h3>Registration Page</h3>
 
