@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
-import {Link, NavLink, useHistory} from 'react-router-dom';
-import { logoStyle, btnStyle } from '../../lib/css/css';
+import {Link, useHistory} from 'react-router-dom';
 import './landingpage.css'
 import {Button, Container} from "react-bootstrap";
 
@@ -33,10 +32,11 @@ function LandingPage({auth}) {
             <Link to="/api/auth/login"><Button variant={"dark"}>Yes I'm in</Button></Link>
             <Link to="/api/auth/register"><Button variant={"success"}>Sign up now</Button></Link>
             </div>
-            {/*<div style={btnStyle}>*/}
-            {/*    <NavLink to="/api/auth/register">Registration</NavLink>*/}
-            {/*</div>*/}
-            </Container>
+            <div className="d-flex justify-content-center align-self-center flex-column">
+            <Link to="/api/auth/login"><Button>Let us help you</Button></Link>
+            <Link to="/api/auth/register"><Button>Register with us</Button></Link>
+            </div>
+        </div>
 
         </>
     )

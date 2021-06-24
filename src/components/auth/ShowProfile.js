@@ -1,7 +1,6 @@
 import React from 'react';
-import { Image } from 'cloudinary-react';
-import {Col, Container, Row} from "react-bootstrap";
-import {NavLink} from "react-router-dom";
+import {Col, Container, Row, Image} from "react-bootstrap";
+
 
 function ShowProfile({user}) {
     return (
@@ -12,10 +11,7 @@ function ShowProfile({user}) {
             <Row className={"justify-content-center"}>
                 <Col md={4} >
                     <Image
-                        cloudName="triplethreats"
-                        publicId={user.profilePic}
-                        width="150"
-                        crop="scale"
+                        src={user.profilePic}
                     />
 
                 </Col>
