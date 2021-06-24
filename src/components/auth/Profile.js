@@ -75,7 +75,7 @@ function Profile({setAuth,user,setUser}) {
                         }
 
                         <Modal show={show} onHide={handleClose}>
-                            <Modal.Header closeButton>
+                            <Modal.Header>
                                 <Modal.Title>Confirm Deletion of Profile</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>Please click "Delete" below to confirm deletion of profile.</Modal.Body>

@@ -11,6 +11,8 @@ import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import { Image } from 'cloudinary-react';
+import HoverRating from "../../lib/css/Rating";
+import ShowRating from "../../lib/css/ShowRating";
 
 function SingleCaseView({user}) {
 
@@ -128,10 +130,9 @@ function SingleCaseView({user}) {
         }
     }
 
-
-
     console.log(id.id)
     console.log(issue)
+    console.log(user)
     updates = issue.updates
 
     return (
@@ -173,31 +174,34 @@ function SingleCaseView({user}) {
                         ))}
                     </div>
                     <br />
-                    <Button onClick={() => history.goBack()}>Go Back</Button>
 
+                    {(user && user.userType === "User") ?
+                        (issue && issue.issueStatus === "Resolved") ?
+                            (issue.rating === -1) ?
+                                <HoverRating issue={issue}/>
+                                : <ShowRating issue={issue}/>
+                            : <></>
+                        : (issue.rating > -1) ?
+                            <ShowRating issue={issue}/>
+                            : <></>
+                    }
+                    <br />
+
+                    <Button onClick={() => history.goBack()}>Go Back</Button>
 
                     {(issue && !(issue.issueStatus ==="Deleted" || issue.issueStatus ==="Resolved" )) ?
                     <Button onClick={() =>deleteIssue(issue._id)}>Close Issue</Button>
                     : <></>
                     }
 
-
                     {(user && user.userType === "Staff") ?
                         (issue && issue.issueStatus ==="Open") ?
                             <Button onClick={() => acceptIssue(issue._id)}>Accept Issue</Button>
-                            :
+                            : (issue && issue.issueStatus ==="In Progress") ?
                             <Button onClick={() => resolveIssue(issue._id)}>Resolve Case</Button>
-
+                            : <></>
                         : <></>
                     }
-
-
-
-
-
-
-
-
 
                 </Col>
             </Row>

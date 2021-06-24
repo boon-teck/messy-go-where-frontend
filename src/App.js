@@ -92,7 +92,7 @@ function App() {
         <PrivateRouter auth={auth} path="/api/auth/profile" Component={Profile} setAuth={setAuth} user={user} setUser={setUser} exact />
         <PrivateRouter auth={auth} path="/cases" Component={AllCases} exact/>      {/** This route might not be needed as Home is already showing this component */}
         <PrivateRouter auth={auth} path="/api/cases/pending" Component={PendingCases} exact/>
-        <PrivateRouter auth={auth} path="/api/cases/pending/:id" Component={SingleCaseView} user={user }exact/>
+        <PrivateRouter auth={auth} path="/api/cases/pending/:id" Component={SingleCaseView} user={user} exact/>
         <PrivateRouter auth={auth} path="/api/cases/closed" Component={ClosedCases} exact/>
         <PrivateRouter auth={auth} path="/api/cases/closed/:id" Component={SingleCaseView} exact/>
         <PrivateRouter auth={auth} path="/user/case/progress" Component={CaseProgressUser} caseStatus={caseStatus} exact/> {/** This is view individual updates */}

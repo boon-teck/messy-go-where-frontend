@@ -10,7 +10,7 @@ function ClosedCases({resolved}) {
 
 
     function redirect(id){
-        history.push(`/api/cases/closed/${id}`)
+        history.push(`/api/cases/pending/${id}`)
     }
 
     return (
