@@ -1,33 +1,27 @@
 import React from 'react';
-import { Image } from 'cloudinary-react';
-import {Col, Container, Row} from "react-bootstrap";
-import {NavLink} from "react-router-dom";
+import {Col, Container, Row, Image, Card} from "react-bootstrap";
+
 
 function ShowProfile({user}) {
     return (
         <Container>
-            <Row className={"justify-content-center"}>
-                <h3>Profile Page</h3>
-            </Row>
-            <Row className={"justify-content-center"}>
-                <Col md={4} >
-                    <Image
-                        cloudName="triplethreats"
-                        publicId={user.profilePic}
-                        width="150"
-                        crop="scale"
-                    />
 
-                </Col>
-                <Col md={4} >
-                    <h5>User ID</h5>
-                    <p>{user.id}</p>
-                    <h5>User Name</h5>
-                    <p>{user.name}</p>
-                    <h5>Email</h5>
-                    <p>{user.email}</p>
-                </Col>
-            </Row>
+                <Card>
+                    <Card.Header>Profile Page</Card.Header>
+                    <br/>
+                    <Card.Img variant="top" src={user.profilePic} style={{width: '80%', margin: "auto"}}/>
+                    <Card.Body>
+                    <Card.Title>Name</Card.Title>
+                    <Card.Text>{user.name}</Card.Text>
+                    <Card.Title>Email</Card.Title>
+                    <Card.Text>{user.email}</Card.Text>
+                    </Card.Body>
+
+
+
+                    <Card.Footer>User ID: {user.id}</Card.Footer>
+                </Card>
+            <br/>
 
         </Container>
     );

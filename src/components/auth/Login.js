@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Container, Row, Col, Form, Button} from "react-bootstrap";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
-
+import './login.css'
 
 function Login({setAuth}) {
 
@@ -15,7 +15,6 @@ function Login({setAuth}) {
             let {data: {token}}= await axios.post("/api/auth/login", cred)
 
             localStorage.setItem("token",token)
-            console.log("Login.js token set")
 
             setAuth(true)
             history.push("/user/home")
@@ -31,12 +30,12 @@ function Login({setAuth}) {
 
     return (
         <Container>
-            <Row>
+            <Row className={"d-flex justify-content-center align-content-md-center mt-3"}>
                 <Col md={6}>
-                    <h3>Login page</h3>
+                    <h3>Login</h3>
                     <Form onSubmit={submit}>
                         <Form.Group>
-                            <Form.Label>Email</Form.Label>
+                            <Form.Label>Email Address</Form.Label>
                             <Form.Control name="email"
                                           type="email"
                                           placeholder="Enter email"
@@ -53,8 +52,9 @@ function Login({setAuth}) {
                                           required />
                         </Form.Group>
 
-                        <Button variant="primary"
-                                type="submit">
+                        <Button variant="dark"
+                                type="submit"
+                                block>
                             Login
                         </Button>
                     </Form>

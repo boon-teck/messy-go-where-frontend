@@ -1,13 +1,38 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Card, Container, Row} from 'react-bootstrap';
-import { NavLink, useHistory } from 'react-router-dom';
+import {useHistory } from 'react-router-dom';
 
+import axios from "axios";
 
-function ClosedCases({resolved}) {
+function OpenCases() {
+
+    const [openCase, setOpenCase] = useState()
+    let reverseOpen = []
     let history = useHistory();
 
-    let reversedResolved = [...resolved]
-    reversedResolved.reverse()
+    useEffect(() => {
+        async function getOpen() {
+
+            try {
+                let {data} = await axios.get("/api/issue/staff/open", {
+                    headers: {
+                        authorization: `Bearer ${localStorage.token}`
+                    }
+                })
+
+                await setOpenCase(data.globalOpenIssues)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+        getOpen()
+    }, [])
+
+    if (openCase) {
+        reverseOpen = [...openCase]
+        reverseOpen.reverse()
+    }
+
 
     function redirect(id){
         history.push(`/api/cases/pending/${id}`)
@@ -16,11 +41,11 @@ function ClosedCases({resolved}) {
     return (
         <Container className="border" >
             <Row className="text-center">
-            <h5>Resolved and Closed Issues</h5>
+            <h5>Open Issues</h5>
             </Row>
-            {(reversedResolved.length>0)?
+            {(reverseOpen && reverseOpen.length>0)?
                 <Row className="d-flex flex-row flex-nowrap overflow-auto">
-                    {reversedResolved.map((issue,id) => (
+                    {reverseOpen.map((issue,id) => (
 
                         <Card className="text-center" style={{ width: '14rem' }} key={id}>
                             <Card.Header>{issue.issueType}</Card.Header>
@@ -34,7 +59,7 @@ function ClosedCases({resolved}) {
 
                     ))}
                 </Row> :
-                <div> No Closed Issues! <NavLink to="/case/submit" >Click here to submit</NavLink></div>
+                <div> No Open Issues.</div>
 
             }
 
@@ -46,4 +71,4 @@ function ClosedCases({resolved}) {
     )
 }
 
-export default ClosedCases
+export default OpenCases

@@ -1,37 +1,26 @@
-import React, {useState} from 'react'
+import React from 'react'
 import ClosedCases from './ClosedCases';
 import PendingCases from './PendingCases';
-import {NavLink} from 'react-router-dom';
+import OpenCases from "./OpenCases";
 
-function AllCases({user, pending, closed}) {
-    //temp case state, can edit anytime.
-
+function AllCases({user, pending, resolved}) {
 
     return (
         <div>
             <div>
-                <div className="btn">
-                    <NavLink to="/cases/pending">Show all<br/>pending cases</NavLink>
-                </div>
-                {/*
-                    Code to be written to show only a fixed number
-                    Do take note, component is only here to show an example of what can be seen.
-                    Grid cards can be used. Link is included and in Home.js component.
-                */}
-                <PendingCases pending={pending}/>
-                {/** KIV --> caseStatus={caseStatus} setCaseStatus={setCaseStatus} */}
+                {(user && user.userType === "Staff") ?
+                        <>
+                            <OpenCases/>
+                            <br/>
+                        </>
+                    : ""}
             </div>
             <div>
-                <div className="btn">
-                    <NavLink to="/cases/closed">Show all<br/>closed cases</NavLink>
-                </div>
-                {/*
-                    Code to be written to show only a fixed number
-                    Do take note, component is only here to show an example of what can be seen.
-                    Grid cards can be used. Link is included and in Home.js component.
-                */}
-                <ClosedCases closed={{closed}}/>
-                {/** KIV --> caseStatus={caseStatus} setCaseStatus={setCaseStatus} */}
+                <PendingCases pending={pending}/>
+            </div>
+            <br/>
+            <div>
+                <ClosedCases resolved={resolved}/>
             </div>
         </div>
     )
