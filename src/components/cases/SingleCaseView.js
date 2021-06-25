@@ -192,10 +192,8 @@ function SingleCaseView({user}) {
                                                           id={`panel${id + 1}d-header`}>
                                             <Typography className={classes.heading}>{update.updateStatus}</Typography>
                                             <Typography className={classes.secondaryHeading}>{update.date} / {update.time}</Typography>
-                                            <Typography></Typography>
                                         </AccordionSummary>
                                         <AccordionDetails>
-
                                             <Typography>
                                                 {update.updateDescription}
                                             </Typography>
