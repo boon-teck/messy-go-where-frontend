@@ -22,12 +22,12 @@ function VoucherMother({auth, setAuth, user}) {
                         }
                 })
 
-                setVouchers(data.availableVouchers.voucherTemplate)
-                setVACount(data.voucherACount)
-                setVBCount(data.voucherBCount)
-                setVCCount(data.voucherCCount)
-                setVDCount(data.voucherDCount)
-                setPoints(data.userPoints)
+                await setVouchers(data.availableVouchers.voucherTemplate)
+                await setVACount(data.voucherACount)
+                await setVBCount(data.voucherBCount)
+                await setVCCount(data.voucherCCount)
+                await setVDCount(data.voucherDCount)
+                await setPoints(data.userPoints)
 
             } catch (error) {
                 console.log(error)
@@ -48,6 +48,12 @@ function VoucherMother({auth, setAuth, user}) {
                     authorization: `Bearer ${localStorage.token}`
                 }
             })
+            await setVouchers(data.availableVouchers.voucherTemplate)
+            await setVACount(data.voucherACount)
+            await setVBCount(data.voucherBCount)
+            await setVCCount(data.voucherCCount)
+            await setVDCount(data.voucherDCount)
+            await setPoints(data.userPoints)
         } catch (error) {
             console.log(error)
         }
@@ -64,6 +70,12 @@ function VoucherMother({auth, setAuth, user}) {
                     authorization: `Bearer ${localStorage.token}`
                 }
             })
+            await setVouchers(data.availableVouchers.voucherTemplate)
+            await setVACount(data.voucherACount)
+            await setVBCount(data.voucherBCount)
+            await setVCCount(data.voucherCCount)
+            await setVDCount(data.voucherDCount)
+            await setPoints(data.userPoints)
         } catch (error) {
             console.log(error)
         }

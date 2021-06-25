@@ -48,7 +48,7 @@ function OpenCases() {
                     {reverseOpen.map((issue,id) => (
 
                         <Card className="text-center" style={{ width: '14rem' }} key={id}>
-                            <Card.Header as="h5">{issue.issueType}</Card.Header>
+                            <Card.Header>{issue.issueType}</Card.Header>
                             <Card.Img variant="top" src={issue.picture} style={{width: '100%', height: '150px', margin: "auto"}}/>
                             <Card.Body>{issue.description}</Card.Body>
                             <Card.Footer>

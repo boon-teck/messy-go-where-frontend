@@ -6,7 +6,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-import {withStyles,makeStyles} from "@material-ui/core";
+import {withStyles, makeStyles} from "@material-ui/core";
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
@@ -32,11 +32,11 @@ function SingleCaseView({user}) {
     const id = useParams()
     let updates = []
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        async function getSingleIssue(){
-            try{
-                let {data} = await axios.get(`/api/issue/single/${id.id}`,{
+        async function getSingleIssue() {
+            try {
+                let {data} = await axios.get(`/api/issue/single/${id.id}`, {
                     headers: {
                         authorization: `Bearer ${localStorage.token}`
                     }
@@ -48,8 +48,9 @@ function SingleCaseView({user}) {
                 console.log(e)
             }
         }
+
         getSingleIssue()
-    },[])
+    }, [])
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -115,26 +116,26 @@ function SingleCaseView({user}) {
 
     async function deleteIssue(id) {
         try {
-            await axios.post(`/api/issue/iDeleted/${id}`,formData,{
+            await axios.post(`/api/issue/iDeleted/${id}`, formData, {
                 headers: {
                     authorization: `Bearer ${localStorage.token}`
                 }
             })
             history.goBack()
-        }catch (e) {
+        } catch (e) {
             console.log(e)
         }
     }
 
     async function acceptIssue(id) {
         try {
-            await axios.post(`/api/issue/iAccept/${id}`,form,{
+            await axios.post(`/api/issue/iAccept/${id}`, form, {
                 headers: {
                     authorization: `Bearer ${localStorage.token}`
                 }
             })
             history.goBack()
-        }catch (e) {
+        } catch (e) {
             console.log(e)
         }
     }
@@ -142,13 +143,13 @@ function SingleCaseView({user}) {
     async function resolveIssue(id) {
         try {
 
-            await axios.post(`/api/issue/iResolved/${id}`,formData,{
+            await axios.post(`/api/issue/iResolved/${id}`, formData, {
                 headers: {
                     authorization: `Bearer ${localStorage.token}`
                 }
             })
             history.goBack()
-        }catch (e) {
+        } catch (e) {
             console.log(e)
         }
     }
@@ -164,7 +165,7 @@ function SingleCaseView({user}) {
         <Container>
             <Row>
                 <Col md={6}>
-                    <Card >
+                    <Card>
                         <Card.Header>Status: {issue.issueStatus}</Card.Header>
                         <Card.Header>Category: {issue.issueType}</Card.Header>
                         <Card.Img variant="top" src={issue.picture} style={{width: '80%', margin: "auto"}}/>
@@ -191,7 +192,8 @@ function SingleCaseView({user}) {
                                         <AccordionSummary aria-controls={`panel${id + 1}d-content`}
                                                           id={`panel${id + 1}d-header`}>
                                             <Typography className={classes.heading}>{update.updateStatus}</Typography>
-                                            <Typography className={classes.secondaryHeading}>{update.date} / {update.time}</Typography>
+                                            <Typography
+                                                className={classes.secondaryHeading}>{update.date} / {update.time}</Typography>
                                         </AccordionSummary>
                                         <AccordionDetails>
                                             <Typography>
@@ -202,11 +204,11 @@ function SingleCaseView({user}) {
 
                                 ))}
                             </div>
-                            <br />
+                            <br/>
 
                             {(user && user.userType === "User") ?
                                 (issue && issue.issueStatus === "Resolved") ?
-                                    (issue.rating === -1) ?<>
+                                    (issue.rating === -1) ? <>
                                             <Card.Title>Issue Rating</Card.Title>
                                             <HoverRating issue={issue}/>
                                         </>
@@ -218,23 +220,23 @@ function SingleCaseView({user}) {
                                     : <></>
                                 : (issue.rating > -1) ?
                                     <>
-                                    <Card.Title>Issue Rating</Card.Title>
-                                    <ShowRating issue={issue}/>
+                                        <Card.Title>Issue Rating</Card.Title>
+                                        <ShowRating issue={issue}/>
                                     </>
                                     : <></>
                             }
 
                             <Button onClick={() => history.goBack()}>Go Back</Button>
 
-                            {(issue && !(issue.issueStatus ==="Deleted" || issue.issueStatus ==="Resolved" )) ?
+                            {(issue && !(issue.issueStatus === "Deleted" || issue.issueStatus === "Resolved")) ?
                                 <Button onClick={handleShowClose}>Close Issue</Button>
                                 : <></>
                             }
 
                             {(user && user.userType === "Staff") ?
-                                (issue && issue.issueStatus ==="Open") ?
+                                (issue && issue.issueStatus === "Open") ?
                                     <Button onClick={() => acceptIssue(issue._id)}>Accept Issue</Button>
-                                    : (issue && issue.issueStatus ==="In Progress") ?
+                                    : (issue && issue.issueStatus === "In Progress") ?
                                     <Button onClick={handleShowResolve}>Resolve Issue</Button>
                                     : <></>
                                 : <></>
@@ -292,19 +294,16 @@ function SingleCaseView({user}) {
                                     ></Form.Control>
                                 </Form.Group>
                             </Form>
-
-
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleCloseClose}>
                                 Go Back
                             </Button>
-                            <Button variant="primary" onClick={() =>deleteIssue(issue._id)}>
+                            <Button variant="primary" onClick={() => deleteIssue(issue._id)}>
                                 Submit and Close
                             </Button>
                         </Modal.Footer>
                     </Modal>
-
 
 
                 </Col>
