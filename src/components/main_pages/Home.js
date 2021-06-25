@@ -35,6 +35,8 @@ function Home({user, setUser, setAuth}) {
     return (
         <Container>
             <br/>
+            <Row></Row>
+
             <Row>
                 <AllCases user={user} pending={pending} resolved={resolved}/>
             </Row>
